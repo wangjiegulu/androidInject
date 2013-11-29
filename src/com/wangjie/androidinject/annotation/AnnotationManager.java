@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.*;
 import com.wangjie.androidinject.annotation.annotations.InitLayout;
 import com.wangjie.androidinject.annotation.annotations.InitView;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
+import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 
 import java.lang.reflect.Field;
@@ -76,33 +78,77 @@ public class AnnotationManager {
         Field[] fields = clazz.getDeclaredFields();
         for(Field field : fields){
             if(field.isAnnotationPresent(InitView.class)){
-
-                // 绑定控件注解
                 InitView annView = field.getAnnotation(InitView.class);
-                int viewId = annView.id();
-                field.setAccessible(true);
-                Method method = clazz.getMethod("findViewById", int.class);
-                field.set(activity, method.invoke(activity, viewId));
+
+                viewFindAnnontation(annView, field); // 绑定控件注解
 
                 View view = (View)field.get(activity);
 
-                // 绑定控件点击事件注解
-                String clickMethodName = annView.clickMethod();
-                if(!"".equals(clickMethodName)){
-                    view.setOnClickListener(OnClickViewListener.obtainListener(activity, clickMethodName));
-                }
+                viewBindClick(annView, view); // 绑定控件点击事件注解
 
-                // 绑定控件点击事件注解
-                String longClickMethodName = annView.longClickMethod();
-                if(!"".equals(longClickMethodName)){
-                    view.setOnLongClickListener(OnLongClickViewListener.obtainListener(activity, longClickMethodName));
-                }
+                viewBindLongClick(annView, view); // 绑定控件点击事件注解
+
+                viewBindItemClick(annView, view); // 绑定控件item点击事件注解
 
 
             }
 
 
         }
+    }
+
+    /**
+     * 绑定控件注解
+     * @param annView
+     * @param field
+     * @throws Exception
+     */
+    private void viewFindAnnontation(InitView annView, Field field) throws Exception{
+        int viewId = annView.id(); // 绑定控件注解
+        field.setAccessible(true);
+        Method method = clazz.getMethod("findViewById", int.class);
+        field.set(activity, method.invoke(activity, viewId));
+    }
+
+    /**
+     * 绑定控件点击事件注解
+     * @param annView
+     * @param view
+     */
+    private void viewBindClick(InitView annView, View view){
+        String clickMethodName = annView.clickMethod();
+        if(!"".equals(clickMethodName)){
+            view.setOnClickListener(OnClickViewListener.obtainListener(activity, clickMethodName));
+        }
+    }
+
+    /**
+     * 绑定控件点击事件注解
+     * @param annView
+     * @param view
+     */
+    private void viewBindLongClick(InitView annView, View view){
+        String longClickMethodName = annView.longClickMethod();
+        if(!"".equals(longClickMethodName)){
+            view.setOnLongClickListener(OnLongClickViewListener.obtainListener(activity, longClickMethodName));
+        }
+    }
+
+    /**
+     * 绑定控件item点击事件注解
+     * @param annView
+     * @param view
+     */
+    private void viewBindItemClick(InitView annView, View view){
+        // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
+        if(AdapterView.class.isAssignableFrom(view.getClass())){
+            AdapterView adapterView = (AdapterView)view;
+            String itemClickMethodName = annView.itemClickMethod();
+            if(!"".equals(itemClickMethodName)){
+                adapterView.setOnItemClickListener(OnItemClickViewListener.obtainListener(activity, itemClickMethodName));
+            }
+        }
+
     }
 
 

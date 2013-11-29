@@ -4,11 +4,6 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity"
-            />
     <Button
         android:id="@+id/btn1"
         android:layout_width="match_parent"
@@ -21,5 +16,13 @@
             android:layout_height="wrap_content"
             android:text="button 2"
         />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
 </LinearLayout>
 

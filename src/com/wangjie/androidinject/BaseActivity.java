@@ -3,6 +3,8 @@ package com.wangjie.androidinject;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.AnnotationManager;
 
 /**
@@ -25,6 +27,9 @@ public class BaseActivity extends Activity {
     }
 
 
+    public void onClickCallback(View view){};
+    public void onLongClickCallback(View view){};
+    public void onItemClickCallback(AdapterView<?> adapterView, View view, int i, long l) {}
 
 
 }
