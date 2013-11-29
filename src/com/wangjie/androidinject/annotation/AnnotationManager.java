@@ -7,6 +7,7 @@ import android.view.View;
 import com.wangjie.androidinject.annotation.annotations.InitLayout;
 import com.wangjie.androidinject.annotation.annotations.InitView;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
+import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -76,16 +77,27 @@ public class AnnotationManager {
         for(Field field : fields){
             if(field.isAnnotationPresent(InitView.class)){
 
-                InitView annView = field.getAnnotation(InitView.class); // 绑定控件注解
+                // 绑定控件注解
+                InitView annView = field.getAnnotation(InitView.class);
                 int viewId = annView.id();
-                String clickMethodName = annView.clickMethod();
                 field.setAccessible(true);
                 Method method = clazz.getMethod("findViewById", int.class);
+                field.set(activity, method.invoke(activity, viewId));
 
-                field.set(activity, method.invoke(activity, viewId)); // 绑定控件点击事件注解
+                View view = (View)field.get(activity);
+
+                // 绑定控件点击事件注解
+                String clickMethodName = annView.clickMethod();
                 if(!"".equals(clickMethodName)){
-                    ((View)field.get(activity)).setOnClickListener(OnClickViewListener.obtainListener(activity, clickMethodName));
+                    view.setOnClickListener(OnClickViewListener.obtainListener(activity, clickMethodName));
                 }
+
+                // 绑定控件点击事件注解
+                String longClickMethodName = annView.longClickMethod();
+                if(!"".equals(longClickMethodName)){
+                    view.setOnLongClickListener(OnLongClickViewListener.obtainListener(activity, longClickMethodName));
+                }
+
 
             }
 
