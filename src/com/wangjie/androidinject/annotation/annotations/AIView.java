@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface InitView {
+public @interface AIView {
     int id();
     String clickMethod() default ""; // 点击回调方法（方法参数必须只有一个View！）
     String longClickMethod() default ""; // 长按回调方法（方法参数必须只有一个View！）

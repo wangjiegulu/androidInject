@@ -3,24 +3,28 @@ package com.wangjie.androidinject;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import com.wangjie.androidinject.annotation.annotations.InitLayout;
-import com.wangjie.androidinject.annotation.annotations.InitView;
+import com.wangjie.androidinject.annotation.annotations.*;
+import com.wangjie.androidinject.annotation.present.AIActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@InitLayout(R.layout.main)
-public class MainActivity extends BaseActivity {
+@AILayout(R.layout.main)
+public class MainActivity extends AIActivity {
 
-    @InitView(id = R.id.btn1, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
+    @AIView(id = R.id.btn1, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
     private Button btn1;
 
-    @InitView(id = R.id.btn2, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
+    @AIView(id = R.id.btn2, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
     private Button btn2;
 
-    @InitView(id = R.id.listView, itemClickMethod = "onItemClickCallback")
+//    @AIView(id = R.id.btn3)
+//    private Button btn3;
+
+//    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback")
+    @AIView(id = R.id.listView)
     private ListView listView;
 
     @Override
@@ -59,6 +63,27 @@ public class MainActivity extends BaseActivity {
         Toast.makeText(context, "onItemClickCallback: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
     }
 
+    @AIClick({R.id.btn3})
+    public void onClickCallbackForBtn3(View view){
+        if(view instanceof Button){
+            System.out.println("onClickForBtn3");
+            Toast.makeText(context, "onClickForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @AILongClick({R.id.btn3})
+    public void onLongClickCallbackForBtn3(View view){
+        if(view instanceof Button){
+            System.out.println("onLongClickCallbackForBtn3");
+            Toast.makeText(context, "onLongClickCallbackForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @AIItemClick({R.id.listView})
+    public void onItemClickCallbackForListView(AdapterView<?> adapterView, View view, int i, long l){
+        System.out.println("onItemClickCallbackForListView");
+        Toast.makeText(context, "onItemClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
+    }
 
 
 }

@@ -1,8 +1,8 @@
 package com.wangjie.androidinject.annotation.listener;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+import com.wangjie.androidinject.annotation.present.AIPresent;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -17,22 +17,22 @@ import java.util.Map;
 public class OnLongClickViewListener implements View.OnLongClickListener{
     private static Map<String, OnLongClickViewListener> listeners = new HashMap<String, OnLongClickViewListener>();
 
-    public synchronized static OnLongClickViewListener obtainListener(Activity activity, String clickMethodName){
-        String identifier = activity.toString() + "_" + clickMethodName;
+    public synchronized static OnLongClickViewListener obtainListener(AIPresent present, String clickMethodName){
+        String identifier = present.toString() + "_" + clickMethodName;
         OnLongClickViewListener onClickViewListener = listeners.get(identifier);
         if(null == onClickViewListener){
-            onClickViewListener = new OnLongClickViewListener(activity, clickMethodName);
+            onClickViewListener = new OnLongClickViewListener(present, clickMethodName);
             listeners.put(identifier, onClickViewListener);
         }
         return onClickViewListener;
     }
 
     private static final String TAG = OnLongClickViewListener.class.getSimpleName();
-    private Activity activity;
+    private AIPresent present;
     private String callbackMethodName;
 
-    private OnLongClickViewListener(Activity activity, String callbackMethodName) {
-        this.activity = activity;
+    private OnLongClickViewListener(AIPresent present, String callbackMethodName) {
+        this.present = present;
         this.callbackMethodName = callbackMethodName;
     }
 
@@ -40,8 +40,8 @@ public class OnLongClickViewListener implements View.OnLongClickListener{
     public boolean onLongClick(View v) {
         Boolean result = true;
         try {
-            Method callbackMethod = activity.getClass().getMethod(callbackMethodName, View.class);
-            Object obj = callbackMethod.invoke(activity, v);
+            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, View.class);
+            Object obj = callbackMethod.invoke(present, v);
             if(obj instanceof Boolean){
                 result = (Boolean)obj;
             }

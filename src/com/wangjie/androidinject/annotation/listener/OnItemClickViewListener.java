@@ -1,9 +1,9 @@
 package com.wangjie.androidinject.annotation.listener;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidinject.annotation.present.AIPresent;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -18,22 +18,22 @@ import java.util.Map;
 public class OnItemClickViewListener implements AdapterView.OnItemClickListener{
     private static Map<String, OnItemClickViewListener> listeners = new HashMap<String, OnItemClickViewListener>();
 
-    public synchronized static OnItemClickViewListener obtainListener(Activity activity, String clickMethodName){
-        String identifier = activity.toString() + "_" + clickMethodName;
+    public synchronized static OnItemClickViewListener obtainListener(AIPresent present, String clickMethodName){
+        String identifier = present.toString() + "_" + clickMethodName;
         OnItemClickViewListener onItemClickViewListener = listeners.get(identifier);
         if(null == onItemClickViewListener){
-            onItemClickViewListener = new OnItemClickViewListener(activity, clickMethodName);
+            onItemClickViewListener = new OnItemClickViewListener(present, clickMethodName);
             listeners.put(identifier, onItemClickViewListener);
         }
         return onItemClickViewListener;
     }
 
     private static final String TAG = OnItemClickViewListener.class.getSimpleName();
-    private Activity activity;
+    private AIPresent present;
     private String callbackMethodName;
 
-    private OnItemClickViewListener(Activity activity, String callbackMethodName) {
-        this.activity = activity;
+    private OnItemClickViewListener(AIPresent present, String callbackMethodName) {
+        this.present = present;
         this.callbackMethodName = callbackMethodName;
     }
 
@@ -41,8 +41,8 @@ public class OnItemClickViewListener implements AdapterView.OnItemClickListener{
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Method callbackMethod = activity.getClass().getMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
-            callbackMethod.invoke(activity, adapterView, view, i, l);
+            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
+            callbackMethod.invoke(present, adapterView, view, i, l);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "e: ", e);
