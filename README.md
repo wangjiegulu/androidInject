@@ -30,7 +30,7 @@ androidInject
         2013-12-1:
         1. RENAME @InitLayout, @InitView TO @AILayout, @AIView
         2. ADD method annotations: @AIClick, @AILongClick, @AIItemClick
-        3. refactor source 
+        3. refactor source
 
 
 
