@@ -18,5 +18,6 @@ public @interface AIView {
     String clickMethod() default ""; // 点击回调方法（方法参数必须只有一个View！）
     String longClickMethod() default ""; // 长按回调方法（方法参数必须只有一个View！）
     String itemClickMethod() default ""; // listview的item点击回调
+    String itemLongClickMethod() default "";
 
 }

@@ -23,7 +23,7 @@ public class MainActivity extends AIActivity {
 //    @AIView(id = R.id.btn3)
 //    private Button btn3;
 
-//    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback")
+//    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback", itemLongClickMethod = "onItemLongClickCallbackForListView")
     @AIView(id = R.id.listView)
     private ListView listView;
 
@@ -83,6 +83,12 @@ public class MainActivity extends AIActivity {
     public void onItemClickCallbackForListView(AdapterView<?> adapterView, View view, int i, long l){
         System.out.println("onItemClickCallbackForListView");
         Toast.makeText(context, "onItemClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
+    }
+
+    @AIItemLongClick(R.id.listView)
+    public boolean onItemLongClickCallbackForListView(AdapterView<?> adapterView, View view, int i, long l) {
+        Toast.makeText(context, "onItemLongClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
+        return true;
     }
 
 

@@ -14,7 +14,7 @@ androidInject
             clickMethod[String]: 用于设置控件点击事件的回调方法, 可选, 方法名称任意, 参数必须为(View view)
             longClickMethod[String]: 用于设置控件长按的回调方法, 可选, 方法名任意, 参数必须为(View view)
             itemClickMethod[String]: 用于设置控件item点击的回调方法, 可选, 方法名任意, 参数必须为(AdapterView, View, int, long)
-
+            itemLongClickMethod[String]: 用于设置控件item长按的回调方法, 可选, 方法名任意, 参数必须为(AdapterView, View, int, long)
 
         @AIClick: 方法注解
             value[int[], 所要绑定控件的id]: 用于绑定控件点击事件的回调方法, 方法名称任意, 参数必须为(View view)
@@ -25,8 +25,16 @@ androidInject
         @AILongClick: 方法注解
             value[int[], 所要绑定控件的id]: 用于绑定控件长按事件的回调方法, 方法名称任意, 参数必须为(View view)
 
+        @AIItemLongClick: 方法注解
+            value[int[], 所要绑定控件的id]: 用于绑定控件item长按事件的回调方法, 方法名称任意, 参数必须为(AdapterView, View, int, long)
+
+
 ###提交日志(Commit Logs): <br/>
 ###
+        2013-12-1:
+        1. add method annotations: @AIItemLongClick
+        2. add annotations(itemLongClickMethod) of @AIView
+
         2013-12-1:
         1. RENAME @InitLayout, @InitView TO @AILayout, @AIView
         2. ADD method annotations: @AIClick, @AILongClick, @AIItemClick

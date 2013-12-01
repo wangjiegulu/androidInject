@@ -1,12 +1,11 @@
 package com.wangjie.androidinject.annotation.core;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.AILayout;
 import com.wangjie.androidinject.annotation.annotations.AIView;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
+import com.wangjie.androidinject.annotation.listener.OnItemLongClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
@@ -22,7 +21,7 @@ import java.util.Map;
  * Time: 下午7:23
  * To change this template use File | Settings | File Templates.
  */
-public class RealizeViewAnnotation {
+public class RealizeViewAnnotation implements RealizeAnnotation{
     private static final String TAG = RealizeViewAnnotation.class.getSimpleName();
     private static Map<Class<?>, RealizeViewAnnotation> map = new HashMap<Class<?>, RealizeViewAnnotation>();
 
@@ -46,7 +45,8 @@ public class RealizeViewAnnotation {
      * 实现present控件注解功能
      * @throws Exception
      */
-    public void initViewAnnotation() throws Exception{
+    @Override
+    public void processAnnotation() throws Exception {
         Field[] fields = clazz.getDeclaredFields();
         for(Field field : fields){
             if(field.isAnnotationPresent(AIView.class)){
@@ -62,6 +62,7 @@ public class RealizeViewAnnotation {
 
                 viewBindItemClick(aiView, view); // 绑定控件item点击事件注解
 
+                viewBindItemLongClick(aiView, view);
 
             }
 
@@ -127,6 +128,31 @@ public class RealizeViewAnnotation {
         }
 
     }
+
+    /**
+     * 绑定控件item长按事件注解
+     * @param aiView
+     * @param view
+     */
+    private void viewBindItemLongClick(AIView aiView, View view) throws Exception{
+        // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
+        String itemClickMethodName = aiView.itemLongClickMethod();
+        if("".equals(itemClickMethodName)){
+            return;
+        }
+
+        if(AdapterView.class.isAssignableFrom(view.getClass())){
+            AdapterView adapterView = (AdapterView)view;
+            adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, itemClickMethodName));
+
+        }else{
+            throw new Exception("view[" + view + "] is not AdapterView's subclass");
+        }
+
+    }
+
+
+
 
     public void setClazz(Class<?> clazz) {
         this.clazz = clazz;

@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 下午7:23
  * To change this template use File | Settings | File Templates.
  */
-public class RealizeLayoutAnnotation {
+public class RealizeLayoutAnnotation implements RealizeAnnotation{
     private static final String TAG = RealizeLayoutAnnotation.class.getSimpleName();
     private static Map<Class<?>, RealizeLayoutAnnotation> map = new HashMap<Class<?>, RealizeLayoutAnnotation>();
 
@@ -39,7 +39,8 @@ public class RealizeLayoutAnnotation {
      * 实现present布局注解功能
      * @throws Exception
      */
-    public void initLayoutAnnotation() throws Exception{
+    @Override
+    public void processAnnotation() throws Exception {
         // 布局类注解setContentView
         AILayout cv = clazz.getAnnotation(AILayout.class);
         if(null == cv){
@@ -60,6 +61,7 @@ public class RealizeLayoutAnnotation {
     public void setPresent(AIPresent present) {
         this.present = present;
     }
+
 
 
 }
