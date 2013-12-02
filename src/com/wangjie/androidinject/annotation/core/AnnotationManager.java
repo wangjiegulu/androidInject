@@ -51,10 +51,11 @@ public class AnnotationManager {
             RealizeLayoutAnnotation.getInstance(present).processAnnotation(); // 实现present布局注解功能
 
 //            initViewAnnotation(); // 实现present控件注解功能
-            RealizeViewAnnotation.getInstance(present).processAnnotation();
+            RealizeFieldAnnotation.getInstance(present).processAnnotation();
 
 //            initMethodAnnotation(); // 实现present方法注解功能
             RealizeMethodAnnotation.getInstance(present).processAnnotation();
+
 
         }catch (Exception ex){
             Log.e(TAG, "ex: ", ex);

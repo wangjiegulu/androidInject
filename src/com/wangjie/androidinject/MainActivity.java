@@ -1,10 +1,14 @@
 package com.wangjie.androidinject;
 
+import android.app.AlarmManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import com.wangjie.androidinject.annotation.annotations.*;
 import com.wangjie.androidinject.annotation.present.AIActivity;
+import com.wangjie.androidinject.model.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @AILayout(R.layout.main)
-public class MainActivity extends AIActivity {
+public class MainActivity extends AIActivity{
 
     @AIView(id = R.id.btn1, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
     private Button btn1;
@@ -26,6 +30,16 @@ public class MainActivity extends AIActivity {
 //    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback", itemLongClickMethod = "onItemLongClickCallbackForListView")
     @AIView(id = R.id.listView)
     private ListView listView;
+
+    @AIBean
+    private Person person;
+
+    @AISystemService
+    private AlarmManager alarmManager;
+    @AISystemService
+    private LocationManager locationManager;
+    @AISystemService
+    private LayoutInflater inflater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +55,12 @@ public class MainActivity extends AIActivity {
 
         SimpleAdapter adapter = new SimpleAdapter(context, list, R.layout.list_item, new String[]{"title"}, new int[]{R.id.list_item_title_tv});
         listView.setAdapter(adapter);
+
+        person.setName("wangjie");
+        person.setAge(23);
+        System.out.println(person.toString());
+
+        System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
     }
 
@@ -90,6 +110,7 @@ public class MainActivity extends AIActivity {
         Toast.makeText(context, "onItemLongClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
         return true;
     }
+
 
 
 }

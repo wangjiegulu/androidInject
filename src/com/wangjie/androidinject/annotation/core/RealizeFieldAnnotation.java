@@ -2,13 +2,15 @@ package com.wangjie.androidinject.annotation.core;
 
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.AIView;
+import com.wangjie.androidinject.annotation.annotations.*;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemLongClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
+import com.wangjie.androidinject.annotation.util.SystemServiceUtil;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -21,15 +23,15 @@ import java.util.Map;
  * Time: 下午7:23
  * To change this template use File | Settings | File Templates.
  */
-public class RealizeViewAnnotation implements RealizeAnnotation{
-    private static final String TAG = RealizeViewAnnotation.class.getSimpleName();
-    private static Map<Class<?>, RealizeViewAnnotation> map = new HashMap<Class<?>, RealizeViewAnnotation>();
+public class RealizeFieldAnnotation implements RealizeAnnotation{
+    private static final String TAG = RealizeFieldAnnotation.class.getSimpleName();
+    private static Map<Class<?>, RealizeFieldAnnotation> map = new HashMap<Class<?>, RealizeFieldAnnotation>();
 
-    public synchronized static RealizeViewAnnotation getInstance(AIPresent present){
+    public synchronized static RealizeFieldAnnotation getInstance(AIPresent present){
         Class clazz = present.getClazz();
-        RealizeViewAnnotation realize = map.get(clazz);
+        RealizeFieldAnnotation realize = map.get(clazz);
         if(null == realize){
-            realize = new RealizeViewAnnotation();
+            realize = new RealizeFieldAnnotation();
             map.put(clazz, realize);
         }
         realize.setPresent(present);
@@ -49,7 +51,7 @@ public class RealizeViewAnnotation implements RealizeAnnotation{
     public void processAnnotation() throws Exception {
         Field[] fields = clazz.getDeclaredFields();
         for(Field field : fields){
-            if(field.isAnnotationPresent(AIView.class)){
+            if(field.isAnnotationPresent(AIView.class)){ // 如果设置了控件注解
                 AIView aiView = field.getAnnotation(AIView.class);
 
                 viewFindAnnontation(aiView, field); // 绑定控件注解
@@ -63,8 +65,16 @@ public class RealizeViewAnnotation implements RealizeAnnotation{
                 viewBindItemClick(aiView, view); // 绑定控件item点击事件注解
 
                 viewBindItemLongClick(aiView, view);
-
             }
+
+            if(field.isAnnotationPresent(AIBean.class)){ // 如果设置了bean注解
+                beanNewInstance(field);
+            }
+
+            if(field.isAnnotationPresent(AISystemService.class)){ // 如果设置了SystemService注解
+                systemServiceBind(field);
+            }
+
 
 
         }
@@ -150,6 +160,33 @@ public class RealizeViewAnnotation implements RealizeAnnotation{
         }
 
     }
+
+    /**
+     * 生成一个bean对象
+     * @param field
+     * @throws Exception
+     */
+    private void beanNewInstance(Field field) throws Exception{
+        try {
+            field.getType().getConstructor();
+        } catch (NoSuchMethodException e) {
+            throw new Exception(field.getType() + " must has a default constructor (constructor with no paramater)! ");
+        }
+        field.setAccessible(true);
+        field.set(present, field.getType().newInstance());
+
+    }
+
+    /**
+     * 获得相应SystemService的对象，并初始化属性
+     * @param field
+     * @throws Exception
+     */
+    private void systemServiceBind(Field field) throws Exception{
+        field.setAccessible(true);
+        field.set(present, SystemServiceUtil.getSystemServiceByClazz(present.getContext(), field.getType()));
+    }
+
 
 
 
