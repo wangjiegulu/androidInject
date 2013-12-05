@@ -1,5 +1,6 @@
 package com.wangjie.androidinject.annotation.core;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.annotations.*;
@@ -10,7 +11,6 @@ import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.util.SystemServiceUtil;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
     private static Map<Class<?>, RealizeFieldAnnotation> map = new HashMap<Class<?>, RealizeFieldAnnotation>();
 
     public synchronized static RealizeFieldAnnotation getInstance(AIPresent present){
-        Class clazz = present.getClazz();
+        Class clazz = present.getClass();
         RealizeFieldAnnotation realize = map.get(clazz);
         if(null == realize){
             realize = new RealizeFieldAnnotation();
@@ -77,6 +77,8 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
 
 
+
+
         }
     }
 
@@ -89,9 +91,18 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
      */
     private void viewFindAnnontation(AIView aiView, Field field) throws Exception{
         int viewId = aiView.id(); // 绑定控件注解
+
+        if(-1 == viewId){ // 如果id没有设置，则默认查找id名跟属性名相同的id
+            Resources res = present.getContext().getResources();
+            viewId = res.getIdentifier(field.getName(), "id", present.getContext().getPackageName());
+            if(0 == viewId){ // 属性同名的id没有找到
+                throw new Exception("no such identifier[R.id." + field.getName() + "] ! ");
+            }
+        }
+
         field.setAccessible(true);
-        Method method = clazz.getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
-        field.set(present, method.invoke(present, viewId));
+        Method method = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        field.set(present, method.invoke(present.getFindViewView(), viewId));
     }
 
     /**
@@ -170,7 +181,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
         try {
             field.getType().getConstructor();
         } catch (NoSuchMethodException e) {
-            throw new Exception(field.getType() + " must has a default constructor (constructor with no paramater)! ");
+            throw new Exception(field.getType() + " must has a default constructor (a no-args constructor)! ");
         }
         field.setAccessible(true);
         field.set(present, field.getType().newInstance());

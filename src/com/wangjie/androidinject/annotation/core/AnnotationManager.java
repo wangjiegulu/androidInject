@@ -2,16 +2,7 @@ package com.wangjie.androidinject.annotation.core;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.present.AIPresent;
-import com.wangjie.androidinject.annotation.annotations.*;
-import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
-import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
-import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * 注解core，用于实现Activity中的注解
@@ -36,7 +27,7 @@ public class AnnotationManager {
     public AnnotationManager(AIPresent present) {
         this.context = present.getContext();
         this.present = present;
-        this.clazz = present.getClazz();
+        this.clazz = present.getClass();
     }
 
     /**
@@ -48,7 +39,7 @@ public class AnnotationManager {
 
 //            initLayoutAnnotation(); // 实现present布局注解功能
 
-            RealizeLayoutAnnotation.getInstance(present).processAnnotation(); // 实现present布局注解功能
+            RealizeTypeAnnotation.getInstance(present).processAnnotation(); // 实现present布局注解功能
 
 //            initViewAnnotation(); // 实现present控件注解功能
             RealizeFieldAnnotation.getInstance(present).processAnnotation();

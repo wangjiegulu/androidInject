@@ -39,7 +39,8 @@ public class OnClickViewListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         try {
-            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, View.class);
+            Method callbackMethod = present.getClass().getDeclaredMethod(callbackMethodName, View.class);
+            callbackMethod.setAccessible(true);
             callbackMethod.invoke(present, v);
         } catch (Exception e) {
             e.printStackTrace();

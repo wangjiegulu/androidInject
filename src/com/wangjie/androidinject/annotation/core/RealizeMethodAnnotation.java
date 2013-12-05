@@ -28,7 +28,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
     private static Map<Class<?>, RealizeMethodAnnotation> map = new HashMap<Class<?>, RealizeMethodAnnotation>();
 
     public synchronized static RealizeMethodAnnotation getInstance(AIPresent present){
-        Class clazz = present.getClazz();
+        Class clazz = present.getClass();
         RealizeMethodAnnotation realize = map.get(clazz);
         if(null == realize){
             realize = new RealizeMethodAnnotation();
@@ -80,9 +80,9 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = clazz.getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
-            Object obj = m.invoke(present, id);
+            Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj || !View.class.isAssignableFrom(obj.getClass())){
                 continue;
             }
@@ -102,9 +102,9 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = clazz.getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
-            Object obj = m.invoke(present, id);
+            Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj || !View.class.isAssignableFrom(obj.getClass())){
                 continue;
             }
@@ -125,9 +125,9 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = clazz.getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
-            Object obj = m.invoke(present, id);
+            Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj){
                 throw new Exception("new such resource id[" + id + "]");
             }
@@ -152,9 +152,9 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = clazz.getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
-            Object obj = m.invoke(present, id);
+            Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj){
                 throw new Exception("new such resource id[" + id + "]");
             }

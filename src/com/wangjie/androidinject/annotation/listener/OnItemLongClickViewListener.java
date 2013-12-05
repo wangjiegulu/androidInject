@@ -42,7 +42,8 @@ public class OnItemLongClickViewListener implements AdapterView.OnItemLongClickL
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         Boolean result = true;
         try {
-            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
+            Method callbackMethod = present.getClass().getDeclaredMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
+            callbackMethod.setAccessible(true);
             Object obj = callbackMethod.invoke(present, adapterView, view, i, l);
             if(obj instanceof Boolean){
                 result = (Boolean)obj;

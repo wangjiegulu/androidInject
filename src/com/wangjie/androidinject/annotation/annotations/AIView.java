@@ -14,10 +14,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface AIView {
-    int id();
+    int id() default -1;
     String clickMethod() default ""; // 点击回调方法（方法参数必须只有一个View！）
     String longClickMethod() default ""; // 长按回调方法（方法参数必须只有一个View！）
-    String itemClickMethod() default ""; // listview的item点击回调
-    String itemLongClickMethod() default "";
+    String itemClickMethod() default ""; // AdapterView的item点击回调
+    String itemLongClickMethod() default ""; // AdapterView的item长按
 
 }

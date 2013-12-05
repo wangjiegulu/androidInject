@@ -22,6 +22,12 @@
             android:layout_height="wrap_content"
             android:text="button 3"
             />
+    <Button
+            android:id="@+id/toFragmentBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="go to fragment"
+        />
 
     <ListView
         android:id="@+id/listView"

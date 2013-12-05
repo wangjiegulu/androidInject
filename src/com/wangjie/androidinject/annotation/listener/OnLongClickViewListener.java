@@ -40,7 +40,8 @@ public class OnLongClickViewListener implements View.OnLongClickListener{
     public boolean onLongClick(View v) {
         Boolean result = true;
         try {
-            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, View.class);
+            Method callbackMethod = present.getClass().getDeclaredMethod(callbackMethodName, View.class);
+            callbackMethod.setAccessible(true);
             Object obj = callbackMethod.invoke(present, v);
             if(obj instanceof Boolean){
                 result = (Boolean)obj;

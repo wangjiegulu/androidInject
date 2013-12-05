@@ -41,7 +41,8 @@ public class OnItemClickViewListener implements AdapterView.OnItemClickListener{
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Method callbackMethod = present.getClazz().getMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
+            Method callbackMethod = present.getClass().getDeclaredMethod(callbackMethodName, AdapterView.class, View.class, int.class, long.class);
+            callbackMethod.setAccessible(true);
             callbackMethod.invoke(present, adapterView, view, i, l);
         } catch (Exception e) {
             e.printStackTrace();

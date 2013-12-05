@@ -1,6 +1,7 @@
 package com.wangjie.androidinject;
 
 import android.app.AlarmManager;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,13 +16,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@AIFullScreen
+@AINoTitle
 @AILayout(R.layout.main)
 public class MainActivity extends AIActivity{
 
     @AIView(id = R.id.btn1, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
     private Button btn1;
 
-    @AIView(id = R.id.btn2, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
+    @AIView(clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
     private Button btn2;
 
 //    @AIView(id = R.id.btn3)
@@ -62,6 +65,10 @@ public class MainActivity extends AIActivity{
 
         System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
+
+
+
+
     }
 
     @Override
@@ -83,25 +90,27 @@ public class MainActivity extends AIActivity{
         Toast.makeText(context, "onItemClickCallback: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
     }
 
-    @AIClick({R.id.btn3})
+    @AIClick({R.id.btn3, R.id.toFragmentBtn})
     public void onClickCallbackForBtn3(View view){
         if(view instanceof Button){
-            System.out.println("onClickForBtn3");
             Toast.makeText(context, "onClickForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
         }
+
+        if(view.getId() == R.id.toFragmentBtn){
+            startActivity(new Intent(context, SecendActivity.class));
+        }
+
     }
 
     @AILongClick({R.id.btn3})
     public void onLongClickCallbackForBtn3(View view){
         if(view instanceof Button){
-            System.out.println("onLongClickCallbackForBtn3");
             Toast.makeText(context, "onLongClickCallbackForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @AIItemClick({R.id.listView})
     public void onItemClickCallbackForListView(AdapterView<?> adapterView, View view, int i, long l){
-        System.out.println("onItemClickCallbackForListView");
         Toast.makeText(context, "onItemClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
     }
 

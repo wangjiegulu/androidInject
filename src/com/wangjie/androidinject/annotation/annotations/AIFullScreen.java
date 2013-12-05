@@ -7,13 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * Created with IntelliJ IDEA.
- * User: wangjie
- * Date: 13-11-30
- * Time: 下午8:03
- * To change this template use File | Settings | File Templates.
+ * Author: wangjie  email:wangjie@cyyun.com
+ * Date: 13-12-4
+ * Time: 下午3:03
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface AIItemClick {
-    int[] value() default {-1};
+@Target(ElementType.TYPE)
+public @interface AIFullScreen {
 }

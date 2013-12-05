@@ -11,5 +11,8 @@ import android.content.Context;
  */
 public interface AIPresent {
     public Context getContext();
-    public Class<?> getClazz();
+
+    public Class<?> getFindViewClazz();
+    public Object getFindViewView();
+
 }
