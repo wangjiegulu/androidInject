@@ -66,26 +66,21 @@ public class MainActivity extends AIActivity{
         System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
 
-
-
-
     }
 
-    @Override
+
     public void onClickCallback(View view){
         if(view instanceof Button){
             Toast.makeText(context, "onClickCallback: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
     public void onLongClickCallback(View view){
         if(view instanceof Button){
             Toast.makeText(context, "onLongClickCallback: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
     public void onItemClickCallback(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(context, "onItemClickCallback: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
     }

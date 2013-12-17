@@ -5,10 +5,10 @@ import android.util.Log;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 /**
- * 注解core，用于实现Activity中的注解
+ * 注解core，用于实现AIPresent中的注解
  *
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:tiantian.china.2@gmial.com
+ * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-11-29
  * Time: 下午3:52
  */

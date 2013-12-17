@@ -7,17 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.wangjie.androidinject.annotation.annotations.AILayout;
+import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.core.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.ParticularAnnotation;
+import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-12-4
  * Time: 下午4:37
  */
-public class AISupportFragment extends Fragment implements AIPresent{
+public class AISupportFragment extends Fragment implements AIPresent, CallbackSample{
     private static String TAG = AISupportFragment.class.getSimpleName();
     public Context context;
     private Class<?> clazz;
@@ -93,6 +94,16 @@ public class AISupportFragment extends Fragment implements AIPresent{
     public Object getFindViewView() {
         return getView();
     }
+
+
+    @Override
+    public void onClickCallbackSample(View view) {}
+    @Override
+    public void onLongClickCallbackSample(View view) {}
+    @Override
+    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
+    @Override
+    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
 
 
 }

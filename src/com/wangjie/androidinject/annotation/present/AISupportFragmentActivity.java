@@ -7,7 +7,7 @@ import com.wangjie.androidinject.annotation.core.AnnotationManager;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-12-4
  * Time: 下午4:21
  */

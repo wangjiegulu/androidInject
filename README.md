@@ -41,6 +41,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2013-12-17:
+        1. refactor source
+
         2013-12-5:
         1. build androidInject_1.0.jar
 

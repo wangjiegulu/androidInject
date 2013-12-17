@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-12-2
  * Time: 下午5:00
  */

@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-12-2
  * Time: 下午4:43
  */

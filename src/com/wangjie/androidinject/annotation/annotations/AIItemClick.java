@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created with IntelliJ IDEA.
- * User: wangjie
+ * User: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-11-30
  * Time: 下午8:03
  * To change this template use File | Settings | File Templates.
