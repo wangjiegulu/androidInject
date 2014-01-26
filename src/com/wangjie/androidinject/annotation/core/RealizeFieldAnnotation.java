@@ -101,7 +101,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
         }
 
         field.setAccessible(true);
-        Method method = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method method = present.getFindViewView().getClass().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         field.set(present, method.invoke(present.getFindViewView(), viewId));
     }
 

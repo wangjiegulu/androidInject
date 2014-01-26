@@ -29,12 +29,6 @@ public class AISupportFragmentActivity extends FragmentActivity implements AIPre
         return context;
     }
 
-
-    @Override
-    public Class<?> getFindViewClazz() {
-        return clazz;
-    }
-
     @Override
     public Object getFindViewView() {
         return this;

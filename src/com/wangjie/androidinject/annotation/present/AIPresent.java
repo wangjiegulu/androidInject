@@ -10,9 +10,13 @@ import android.content.Context;
  * To change this template use File | Settings | File Templates.
  */
 public interface AIPresent {
+
     public Context getContext();
 
-    public Class<?> getFindViewClazz();
+    /**
+     * 调用findviewbyid方法进行绑定的对象
+     * @return
+     */
     public Object getFindViewView();
 
 }

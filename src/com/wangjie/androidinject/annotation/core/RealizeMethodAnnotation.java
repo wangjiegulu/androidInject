@@ -80,7 +80,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
             Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj || !View.class.isAssignableFrom(obj.getClass())){
@@ -102,7 +102,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
             Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj || !View.class.isAssignableFrom(obj.getClass())){
@@ -125,7 +125,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
             Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj){
@@ -152,7 +152,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
         if(null == ids || ids.length <=0){
             return;
         }
-        Method m = present.getFindViewClazz().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
+        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.FIND_VIEW_METHOD_NAME, int.class);
         for(int id : ids){
             Object obj = m.invoke(present.getFindViewView(), id);
             if(null == obj){

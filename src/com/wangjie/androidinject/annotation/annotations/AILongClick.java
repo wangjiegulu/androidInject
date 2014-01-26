@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AILongClick {
-    int[] value() default {-1};
+    int[] value() default {};
 }

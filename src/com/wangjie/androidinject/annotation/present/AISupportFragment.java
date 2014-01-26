@@ -86,11 +86,6 @@ public class AISupportFragment extends Fragment implements AIPresent, CallbackSa
     }
 
     @Override
-    public Class<?> getFindViewClazz() {
-        return View.class;
-    }
-
-    @Override
     public Object getFindViewView() {
         return getView();
     }

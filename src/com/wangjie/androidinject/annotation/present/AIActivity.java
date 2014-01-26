@@ -36,11 +36,6 @@ public class AIActivity extends Activity implements AIPresent, CallbackSample {
 
 
     @Override
-    public Class<?> getFindViewClazz() {
-        return clazz;
-    }
-
-    @Override
     public Object getFindViewView() {
         return this;
     }
