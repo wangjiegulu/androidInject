@@ -14,6 +14,7 @@ import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
 import com.wangjie.androidinject.annotation.core.net.RetMessage;
 import com.wangjie.androidinject.annotation.core.net.NetInvoHandler;
 import com.wangjie.androidinject.annotation.present.AIActivity;
+import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.model.Person;
 
 import java.util.ArrayList;
@@ -79,7 +80,9 @@ public class MainActivity extends AIActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                RetMessage<Person> retMsg = personWorker.getPersonsForPost("a1", "b1", "c1");
+//                RetMessage<Person> retMsg = personWorker.getPersonsForGet("a1", "b1", "c1");
+//                RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
+                RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
                 System.out.println(retMsg.getList().toString());
             }
         }).start();

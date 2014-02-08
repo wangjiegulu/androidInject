@@ -56,6 +56,9 @@ androidInject
 ###提交日志(Commit Logs): <br/>
 ###
         2014-2-8:
+        1. 增加GET或POST请求时请求参数可使用Params类传入，简化代码
+
+        2014-2-8:
         1. 增加@AIScreenSize注解，作用于属性，用于注入当前设备的屏幕大小（宽高）
         2. 增加对网络请求的支持，使用动态代理实现：@AIGet注解，作用于接口方法，表示以GET来请求url；@AIPost注解，作用于接口方法，表示以POST来请求url；@AIParam，用于注入请求参数
         3. 增加@AINetWorker注解，作用于属性，用于注入网络请求服务

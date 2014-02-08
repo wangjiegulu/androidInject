@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
 import com.wangjie.androidinject.annotation.annotations.net.AIPost;
+import com.wangjie.androidinject.annotation.util.Params;
+import com.wangjie.androidinject.annotation.util.StringUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -46,10 +48,14 @@ public class NetInvoHandler implements InvocationHandler{
             }
             Annotation[][] annotaions = method.getParameterAnnotations();
             for(int i = 0; i < args.length; i++){
-                String repName = ((AIParam)annotaions[i][0]).value();
-                url = url.replace("#{" + repName + "}", args[i] + "");
-            }
+                if(Params.class.isAssignableFrom(args[i].getClass())){ // 如果属性为Params，则追加在后面
+                    url = StringUtil.appendParamsAfterUrl(url, (Params)args[i]);
+                }else{ // 如果属性添加了@AIParam注解，则替换链接中#{xxx}
+                    String repName = ((AIParam)annotaions[i][0]).value();
+                    url = url.replace("#{" + repName + "}", args[i] + "");
+                }
 
+            }
             StringBuilder sb = NetWork.getStringFromUrl(url);
             if(null == sb){
                 return null;
@@ -67,8 +73,13 @@ public class NetInvoHandler implements InvocationHandler{
             Annotation[][] annotaions = method.getParameterAnnotations();
             Map<String, String> map = new HashMap<String, String>();
             for(int i = 0; i < args.length; i++){
-                String repName = ((AIParam)annotaions[i][0]).value();
-                map.put(repName, args[i] + "");
+                if(Params.class.isAssignableFrom(args[i].getClass())){ // 如果属性为Params，则追加在后面
+                    map.putAll((Params)args[i]);
+                }else{
+                    String repName = ((AIParam)annotaions[i][0]).value();
+                    map.put(repName, args[i] + "");
+                }
+
             }
             StringBuilder sb = NetWork.postStringFromUrl(url, map);
             if(null == sb){
