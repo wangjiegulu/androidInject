@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.core.AnnotationManager;
-import com.wangjie.androidinject.annotation.core.ParticularAnnotation;
+import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
+import com.wangjie.androidinject.annotation.core.base.ParticularAnnotation;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
 /**

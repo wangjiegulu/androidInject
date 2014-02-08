@@ -1,11 +1,11 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.AIClick;
-import com.wangjie.androidinject.annotation.annotations.AIItemClick;
-import com.wangjie.androidinject.annotation.annotations.AIItemLongClick;
-import com.wangjie.androidinject.annotation.annotations.AILongClick;
+import com.wangjie.androidinject.annotation.annotations.base.AIClick;
+import com.wangjie.androidinject.annotation.annotations.base.AIItemClick;
+import com.wangjie.androidinject.annotation.annotations.base.AIItemLongClick;
+import com.wangjie.androidinject.annotation.annotations.base.AILongClick;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemLongClickViewListener;

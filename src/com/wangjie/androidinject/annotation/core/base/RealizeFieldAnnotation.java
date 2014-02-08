@@ -1,9 +1,17 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
+import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.*;
+import com.wangjie.androidinject.annotation.annotations.base.AIBean;
+import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
+import com.wangjie.androidinject.annotation.annotations.base.AIView;
+import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
+import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
+import com.wangjie.androidinject.annotation.core.net.NetInvoHandler;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemLongClickViewListener;
@@ -75,9 +83,13 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
                 systemServiceBind(field);
             }
 
+            if(field.isAnnotationPresent(AIScreenSize.class)){ // 如果需要注入屏幕大小
+                sSizeBind(field);
+            }
 
-
-
+            if(field.isAnnotationPresent(AINetWorker.class)){ // 如果需要注入NetWorker
+                netWorkerBind(field);
+            }
 
         }
     }
@@ -196,6 +208,32 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
     private void systemServiceBind(Field field) throws Exception{
         field.setAccessible(true);
         field.set(present, SystemServiceUtil.getSystemServiceByClazz(present.getContext(), field.getType()));
+    }
+
+    /**
+     * 设置当前设备屏幕宽和高
+     * @param field
+     * @throws Exception
+     */
+    private void sSizeBind(Field field) throws Exception{
+        field.setAccessible(true);
+        if(!Point.class.isAssignableFrom(field.getType())){
+            throw new Exception("field [" + field.getName() + "] must be a Point or its subclasses");
+        }
+        Display display = ((Activity)present.getContext()).getWindowManager().getDefaultDisplay();
+        Point point = (Point)field.getType().newInstance();
+        display.getSize(point);
+        field.set(present, point);
+    }
+
+    /**
+     * 注入NetWorker
+     * @param field
+     * @throws Exception
+     */
+    private void netWorkerBind(Field field) throws Exception{
+        field.setAccessible(true);
+        field.set(present, NetInvoHandler.getWorker(field.getType()));
     }
 
 

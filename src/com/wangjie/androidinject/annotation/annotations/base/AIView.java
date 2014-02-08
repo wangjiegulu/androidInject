@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.annotations;
+package com.wangjie.androidinject.annotation.annotations.base;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

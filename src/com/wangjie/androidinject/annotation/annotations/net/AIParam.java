@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.annotations;
+package com.wangjie.androidinject.annotation.annotations.net;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * To change this template use File | Settings | File Templates.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface AIItemClick {
-    int[] value() default {};
+@Target(ElementType.PARAMETER)
+public @interface AIParam {
+    String value() default "";
 }

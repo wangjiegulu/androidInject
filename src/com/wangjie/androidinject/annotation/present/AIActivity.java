@@ -5,9 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.AIFullScreen;
-import com.wangjie.androidinject.annotation.annotations.AINoTitle;
-import com.wangjie.androidinject.annotation.core.AnnotationManager;
+import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
 /**
@@ -39,7 +37,6 @@ public class AIActivity extends Activity implements AIPresent, CallbackSample {
     public Object getFindViewView() {
         return this;
     }
-
 
 
     @Override

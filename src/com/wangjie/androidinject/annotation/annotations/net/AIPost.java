@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.annotations;
+package com.wangjie.androidinject.annotation.annotations.net;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,6 +14,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AIClick {
-    int[] value() default {};
+public @interface AIPost {
+    String value() default "";
 }

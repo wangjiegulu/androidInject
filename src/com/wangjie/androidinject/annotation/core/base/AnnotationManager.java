@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
 import android.content.Context;
 import android.util.Log;
@@ -49,7 +49,7 @@ public class AnnotationManager {
 
 
         }catch (Exception ex){
-            Log.e(TAG, "ex: ", ex);
+            Log.e(TAG, "annotations init error: ", ex);
         }
 
 

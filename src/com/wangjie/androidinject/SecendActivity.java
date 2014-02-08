@@ -2,9 +2,7 @@ package com.wangjie.androidinject;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import com.wangjie.androidinject.annotation.annotations.AIFullScreen;
-import com.wangjie.androidinject.annotation.annotations.AILayout;
-import com.wangjie.androidinject.annotation.annotations.AINoTitle;
+import com.wangjie.androidinject.annotation.annotations.base.AILayout;
 import com.wangjie.androidinject.annotation.present.AISupportFragmentActivity;
 
 /**

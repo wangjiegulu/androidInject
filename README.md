@@ -37,10 +37,30 @@ androidInject
         @AIItemLongClick: 方法注解
             value[int[], 所要绑定控件的id]: 用于绑定控件item长按事件的回调方法, 方法名称任意, 参数必须为(AdapterView, View, int, long)
 
+        @AIScreenSize: 属性注解
+            用于注入当前设备的屏幕大小（宽高）
+
+        @AIGet: 方法注解
+            value[String, 所要请求的url]：表示以GET来请求url
+
+        @AIPost: 方法注解
+            value[String, 所要请求的url]：表示以Post来请求url
+
+        @AIParam: 方法参数注解
+            value[String, 请求的参数别名]：注入@AIGet或@AIPost注解方法的请求参数
+
+        @AINetWorker: 属性注解
+            注入网络请求服务
 
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-2-8:
+        1. 增加@AIScreenSize注解，作用于属性，用于注入当前设备的屏幕大小（宽高）
+        2. 增加对网络请求的支持，使用动态代理实现：@AIGet注解，作用于接口方法，表示以GET来请求url；@AIPost注解，作用于接口方法，表示以POST来请求url；@AIParam，用于注入请求参数
+        3. 增加@AINetWorker注解，作用于属性，用于注入网络请求服务
+        4. 重构代码
+
         2013-12-17:
         1. refactor source
 

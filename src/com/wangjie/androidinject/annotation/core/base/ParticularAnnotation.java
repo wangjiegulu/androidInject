@@ -1,9 +1,9 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.wangjie.androidinject.annotation.annotations.AILayout;
+import com.wangjie.androidinject.annotation.annotations.base.AILayout;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 /**

@@ -2,12 +2,17 @@ package com.wangjie.androidinject;
 
 import android.app.AlarmManager;
 import android.content.Intent;
+import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import com.wangjie.androidinject.annotation.annotations.*;
+import com.wangjie.androidinject.annotation.annotations.base.*;
+import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
+import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
+import com.wangjie.androidinject.annotation.core.net.RetMessage;
+import com.wangjie.androidinject.annotation.core.net.NetInvoHandler;
 import com.wangjie.androidinject.annotation.present.AIActivity;
 import com.wangjie.androidinject.model.Person;
 
@@ -16,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AIFullScreen
-@AINoTitle
+//@AIFullScreen
+//@AINoTitle
 @AILayout(R.layout.main)
 public class MainActivity extends AIActivity{
 
@@ -43,6 +48,10 @@ public class MainActivity extends AIActivity{
     private LocationManager locationManager;
     @AISystemService
     private LayoutInflater inflater;
+    @AIScreenSize
+    private Point sSize;
+    @AINetWorker
+    private PersonWorker personWorker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,15 @@ public class MainActivity extends AIActivity{
 
         System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
+        System.out.println("screen size --> width: " + sSize.x + ", height: " + sSize.y);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RetMessage<Person> retMsg = personWorker.getPersonsForPost("a1", "b1", "c1");
+                System.out.println(retMsg.getList().toString());
+            }
+        }).start();
 
     }
 

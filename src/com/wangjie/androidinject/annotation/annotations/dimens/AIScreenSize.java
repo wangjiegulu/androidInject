@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.annotations;
+package com.wangjie.androidinject.annotation.annotations.dimens;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,11 +8,11 @@ import java.lang.annotation.Target;
 /**
  * Created with IntelliJ IDEA.
  * Author: wangjie  email: tiantian.china.2@gmail.com
- * Date: 13-11-29
- * Time: 下午2:38
+ * Date: 13-12-2
+ * Time: 上午10:29
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface AILayout {
-    int value();
+@Target(ElementType.FIELD)
+public @interface AIScreenSize {
+
 }

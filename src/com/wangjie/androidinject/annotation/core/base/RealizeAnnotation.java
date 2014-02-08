@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
 /**
  * Created with IntelliJ IDEA.

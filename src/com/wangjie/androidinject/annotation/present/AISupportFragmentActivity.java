@@ -3,7 +3,7 @@ package com.wangjie.androidinject.annotation.present;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import com.wangjie.androidinject.annotation.core.AnnotationManager;
+import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 
 /**
  * Created with IntelliJ IDEA.

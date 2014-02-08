@@ -1,12 +1,12 @@
-package com.wangjie.androidinject.annotation.core;
+package com.wangjie.androidinject.annotation.core.base;
 
 import android.app.Activity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import com.wangjie.androidinject.annotation.annotations.AIFullScreen;
-import com.wangjie.androidinject.annotation.annotations.AILayout;
-import com.wangjie.androidinject.annotation.annotations.AINoTitle;
+import com.wangjie.androidinject.annotation.annotations.base.AIFullScreen;
+import com.wangjie.androidinject.annotation.annotations.base.AILayout;
+import com.wangjie.androidinject.annotation.annotations.base.AINoTitle;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 import java.lang.reflect.Method;
