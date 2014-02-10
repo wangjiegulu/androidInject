@@ -80,10 +80,16 @@ public class MainActivity extends AIActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try{
 //                RetMessage<Person> retMsg = personWorker.getPersonsForGet("a1", "b1", "c1");
 //                RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
-                RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
-                System.out.println(retMsg.getList().toString());
+
+                    RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
+                    System.out.println(retMsg.getList().toString());
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
             }
         }).start();
 

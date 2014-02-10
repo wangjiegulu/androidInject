@@ -15,17 +15,17 @@ import com.wangjie.androidinject.model.Person;
  */
 public interface PersonWorker {
     @AIGet("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons?aa=#{a3}&bb=#{b3}&cc=#{c3}")
-    public RetMessage<Person> getPersonsForGet(@AIParam("a3")String a2, @AIParam("b3") String b2, @AIParam("c3") String c2);
+    public RetMessage<Person> getPersonsForGet(@AIParam("a3")String a2, @AIParam("b3") String b2, @AIParam("c3") String c2) throws Exception;
 
     @AIPost("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
-    public RetMessage<Person> getPersonsForPost(@AIParam("aa")String a2, @AIParam("bb") String b2, @AIParam("cc") String c2);
+    public RetMessage<Person> getPersonsForPost(@AIParam("aa")String a2, @AIParam("bb") String b2, @AIParam("cc") String c2) throws Exception;
 
 
     @AIGet("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
-    public RetMessage<Person> getPersonsForGet2(Params params);
+    public RetMessage<Person> getPersonsForGet2(Params params) throws Exception;
 
     @AIPost("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
-    public RetMessage<Person> getPersonsForPost2(Params params);
+    public RetMessage<Person> getPersonsForPost2(Params params) throws Exception;
 
 
 }

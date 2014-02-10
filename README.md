@@ -55,6 +55,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-2-10:
+        1. Worker中添加异常抛出
+
         2014-2-8:
         1. 增加GET或POST请求时请求参数可使用Params类传入，简化代码
 
