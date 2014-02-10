@@ -47,6 +47,8 @@ androidInject
 
         @AIPost: 方法注解
             value[String, 所要请求的url]：表示以Post来请求url
+            connTimeout[int, 连接超时时间]：连接一个url的连接等待时间
+            soTimeout[int, response返回超时时间]：连接上一个url，获取response的返回等待时间
 
         @AIParam: 方法参数注解
             value[String, 请求的参数别名]：注入@AIGet或@AIPost注解方法的请求参数
@@ -54,9 +56,19 @@ androidInject
         @AINetWorker: 属性注解
             注入网络请求服务
 
+        @AIUpload: 方法注解
+            value[String, 所要请求的url]：表示要上传的url，默认用post请求（不需要使用@AIPost注解）
+            connTimeout[int, 连接超时时间]：连接一个url的连接等待时间
+            soTimeout[int, response返回超时时间]：连接上一个url，获取response的返回等待时间
+            注意：使用此注解的方法参数需要包含Collection<File>或其子类型集合 或者包含File对象 来作为要上传的文件
+
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-2-10:
+        1. 增加文章上传注解@AIUpload
+        2. 代码重构
+
         2014-2-10:
         1. @AIGet和@AIPost增加connTimeout（连接一个url的连接等待时间）和soTimeout设置（连接上一个url，获取response的返回等待时间）
 

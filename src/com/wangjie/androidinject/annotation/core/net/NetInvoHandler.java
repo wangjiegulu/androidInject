@@ -5,15 +5,16 @@ import com.google.gson.Gson;
 import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
 import com.wangjie.androidinject.annotation.annotations.net.AIPost;
+import com.wangjie.androidinject.annotation.annotations.net.AIUpload;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.annotation.util.StringUtil;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,8 +40,8 @@ public class NetInvoHandler implements InvocationHandler{
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        // get请求
-        if(method.isAnnotationPresent(AIGet.class)){
+        // get请求（非上传文件）
+        if(method.isAnnotationPresent(AIGet.class) && !method.isAnnotationPresent(AIUpload.class)){
             AIGet aiGet = method.getAnnotation(AIGet.class);
             String url = aiGet.value();
             if(TextUtils.isEmpty(url)){
@@ -63,11 +64,12 @@ public class NetInvoHandler implements InvocationHandler{
             if(null == sb){
                 return null;
             }
-            return new Gson().fromJson(sb.toString(), method.getReturnType());
+            Class<?> returnType = method.getReturnType();
+            return Void.TYPE == returnType ? null : new Gson().fromJson(sb.toString(), returnType);
         }
 
-        // post请求
-        if(method.isAnnotationPresent(AIPost.class)){
+        // post请求（非上传文件）
+        if(method.isAnnotationPresent(AIPost.class) && !method.isAnnotationPresent(AIUpload.class)){
             AIPost aiPost = method.getAnnotation(AIPost.class);
             String url = aiPost.value();
             if(TextUtils.isEmpty(url)){
@@ -90,10 +92,29 @@ public class NetInvoHandler implements InvocationHandler{
             if(null == sb){
                 return null;
             }
-            return new Gson().fromJson(sb.toString(), method.getReturnType());
+            Class<?> returnType = method.getReturnType();
+            return Void.TYPE == returnType ? null : new Gson().fromJson(sb.toString(), returnType);
 
         }
 
+        // AIUpload（上传文件，默认是post请求）
+        if(method.isAnnotationPresent(AIUpload.class)){
+            List<File> files = null;
+            for(Object obj : args){
+                if(Collection.class.isAssignableFrom(obj.getClass())){
+                    files = null == files ? new ArrayList<File>() : files;
+                    files.addAll(((Collection<? extends File>)obj));
+                }
+                if(File.class.isAssignableFrom(obj.getClass())){
+                    files = null == files ? new ArrayList<File>() : files;
+                    files.add((File)obj);
+                }
+            }
+            AIUpload aiUpload = method.getAnnotation(AIUpload.class);
+            String str = AIUploadNetWork.uploadFiles(aiUpload.value(), files, aiUpload.connTimeout(), aiUpload.soTimeout());
+            Class<?> returnType = method.getReturnType();
+            return Void.TYPE == returnType ? null : new Gson().fromJson(str, returnType);
+        }
 
         return null;
     }

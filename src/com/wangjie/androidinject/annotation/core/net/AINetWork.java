@@ -97,7 +97,6 @@ public class AINetWork {
         HttpParams params = httpClient.getParams();
         HttpConnectionParams.setConnectionTimeout(params, connTimeout);
         HttpConnectionParams.setSoTimeout(params, soTimeout);
-        System.out.println("params timeout, connTimeout: " + connTimeout + ", soTimeout: " + soTimeout);
         return httpClient;
     }
 

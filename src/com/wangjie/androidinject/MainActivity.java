@@ -16,7 +16,9 @@ import com.wangjie.androidinject.annotation.core.net.NetInvoHandler;
 import com.wangjie.androidinject.annotation.present.AIActivity;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.model.Person;
+import com.wangjie.androidinject.model.UploadFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +94,34 @@ public class MainActivity extends AIActivity{
 
             }
         }).start();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    // 上传多个文件
+                    /*
+                    List<File> files = new ArrayList<File>();
+                    files.add(new File("/storage/emulated/0/DCIM/Camera/20140130_132710.jpg"));
+                    files.add(new File("/storage/emulated/0/DCIM/Camera/20140130_132559.jpg"));
+                    files.add(new File("/storage/emulated/0/DCIM/Camera/20140130_132533.jpg"));
+                    files.add(new File("/storage/emulated/0/DCIM/Camera/20140130_132508.jpg"));
+                    RetMessage<UploadFile> retMsg = personWorker.uploadFile(files);
+                    System.out.println(retMsg.getList().toString());
+                    */
+                    // 上传单个文件
+                    RetMessage<UploadFile> retMsg = personWorker.uploadFile2(new File("/storage/emulated/0/DCIM/Camera/20140130_132710.jpg"));
+                    System.out.println(retMsg.getList().toString());
+
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
+            }
+        }).start();
+
+
 
     }
 
