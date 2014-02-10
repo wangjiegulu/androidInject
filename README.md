@@ -110,6 +110,15 @@ androidInject
         3. refactor source
 
 
+###注意: <br/>
+> 使用fragment的注解，需要android-support-v4.jar的支持（以兼容低版本）
+>
+> 使用网络请求的注解，需要[gson.jar](https://code.google.com/p/google-gson/downloads/list)的支持
+>
+> 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
+
+
+
 
 
 
