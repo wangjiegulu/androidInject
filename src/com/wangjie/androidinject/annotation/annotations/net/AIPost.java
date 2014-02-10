@@ -16,4 +16,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface AIPost {
     String value() default "";
+    /**
+     * 连接一个url的连接等待时间
+     * @return
+     */
+    int connTimeout() default 20000;
+
+    /**
+     * 连接上一个url，获取response的返回等待时间
+     * @return
+     */
+    int soTimeout() default 20000;
 }

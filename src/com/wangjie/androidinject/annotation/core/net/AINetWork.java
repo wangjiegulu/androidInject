@@ -24,8 +24,8 @@ import java.util.Set;
  * @author wangjie
  * @version 创建时间：2013-3-9 上午9:29:40
  */
-public class NetWork {
-    private static final String TAG = NetWork.class.getSimpleName();
+public class AINetWork {
+    private static final String TAG = AINetWork.class.getSimpleName();
 	/**
 	 * 使用post来请求url并返回StringBuilder对象
 	 * 
@@ -38,14 +38,8 @@ public class NetWork {
 	 */
 
 
-    public static StringBuilder postStringFromUrl(String baseUrl,
+    public static StringBuilder postStringFromUrl(HttpClient httpClient, String baseUrl,
                                Map<String, String> map) throws Exception {
-
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpParams params = httpClient.getParams();
-        HttpConnectionParams.setConnectionTimeout(params, 20000);
-        HttpConnectionParams.setSoTimeout(params, 20000);
-
         HttpPost httpPost = new HttpPost(baseUrl);
         // 保持同一session
 //		if(!"".equals(Variables.appCookie)){
@@ -84,22 +78,28 @@ public class NetWork {
      * @return
      * @throws Exception
      */
-    public static StringBuilder getStringFromUrl(String baseUrl) throws Exception{
+    public static StringBuilder getStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
         HttpGet httpGet = new HttpGet(baseUrl);
         HttpResponse httpResponse;
         HttpEntity httpEntity;
         //生成一个http客户端对象
-        HttpClient httpClient = new DefaultHttpClient();
+
         //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
         httpResponse = httpClient.execute(httpGet);
         //httpEntity中有服务器发回的响应的内容
         httpEntity = httpResponse.getEntity();
         return obtainStringFromInputStream(httpEntity.getContent());
 
-
     }
 
-
+    public static HttpClient getDefaultHttpClient(int connTimeout, int soTimeout){
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpParams params = httpClient.getParams();
+        HttpConnectionParams.setConnectionTimeout(params, connTimeout);
+        HttpConnectionParams.setSoTimeout(params, soTimeout);
+        System.out.println("params timeout, connTimeout: " + connTimeout + ", soTimeout: " + soTimeout);
+        return httpClient;
+    }
 
 
 

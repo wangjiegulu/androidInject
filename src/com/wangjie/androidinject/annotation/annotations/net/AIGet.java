@@ -16,4 +16,16 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface AIGet {
     String value() default "";
+
+    /**
+     * connectionTimeout, 连接一个url的连接等待时间（默认20秒）
+     * @return
+     */
+    int connTimeout() default 20000;
+
+    /**
+     * SocketTimeout, 连接上一个url，获取response的返回等待时间（默认20秒）
+     * @return
+     */
+    int soTimeout() default 20000;
 }

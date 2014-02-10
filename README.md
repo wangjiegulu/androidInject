@@ -42,6 +42,8 @@ androidInject
 
         @AIGet: 方法注解
             value[String, 所要请求的url]：表示以GET来请求url
+            connTimeout[int, 连接超时时间]：连接一个url的连接等待时间
+            soTimeout[int, response返回超时时间]：连接上一个url，获取response的返回等待时间
 
         @AIPost: 方法注解
             value[String, 所要请求的url]：表示以Post来请求url
@@ -55,6 +57,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-2-10:
+        1. @AIGet和@AIPost增加connTimeout（连接一个url的连接等待时间）和soTimeout设置（连接上一个url，获取response的返回等待时间）
+
         2014-2-10:
         1. Worker中添加异常抛出
 

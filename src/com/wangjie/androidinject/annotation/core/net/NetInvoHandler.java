@@ -56,7 +56,10 @@ public class NetInvoHandler implements InvocationHandler{
                 }
 
             }
-            StringBuilder sb = NetWork.getStringFromUrl(url);
+            StringBuilder sb = AINetWork.getStringFromUrl(
+                    AINetWork.getDefaultHttpClient(aiGet.connTimeout(), aiGet.soTimeout()),
+                    url);
+
             if(null == sb){
                 return null;
             }
@@ -81,7 +84,9 @@ public class NetInvoHandler implements InvocationHandler{
                 }
 
             }
-            StringBuilder sb = NetWork.postStringFromUrl(url, map);
+            StringBuilder sb = AINetWork.postStringFromUrl(
+                    AINetWork.getDefaultHttpClient(aiPost.connTimeout(), aiPost.soTimeout()),
+                    url, map);
             if(null == sb){
                 return null;
             }

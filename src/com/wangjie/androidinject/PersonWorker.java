@@ -21,10 +21,10 @@ public interface PersonWorker {
     public RetMessage<Person> getPersonsForPost(@AIParam("aa")String a2, @AIParam("bb") String b2, @AIParam("cc") String c2) throws Exception;
 
 
-    @AIGet("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
+    @AIGet(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 12345, soTimeout = 54321)
     public RetMessage<Person> getPersonsForGet2(Params params) throws Exception;
 
-    @AIPost("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
+    @AIPost(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 30000, soTimeout = 25000)
     public RetMessage<Person> getPersonsForPost2(Params params) throws Exception;
 
 
