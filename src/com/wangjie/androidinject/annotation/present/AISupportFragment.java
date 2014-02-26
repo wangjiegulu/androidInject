@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,10 @@ public class AISupportFragment extends Fragment implements AIPresent, CallbackSa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        long start = System.currentTimeMillis();
         super.onActivityCreated(savedInstanceState);
         new AnnotationManager(this).initAnnotations();
+        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onActivityCreated supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
 //    @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -39,7 +40,7 @@ public class MainActivity extends AIActivity{
 //    private Button btn3;
 
 //    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback", itemLongClickMethod = "onItemLongClickCallbackForListView")
-    @AIView(id = R.id.listView)
+    @AIView(R.id.listView)
     private ListView listView;
 
     @AIBean
@@ -59,7 +60,6 @@ public class MainActivity extends AIActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map;
         for(int i = 0; i < 10; i++){
@@ -78,7 +78,6 @@ public class MainActivity extends AIActivity{
         System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
         System.out.println("screen size --> width: " + sSize.x + ", height: " + sSize.y);
-
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -3,6 +3,7 @@ package com.wangjie.androidinject.annotation.present;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
@@ -20,10 +21,12 @@ public class AIActivity extends Activity implements AIPresent, CallbackSample {
     private Class<?> clazz;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = this;
         clazz = this.getClass();
         new AnnotationManager(this).initAnnotations();
+        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
 

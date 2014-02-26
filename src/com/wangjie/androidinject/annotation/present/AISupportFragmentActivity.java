@@ -3,6 +3,7 @@ package com.wangjie.androidinject.annotation.present;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 
 /**
@@ -18,10 +19,12 @@ public class AISupportFragmentActivity extends FragmentActivity implements AIPre
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = this;
         clazz = this.getClass();
         new AnnotationManager(this).initAnnotations();
+        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override

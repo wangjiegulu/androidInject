@@ -14,7 +14,8 @@ androidInject
 
 
         @AIView: 属性注解
-            id[int]: 用于绑定控件 ---- findViewById(resId);(default identifier[R.id.{field name}] if did not set id)
+            value[int]: 用于绑定控件 ---- findViewById(resId);(default identifier[R.id.{field name}] if did not set id)
+            id[int]: 同value,如果两个都设置，则使用value值
             clickMethod[String]: 用于设置控件点击事件的回调方法, 可选, 方法名称任意, 参数必须为(View view)
             longClickMethod[String]: 用于设置控件长按的回调方法, 可选, 方法名任意, 参数必须为(View view)
             itemClickMethod[String]: 用于设置控件item点击的回调方法, 可选, 方法名任意, 参数必须为(AdapterView, View, int, long)
@@ -56,7 +57,7 @@ androidInject
         @AINetWorker: 属性注解
             注入网络请求服务
 
-        @AIUpload: 方法注解
+        @AIUpload: 方法注解，用于上传文件到服务器（支持多文件上传）
             value[String, 所要请求的url]：表示要上传的url，默认用post请求（不需要使用@AIPost注解）
             connTimeout[int, 连接超时时间]：连接一个url的连接等待时间
             soTimeout[int, response返回超时时间]：连接上一个url，获取response的返回等待时间
@@ -65,8 +66,12 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-2-26:
+        1. 修改@AIView注解的value和id值均代表控件redId，简化注入AIView代码，如：@AIView(R.id.listView)，如果两个都设置，则使用value值
+        2. 增加AIActivity、AISupportFragment、AISupportFragmentActivity解析Annotations时间统计，打印log
+
         2014-2-10:
-        1. 增加文章上传注解@AIUpload
+        1. 增加文件上传注解@AIUpload
         2. 代码重构
 
         2014-2-10:

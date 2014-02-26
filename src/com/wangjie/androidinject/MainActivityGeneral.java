@@ -3,10 +3,9 @@ package com.wangjie.androidinject;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.wangjie.androidinject.annotation.annotations.*;
-import com.wangjie.androidinject.annotation.present.AIActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +26,9 @@ public class MainActivityGeneral extends Activity implements View.OnClickListene
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
         context = this;
 
@@ -55,7 +56,7 @@ public class MainActivityGeneral extends Activity implements View.OnClickListene
         listView.setOnItemClickListener(this);
         SimpleAdapter adapter = new SimpleAdapter(context, list, R.layout.list_item, new String[]{"title"}, new int[]{R.id.list_item_title_tv});
         listView.setAdapter(adapter);
-
+        Log.d("MainActivityGeneral", this.getClass().getSimpleName() + ": " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override

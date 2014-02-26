@@ -102,9 +102,13 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
      * @throws Exception
      */
     private void viewFindAnnontation(AIView aiView, Field field) throws Exception{
-        int viewId = aiView.id(); // 绑定控件注解
+        int viewId = aiView.value(); // 绑定控件注解
+        // @AIView注解的value和id值均代表控件redId，如果之前的value是-1，则使用id值
+        if(-1 == viewId){
+            viewId = aiView.id();
+        }
 
-        if(-1 == viewId){ // 如果id没有设置，则默认查找id名跟属性名相同的id
+        if(-1 == viewId){ // 如果resId没有设置，则默认查找id名跟属性名相同的id
             Resources res = present.getContext().getResources();
             viewId = res.getIdentifier(field.getName(), "id", present.getContext().getPackageName());
             if(0 == viewId){ // 属性同名的id没有找到
