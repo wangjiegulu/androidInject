@@ -65,7 +65,7 @@ public class NetInvoHandler implements InvocationHandler{
                 return null;
             }
             Class<?> returnType = method.getReturnType();
-            return Void.TYPE == returnType ? null : new Gson().fromJson(sb.toString(), returnType);
+            return generateReturnValue(returnType, sb.toString());
         }
 
         // post请求（非上传文件）
@@ -93,7 +93,7 @@ public class NetInvoHandler implements InvocationHandler{
                 return null;
             }
             Class<?> returnType = method.getReturnType();
-            return Void.TYPE == returnType ? null : new Gson().fromJson(sb.toString(), returnType);
+            return generateReturnValue(returnType, sb.toString());
 
         }
 
@@ -113,10 +113,26 @@ public class NetInvoHandler implements InvocationHandler{
             AIUpload aiUpload = method.getAnnotation(AIUpload.class);
             String str = AIUploadNetWork.uploadFiles(aiUpload.value(), files, aiUpload.connTimeout(), aiUpload.soTimeout());
             Class<?> returnType = method.getReturnType();
-            return Void.TYPE == returnType ? null : new Gson().fromJson(str, returnType);
+            return generateReturnValue(returnType, str);
         }
 
         return null;
+    }
+
+    /**
+     * 通过返回的类型和请求的结果，生产返回值
+     * @param returnType
+     * @param str
+     * @return
+     */
+    private Object generateReturnValue(Class<?> returnType, String str){
+        if(Void.TYPE == returnType){
+            return null;
+        }
+        if(String.class == returnType){
+            return str;
+        }
+        return new Gson().fromJson(str, returnType);
     }
 
 

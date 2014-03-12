@@ -86,11 +86,23 @@ public class MainActivity extends AIActivity{
                 RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
 
 //                    RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
-                    System.out.println(retMsg.getList().toString());
+                    System.out.println("getPersonsForGet2: " + retMsg.getList().toString());
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
 
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String jsonStr = personWorker.getPersonsForGetToString(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
+                    System.out.println("getPersonsForGetToString: " + jsonStr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
 

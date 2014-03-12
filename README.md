@@ -66,6 +66,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-3-11:
+        1. netWorker中方法申明的返回类型为String时，则直接返回请求体的String
+
         2014-2-26:
         1. 修改@AIView注解的value和id值均代表控件redId，简化注入AIView代码，如：@AIView(R.id.listView)，如果两个都设置，则使用value值
         2. 增加AIActivity、AISupportFragment、AISupportFragmentActivity解析Annotations时间统计，打印log

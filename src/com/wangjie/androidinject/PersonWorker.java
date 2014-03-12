@@ -39,4 +39,7 @@ public interface PersonWorker {
     public RetMessage<UploadFile> uploadFile2(File file) throws Exception;
 
 
+    @AIGet(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 12345, soTimeout = 54321)
+    public String getPersonsForGetToString(Params params) throws Exception;
+
 }
