@@ -254,6 +254,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-3-24：
+        1. build androidInject_1.3.jar
+
         2014-3-11:
         1. netWorker中方法申明的返回类型为String时，则直接返回请求体的String
 
