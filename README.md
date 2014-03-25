@@ -11,8 +11,8 @@ androidInject
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
 ###例子1：<br/>
-        //@AIFullScreen
-        //@AINoTitle
+        @AIFullScreen
+        @AINoTitle
         @AILayout(R.layout.main)
         public class MainActivity extends AIActivity{
         
