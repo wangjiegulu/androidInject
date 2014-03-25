@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.model;
+package com.wangjie.androidinject.example.model;
 
 /**
  * Created with IntelliJ IDEA.

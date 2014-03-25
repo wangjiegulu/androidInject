@@ -1,4 +1,4 @@
-package com.wangjie.androidinject;
+package com.wangjie.androidinject.example;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.wangjie.androidinject.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +15,11 @@ import java.util.Map;
 
 public class MainActivityGeneral extends Activity implements View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemClickListener{
 
-    private Button btn1;
+    private Button insertBtn;
 
-    private Button btn2;
+    private Button queryBtn;
 
-    private Button btn3;
+    private Button updateBtn;
 
     private ListView listView;
 
@@ -32,17 +33,17 @@ public class MainActivityGeneral extends Activity implements View.OnClickListene
         setContentView(R.layout.main);
         context = this;
 
-        btn1 = (Button) findViewById(R.id.btn1);
-        btn1.setOnClickListener(this);
-        btn1.setOnLongClickListener(this);
+        insertBtn = (Button) findViewById(R.id.insertBtn);
+        insertBtn.setOnClickListener(this);
+        insertBtn.setOnLongClickListener(this);
 
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn2.setOnClickListener(this);
-        btn2.setOnLongClickListener(this);
+        queryBtn = (Button) findViewById(R.id.queryBtn);
+        queryBtn.setOnClickListener(this);
+        queryBtn.setOnLongClickListener(this);
 
-        btn3 = (Button) findViewById(R.id.btn3);
-        btn3.setOnClickListener(this);
-        btn3.setOnLongClickListener(this);
+        updateBtn = (Button) findViewById(R.id.updateBtn);
+        updateBtn.setOnClickListener(this);
+        updateBtn.setOnLongClickListener(this);
 
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map;

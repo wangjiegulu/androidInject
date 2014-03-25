@@ -5,22 +5,28 @@
               android:layout_height="fill_parent"
         >
     <Button
-        android:id="@+id/btn1"
+        android:id="@+id/insertBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="button 1"
+        android:text="database insert"
         />
     <Button
-            android:id="@+id/btn2"
+            android:id="@+id/queryBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="button 2"
+            android:text="database query"
         />
     <Button
-            android:id="@+id/btn3"
+            android:id="@+id/updateBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="button 3"
+            android:text="database update"
+            />
+    <Button
+            android:id="@+id/deletebtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="database delete"
             />
     <Button
             android:id="@+id/toFragmentBtn"

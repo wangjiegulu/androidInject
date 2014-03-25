@@ -1,7 +1,8 @@
-package com.wangjie.androidinject;
+package com.wangjie.androidinject.example;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import com.wangjie.androidinject.R;
 import com.wangjie.androidinject.annotation.annotations.base.AILayout;
 import com.wangjie.androidinject.annotation.present.AISupportFragmentActivity;
 

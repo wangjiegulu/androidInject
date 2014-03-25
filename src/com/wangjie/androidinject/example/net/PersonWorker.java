@@ -1,4 +1,4 @@
-package com.wangjie.androidinject;
+package com.wangjie.androidinject.example.net;
 
 import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
@@ -6,8 +6,8 @@ import com.wangjie.androidinject.annotation.annotations.net.AIPost;
 import com.wangjie.androidinject.annotation.annotations.net.AIUpload;
 import com.wangjie.androidinject.annotation.core.net.RetMessage;
 import com.wangjie.androidinject.annotation.util.Params;
-import com.wangjie.androidinject.model.Person;
-import com.wangjie.androidinject.model.UploadFile;
+import com.wangjie.androidinject.example.model.Person;
+import com.wangjie.androidinject.example.model.UploadFile;
 
 import java.io.File;
 import java.util.List;

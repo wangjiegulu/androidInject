@@ -251,9 +251,22 @@ androidInject
             soTimeout[int, response返回超时时间]：连接上一个url，获取response的返回等待时间
             注意：使用此注解的方法参数需要包含Collection<File>或其子类型集合 或者包含File对象 来作为要上传的文件
 
+        @AIColumn: 属性注解，用于映射属性到表字段
+            value[String]：表示要映射到的表字段名称，不填写则默认以属性名作为表字段名
+
+        @AIPrimaryKey: 属性注解，用于指定属性为主键
+            insertable[boolean]：表示插入数据时是否同时也插入主键到表。默认为false，即表的主键应该为自动生成
+
+        @AITable: 类注解，用于映射类到表
+            value[String]: 表示要映射到的表的名称，不填写或未增加该注解则默认以类名小写为表名
+
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-3-25:
+        1. 增加对sqlite3数据库的orm注解支持，增加@AIColumn、@AIPrimaryKey、@AITable三个注解来映射到表（有待改进）
+        2. 重构代码
+
         2014-3-24：
         1. build androidInject_1.3.jar
 

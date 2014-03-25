@@ -1,12 +1,13 @@
-package com.wangjie.androidinject;
+package com.wangjie.androidinject.example;
 
 import android.app.AlarmManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.wangjie.androidinject.R;
 import com.wangjie.androidinject.annotation.annotations.base.*;
 import com.wangjie.androidinject.annotation.present.AISupportFragment;
-import com.wangjie.androidinject.model.Person;
+import com.wangjie.androidinject.example.model.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;

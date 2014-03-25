@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.present;
 
-import android.app.Activity;
 import android.content.Context;
 
 /**

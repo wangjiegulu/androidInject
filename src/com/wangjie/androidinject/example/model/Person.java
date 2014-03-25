@@ -1,4 +1,4 @@
-package com.wangjie.androidinject.model;
+package com.wangjie.androidinject.example.model;
 
 import java.io.Serializable;
 
