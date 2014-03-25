@@ -11,49 +11,49 @@ androidInject
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
 ###例子1：<br/>
-        @AIFullScreen
-        @AINoTitle
+        //@AIFullScreen
+        //@AINoTitle
         @AILayout(R.layout.main)
         public class MainActivity extends AIActivity{
-
-        @AIView(id = R.id.btn1, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
-        private Button btn1;
-
-        @AIView(clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
-        private Button btn2;
-
-        //@AIView(id = R.id.btn3)
-        //private Button btn3;
-
-        //@AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback", itemLongClickMethod = "onItemLongClickCallbackForListView")
-        @AIView(R.id.listView)
-        private ListView listView;
-
-        @AIBean
-        private Person person;
-
-        @AISystemService
-        private AlarmManager alarmManager;
-        @AISystemService
-        private LocationManager locationManager;
-        @AISystemService
-        private LayoutInflater inflater;
-        @AIScreenSize
-        private Point sSize;
-        @AINetWorker
-        private PersonWorker personWorker;
         
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
+            @AIView(id = R.id.insertBtn, clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
+            private Button insertBtn;
+        
+            @AIView(clickMethod = "onClickCallback", longClickMethod = "onLongClickCallback")
+            private Button queryBtn;
+        
+        //    @AIView(id = R.id.btn3)
+        //    private Button btn3;
+        
+        //    @AIView(id = R.id.listView, itemClickMethod = "onItemClickCallback", itemLongClickMethod = "onItemLongClickCallbackForListView")
+            @AIView(R.id.listView)
+            private ListView listView;
+        
+            @AIBean
+            private Person person;
+        
+            @AISystemService
+            private AlarmManager alarmManager;
+            @AISystemService
+            private LocationManager locationManager;
+            @AISystemService
+            private LayoutInflater inflater;
+            @AIScreenSize
+            private Point sSize;
+            @AINetWorker
+            private PersonWorker personWorker;
+        
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 List<Map<String, String>> list = new ArrayList<Map<String, String>>();
                 Map<String, String> map;
                 for(int i = 0; i < 10; i++){
-                map = new HashMap<String, String>();
-                map.put("title", "item_" + i);
-                list.add(map);
+                    map = new HashMap<String, String>();
+                    map.put("title", "item_" + i);
+                    list.add(map);
                 }
-
+        
                 SimpleAdapter adapter = new SimpleAdapter(context, list, R.layout.list_item, new String[]{"title"}, new int[]{R.id.list_item_title_tv});
                 listView.setAdapter(adapter);
         
@@ -76,6 +76,7 @@ androidInject
                         }catch(Exception ex){
                             ex.printStackTrace();
                         }
+        
                     }
                 }).start();
         
@@ -90,6 +91,7 @@ androidInject
                         }
                     }
                 }).start();
+        
         
                 new Thread(new Runnable() {
                     @Override
@@ -116,13 +118,54 @@ androidInject
                     }
                 }).start();
         
+        
+        
+                userExecutor = new DbExecutor<User>(context);
             }
         
-        
-            public void onClickCallback(View view){
+            DbExecutor<User> userExecutor = null;
+            User dbUser = null;
+            List<User> users = null;
+            Random rd = new Random();
+            @AIClick({R.id.deletebtn, R.id.updateBtn})
+            public void onClickCallback(View view) throws Exception{
                 if(view instanceof Button){
                     Toast.makeText(context, "onClickCallback: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
                 }
+                switch(view.getId()){
+                    case R.id.insertBtn: // 插入user对象到user表
+                        dbUser = new User("wangjie" + rd.nextInt(10000), String.valueOf(rd.nextInt(10000) + 10000), System.currentTimeMillis(), rd.nextInt(80) + 120, rd.nextInt(80) + 120, "aaaa");
+                        userExecutor.executeSave(dbUser);
+                        break;
+        
+                    case R.id.queryBtn: // 查询user表
+                        users = userExecutor.executeQuery("select * from user where uid > ?", new String[]{"4"}, User.class);
+                        System.out.println("[queryBtn]users: " + users);
+                        break;
+        
+                    case R.id.deletebtn: // 删除user表的一条数据
+                        if(null == users || users.size() <= 0){
+                            break;
+                        }
+                        userExecutor.executeDelete(users.get(0));
+                        break;
+        
+                    case R.id.updateBtn: // 更新user表的一条数据
+                        if(null == users || users.size() <= 0){
+                            break;
+                        }
+                        User user = users.get(0);
+                        user.setUsername(user.getUsername().startsWith("wangjie") ? "jiewang" + rd.nextInt(10000) : "wangjie" + rd.nextInt(10000));
+                        user.setPassword(user.getPassword().startsWith("123456") ? "abcdef" : "123456");
+                        user.setCreatemillis(System.currentTimeMillis());
+                        user.setHeight(rd.nextInt(80) + 120);
+                        user.setWeight(rd.nextInt(80) + 120);
+                        user.setNotCol("bbb");
+                        userExecutor.executeUpdate(user, null, new String[]{"createmillis"});
+                        break;
+        
+                }
+        
             }
         
             public void onLongClickCallback(View view){
@@ -135,19 +178,20 @@ androidInject
                 Toast.makeText(context, "onItemClickCallback: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
             }
         
-            @AIClick({R.id.btn3, R.id.toFragmentBtn})
+            @AIClick({R.id.toFragmentBtn})
             public void onClickCallbackForBtn3(View view){
                 if(view instanceof Button){
-                    Toast.makeText(context, "onClickForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "onClickForUpdateBtn: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
                 }
         
                 if(view.getId() == R.id.toFragmentBtn){
                     startActivity(new Intent(context, SecendActivity.class));
                 }
         
+        
             }
         
-            @AILongClick({R.id.btn3})
+            @AILongClick({R.id.updateBtn})
             public void onLongClickCallbackForBtn3(View view){
                 if(view instanceof Button){
                     Toast.makeText(context, "onLongClickCallbackForBtn3: " + ((Button)view).getText(), Toast.LENGTH_SHORT).show();
@@ -164,6 +208,12 @@ androidInject
                 Toast.makeText(context, "onItemLongClickCallbackForListView: " + ((Map<String, String>)adapterView.getAdapter().getItem(i)).get("title"), Toast.LENGTH_SHORT).show();
                 return true;
             }
+        
+        
+        
+        }
+        
+        
 
 ###例子2：<br/>
         public interface PersonWorker {
@@ -189,7 +239,40 @@ androidInject
             public String getPersonsForGetToString(Params params) throws Exception;
         
         }
+
+###例子2：<br/>
+        @AITable
+        public class User implements Serializable{
+            @AIColumn
+            @AIPrimaryKey(insertable = false)
+            private int uid;
+            @AIColumn("username")
+            private String username;
+            @AIColumn
+            private String password;
+            @AIColumn
+            private long createmillis;
+            @AIColumn
+            private float height;
+            @AIColumn
+            private double weight;
         
+            private String notCol;
+        
+            public User() {
+            }
+        
+            public User(String username, String password, long createmillis, float height, double weight, String notCol) {
+                this.username = username;
+                this.password = password;
+                this.createmillis = createmillis;
+                this.height = height;
+                this.weight = weight;
+                this.notCol = notCol;
+            }
+            // ... getter/setter
+        }
+
 
 ###可用注解(Annotations): <br/>
 ###
