@@ -21,7 +21,7 @@ public abstract class Runtask<U, R> implements Runnable{
             super.handleMessage(msg);
             switch(msg.arg1){
                 case TASK_UPDATE_UI:
-                    updateUiCallBack((U)msg.obj);
+                    onUpdateUiCallBack((U)msg.obj);
                     break;
                 case TASK_RESULT:
                     onResult((R)msg.obj);
@@ -56,7 +56,8 @@ public abstract class Runtask<U, R> implements Runnable{
         rHandler.sendMessage(msg);
     }
 
-    public void updateUiCallBack(U obj){}
+    public void onBefore(){}
+    public void onUpdateUiCallBack(U obj){}
     public void onResult(R result){}
 
     public void cancel(){

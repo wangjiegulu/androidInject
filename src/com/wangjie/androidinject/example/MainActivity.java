@@ -14,6 +14,8 @@ import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
 import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
 import com.wangjie.androidinject.annotation.core.net.RetMessage;
 import com.wangjie.androidinject.annotation.core.orm.AIDbExecutor;
+import com.wangjie.androidinject.annotation.core.thread.Runtask;
+import com.wangjie.androidinject.annotation.core.thread.ThreadPool;
 import com.wangjie.androidinject.annotation.present.AIActivity;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.example.database.DbExecutor;
@@ -78,38 +80,41 @@ public class MainActivity extends AIActivity{
         System.out.println("alarmManager: " + alarmManager + ", locationManager: " + locationManager + ", inflater: " + inflater);
 
         System.out.println("screen size --> width: " + sSize.x + ", height: " + sSize.y);
-        new Thread(new Runnable() {
+
+        ThreadPool.go(new Runtask<Object, Object>() {
             @Override
-            public void run() {
+            public Object runInBackground() {
                 try{
 //                RetMessage<Person> retMsg = personWorker.getPersonsForGet("a1", "b1", "c1");
-                RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
+                    RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
 
 //                    RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
                     System.out.println("getPersonsForGet2: " + retMsg.getList().toString());
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
-
+                return null;
             }
-        }).start();
+        });
 
-        new Thread(new Runnable() {
+
+        ThreadPool.go(new Runtask<Object, Object>() {
             @Override
-            public void run() {
+            public Object runInBackground() {
                 try {
                     String jsonStr = personWorker.getPersonsForGetToString(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
                     System.out.println("getPersonsForGetToString: " + jsonStr);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                return null;
             }
-        }).start();
+        });
 
 
-        new Thread(new Runnable() {
+        ThreadPool.go(new Runtask<Object, Object>() {
             @Override
-            public void run() {
+            public Object runInBackground() {
                 try{
                     // 上传多个文件
                     /*
@@ -128,9 +133,9 @@ public class MainActivity extends AIActivity{
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
-
+                return null;
             }
-        }).start();
+        });
 
 
 

@@ -1,5 +1,7 @@
 package com.wangjie.androidinject.annotation.core.thread;
 
+import android.util.Log;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,27 +12,21 @@ import java.util.concurrent.Executors;
  * Time: 下午3:37
  */
 public class ThreadPool {
+    public static final String TAG = ThreadPool.class.getSimpleName();
     static ExecutorService threadPool;
 
-    public synchronized static ExecutorService getInstances(){
-        if(null == threadPool){
-            threadPool = Executors.newCachedThreadPool();
-        }
+    public static void initThreadPool(int max){ // 需要在Application中进行配置
+        threadPool = Executors.newFixedThreadPool(max);
+        Log.d(TAG, "[ThreadPool]ThreadPool init success...");
+    }
 
-        threadPool.execute(new Runtask<Integer, Integer>() {
-            @Override
-            public Integer runInBackground() {
-                return null;
-            }
-
-            @Override
-            public void onResult(Integer result) {
-                super.onResult(result);
-            }
-        });
-
-
+    public static ExecutorService getInstances(){
         return threadPool;
+    }
+
+    public synchronized static<U, R> void go(Runtask<U, R> runtask){
+        runtask.onBefore();
+        threadPool.execute(runtask);
     }
 
 

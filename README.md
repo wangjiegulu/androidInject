@@ -347,6 +347,9 @@ androidInject
 ###提交日志(Commit Logs): <br/>
 ###
         2014-3-25:
+        1. 增加线程池的配置
+
+        2014-3-25:
         1. AIDbExecutor增加使用事务执行多条sql
 
         2014-3-25:
