@@ -6,6 +6,7 @@ import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
 import com.wangjie.androidinject.annotation.annotations.net.AIPost;
 import com.wangjie.androidinject.annotation.annotations.net.AIUpload;
+import com.wangjie.androidinject.annotation.util.AITextUtil;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.annotation.util.StringUtil;
 
@@ -50,7 +51,7 @@ public class NetInvoHandler implements InvocationHandler{
             Annotation[][] annotaions = method.getParameterAnnotations();
             for(int i = 0; i < args.length; i++){
                 if(Params.class.isAssignableFrom(args[i].getClass())){ // 如果属性为Params，则追加在后面
-                    url = StringUtil.appendParamsAfterUrl(url, (Params)args[i]);
+                    url = AITextUtil.appendParamsAfterUrl(url, (Params) args[i]);
                 }else{ // 如果属性添加了@AIParam注解，则替换链接中#{xxx}
                     String repName = ((AIParam)annotaions[i][0]).value();
                     url = url.replace("#{" + repName + "}", args[i] + "");

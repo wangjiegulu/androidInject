@@ -2,6 +2,8 @@ package com.wangjie.androidinject.annotation.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,6 +12,7 @@ import java.util.Iterator;
  * Time: 下午5:40
  */
 public class AITextUtil {
+
     /**
      * 生成占位符
      * @param count
@@ -36,6 +39,20 @@ public class AITextUtil {
 
     public static String joinStrings(Collection<String> set, String separator){
         return joinStrings(set, separator, "");
+    }
+
+    public static String appendParamsAfterUrl(String url, Map map){
+        if(null == map || map.isEmpty()){
+            return url;
+        }
+        StringBuilder sb = new StringBuilder(url);
+        sb = url.endsWith("?") ? sb : sb.append("?");
+        Set<Map.Entry> set = map.entrySet();
+        for(Map.Entry entry : set){
+            sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+        }
+        url = sb.toString();
+        return url.substring(0, url.length() - 1);
     }
 
     public static String joinArray(String[] array, String separator){
