@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Json响应结果包装类
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-2-7
  * Time: 下午4:25
  */

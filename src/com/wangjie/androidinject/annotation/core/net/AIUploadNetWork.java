@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-2-10
  * Time: 上午11:40
  */

@@ -6,7 +6,7 @@ import com.wangjie.androidinject.annotation.core.orm.AIDbExecutor;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-3-25
  * Time: 上午9:56
  */
@@ -21,8 +21,7 @@ public class DbExecutor<T> extends AIDbExecutor<T>{
 
     @Override
     public AIDatabaseHelper obtainDbHelper() {
-        AIDatabaseHelper helper = new DatabaseHelper(context, DB_NAME, VERSION);
-        return helper;
+        return new DatabaseHelper(context, DB_NAME, VERSION);
     }
 
 

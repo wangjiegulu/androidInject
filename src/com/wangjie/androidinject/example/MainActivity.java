@@ -13,6 +13,7 @@ import com.wangjie.androidinject.annotation.annotations.base.*;
 import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
 import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
 import com.wangjie.androidinject.annotation.core.net.RetMessage;
+import com.wangjie.androidinject.annotation.core.orm.AIDbExecutor;
 import com.wangjie.androidinject.annotation.present.AIActivity;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.example.database.DbExecutor;
@@ -136,7 +137,7 @@ public class MainActivity extends AIActivity{
         userExecutor = new DbExecutor<User>(context);
     }
 
-    DbExecutor<User> userExecutor = null;
+    AIDbExecutor<User> userExecutor = null;
     User dbUser = null;
     List<User> users = null;
     Random rd = new Random();

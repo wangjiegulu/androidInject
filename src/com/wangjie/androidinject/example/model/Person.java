@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 13-12-2
  * Time: 上午10:25
  */

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-2-8
  * Time: 上午10:41
  */

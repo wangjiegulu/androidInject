@@ -16,7 +16,7 @@ import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-3-24
  * Time: 下午4:44
  */
@@ -180,7 +180,7 @@ public abstract class AIDbExecutor<T> {
                     }
                     AIPrimaryKey primaryKey = field.getAnnotation(AIPrimaryKey.class);
                     if(null == primaryKey){ // 如果不是主键
-                        if(shouldModifyField(field, includeParamsList, excludeParamsList)){ // 如果包含在includeParams中，并不包含在excludeParams中，则需要更新这个字段（）
+                        if(shouldModifyField(field, includeParamsList, excludeParamsList)){ // 如果包含在includeParams中，并不包含在excludeParams中，则需要更新这个字段
                             field.setAccessible(true);
                             updateMap.put(columnValue, field.get(obj));
                         }

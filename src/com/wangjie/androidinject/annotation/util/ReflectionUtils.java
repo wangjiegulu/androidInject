@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-3-24
  * Time: 下午4:41
  */

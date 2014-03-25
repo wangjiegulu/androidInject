@@ -5,7 +5,7 @@ import android.os.Message;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-2-26
  * Time: 下午3:50
  */

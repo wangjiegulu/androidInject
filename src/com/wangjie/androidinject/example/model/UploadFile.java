@@ -2,7 +2,7 @@ package com.wangjie.androidinject.example.model;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-2-10
  * Time: 下午12:53
  */
