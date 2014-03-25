@@ -10,7 +10,7 @@ androidInject
 >
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
-###例子1：<br/>
+###例子1：Android注解<br/>
         @AIFullScreen
         @AINoTitle
         @AILayout(R.layout.main)
@@ -215,7 +215,7 @@ androidInject
         
         
 
-###例子2：<br/>
+###例子2：网络请求注解<br/>
         public interface PersonWorker {
             @AIGet("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons?aa=#{a3}&bb=#{b3}&cc=#{c3}")
             public RetMessage<Person> getPersonsForGet(@AIParam("a3")String a2, @AIParam("b3") String b2, @AIParam("c3") String c2) throws Exception;
@@ -240,7 +240,7 @@ androidInject
         
         }
 
-###例子2：<br/>
+###例子3：数据表映射注解<br/>
         @AITable
         public class User implements Serializable{
             @AIColumn
