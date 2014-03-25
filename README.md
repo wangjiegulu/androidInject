@@ -347,6 +347,9 @@ androidInject
 ###提交日志(Commit Logs): <br/>
 ###
         2014-3-25:
+        1. AIDbExecutor增加使用事务执行多条sql
+
+        2014-3-25:
         1. 增加对sqlite3数据库的orm注解支持，增加@AIColumn、@AIPrimaryKey、@AITable三个注解来映射到表（有待改进）
         2. 重构代码
 

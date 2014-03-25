@@ -289,6 +289,14 @@ public abstract class AIDbExecutor<T> {
         }
     }
 
+    /**
+     * 执行删除
+     * @param clazz
+     * @param whereClause
+     * @param whereArgs
+     * @return
+     * @throws Exception
+     */
     public int executeDelete(Class<?> clazz, String whereClause, String[] whereArgs) throws Exception{
         SQLiteDatabase db = null;
         try{
@@ -300,6 +308,35 @@ public abstract class AIDbExecutor<T> {
             closeDatabase(db);
         }
     }
+
+    /**
+     * 使用事务执行多条sql
+     * @param sqlCases
+     * @throws Exception
+     */
+    public void executeSqlTransaction(AISqlCase... sqlCases) throws Exception{
+        if(null == sqlCases || sqlCases.length <= 0){
+            return;
+        }
+        SQLiteDatabase db = null;
+        try{
+            db = dbHelper.getWritableDatabase();
+            db.beginTransaction();
+            for(AISqlCase sc : sqlCases){
+                db.execSQL(sc.getSql(), sc.getSelectionArgs());
+            }
+            db.setTransactionSuccessful();
+        }catch(Exception ex){
+            throw ex;
+        }finally {
+            if(null != db){
+                db.endTransaction();
+                closeDatabase(db);
+            }
+        }
+
+    }
+
 
     public AIDatabaseHelper getDbHelper(){
         return dbHelper;
