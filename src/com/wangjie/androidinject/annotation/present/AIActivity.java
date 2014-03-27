@@ -16,7 +16,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
  * Time: 下午2:02
  */
 public class AIActivity extends Activity implements AIPresent, CallbackSample {
-    public static final String TAG = AIActivity.class.getSimpleName();
+    private static final String TAG = AIActivity.class.getSimpleName();
     public Context context;
     private Class<?> clazz;
     @Override

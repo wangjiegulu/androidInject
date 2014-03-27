@@ -1,8 +1,9 @@
 package com.wangjie.androidinject.annotation.core.net;
 
 import android.text.TextUtils;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
 import com.wangjie.androidinject.annotation.annotations.net.AIPost;
@@ -11,10 +12,12 @@ import com.wangjie.androidinject.annotation.util.AITextUtil;
 import com.wangjie.androidinject.annotation.util.Params;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -24,6 +27,8 @@ import java.util.*;
  * Time: 下午1:40
  */
 public class NetInvoHandler implements InvocationHandler{
+    private static final String TAG = NetInvoHandler.class.getSimpleName();
+
     private static HashMap<Class<?>, NetInvoHandler> invoHandlers = new HashMap<Class<?>, NetInvoHandler>();
 
     private Object proxy; // 代理对象
@@ -58,6 +63,7 @@ public class NetInvoHandler implements InvocationHandler{
                 }
 
             }
+            Logger.d(TAG, "GET url[" + method.getName() + "]: " + url);
             StringBuilder sb = AINetWork.getStringFromUrl(
                     AINetWork.getDefaultHttpClient(aiGet.connTimeout(), aiGet.soTimeout()),
                     url);
@@ -65,7 +71,7 @@ public class NetInvoHandler implements InvocationHandler{
             if(null == sb){
                 return null;
             }
-            Class<?> returnType = method.getReturnType();
+            Type returnType = method.getGenericReturnType();
             return generateReturnValue(returnType, sb.toString());
         }
 
@@ -87,13 +93,14 @@ public class NetInvoHandler implements InvocationHandler{
                 }
 
             }
+            logUrlInfo(url, map); // 打印log
             StringBuilder sb = AINetWork.postStringFromUrl(
                     AINetWork.getDefaultHttpClient(aiPost.connTimeout(), aiPost.soTimeout()),
                     url, map);
             if(null == sb){
                 return null;
             }
-            Class<?> returnType = method.getReturnType();
+            Type returnType = method.getGenericReturnType();
             return generateReturnValue(returnType, sb.toString());
 
         }
@@ -113,7 +120,7 @@ public class NetInvoHandler implements InvocationHandler{
             }
             AIUpload aiUpload = method.getAnnotation(AIUpload.class);
             String str = AIUploadNetWork.uploadFiles(aiUpload.value(), files, aiUpload.connTimeout(), aiUpload.soTimeout());
-            Class<?> returnType = method.getReturnType();
+            Type returnType = method.getGenericReturnType();
             return generateReturnValue(returnType, str);
         }
 
@@ -127,16 +134,33 @@ public class NetInvoHandler implements InvocationHandler{
      * @param str
      * @return
      */
-    private Object generateReturnValue(Class<?> returnType, String str){
+    private Object generateReturnValue(Type returnType, String str){
         if(Void.TYPE == returnType){
             return null;
         }
         if(String.class == returnType){
             return str;
         }
+
         return gb.create().fromJson(str, returnType);
     }
 
+    /**
+     * 打印log，便于调试
+     * @param url
+     * @param params
+     */
+    private void logUrlInfo(String url, Map<String, String> params){
+        if(!Logger.debug && !Logger.logFile){
+            return;
+        }
+        Set set = params.keySet();
+        StringBuilder sb = new StringBuilder();
+        for(Object s : set){
+            sb.append(", ").append(s).append("=").append(params.get(s));
+        }
+        Logger.d(TAG, url + "?" + sb.toString().substring(1));
+    }
 
     public Object getProxy() {
         return proxy;
