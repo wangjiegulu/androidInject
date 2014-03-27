@@ -4,6 +4,8 @@ androidInject
 ###使用注解来简化android开发  <br/>(Use annotations inject to simplify the development of android)<br/>
 
 ###注意: <br/>
+> 重要：需要添加Library[AndroidBucket项目](https://github.com/wangjiegulu/AndroidBucket)的支持（日志、线程、util等）
+>
 > 使用fragment的注解，需要android-support-v4.jar的支持（以兼容低版本）
 >
 > 使用网络请求的注解时，如果需要自动返回封装类，则需要[gson.jar](https://code.google.com/p/google-gson/downloads/list)的支持
@@ -346,6 +348,10 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-3-27:
+        1. 去除线程池，转移到AndroidBucket项目中，所以需要添加Library[AndroidBucket项目](https://github.com/wangjiegulu/AndroidBucket)的支持（日志、线程、util等）
+        2. 修改Gson DateFormat为yyyy-MM-dd HH:mm:ss:SSS
+
         2014-3-25:
         1. 增加线程池的配置
 

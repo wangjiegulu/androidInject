@@ -2,7 +2,7 @@ package com.wangjie.androidinject.annotation.core.orm;
 
 /**
  * Created with IntelliJ IDEA.
- * Author: wangjie  email:wangjie@cyyun.com
+ * Author: wangjie  email:tiantian.china.2@gmail.com
  * Date: 14-3-25
  * Time: 下午3:15
  */

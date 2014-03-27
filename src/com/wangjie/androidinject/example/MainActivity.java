@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.wangjie.androidbucket.thread.Runtask;
+import com.wangjie.androidbucket.thread.ThreadPool;
 import com.wangjie.androidinject.R;
 import com.wangjie.androidinject.annotation.annotations.base.*;
 import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
 import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
 import com.wangjie.androidinject.annotation.core.net.RetMessage;
 import com.wangjie.androidinject.annotation.core.orm.AIDbExecutor;
-import com.wangjie.androidinject.annotation.core.thread.Runtask;
-import com.wangjie.androidinject.annotation.core.thread.ThreadPool;
 import com.wangjie.androidinject.annotation.present.AIActivity;
 import com.wangjie.androidinject.annotation.util.Params;
 import com.wangjie.androidinject.example.database.DbExecutor;
@@ -84,13 +84,13 @@ public class MainActivity extends AIActivity{
         ThreadPool.go(new Runtask<Object, Object>() {
             @Override
             public Object runInBackground() {
-                try{
+                try {
 //                RetMessage<Person> retMsg = personWorker.getPersonsForGet("a1", "b1", "c1");
                     RetMessage<Person> retMsg = personWorker.getPersonsForGet2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
 
 //                    RetMessage<Person> retMsg = personWorker.getPersonsForPost2(new Params().add("aa", "a1").add("bb", "b1").add("cc", "c1"));
                     System.out.println("getPersonsForGet2: " + retMsg.getList().toString());
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 return null;

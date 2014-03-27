@@ -2,13 +2,13 @@ package com.wangjie.androidinject.annotation.core.net;
 
 import android.text.TextUtils;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wangjie.androidinject.annotation.annotations.net.AIGet;
 import com.wangjie.androidinject.annotation.annotations.net.AIParam;
 import com.wangjie.androidinject.annotation.annotations.net.AIPost;
 import com.wangjie.androidinject.annotation.annotations.net.AIUpload;
 import com.wangjie.androidinject.annotation.util.AITextUtil;
 import com.wangjie.androidinject.annotation.util.Params;
-import com.wangjie.androidinject.annotation.util.StringUtil;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -120,6 +120,7 @@ public class NetInvoHandler implements InvocationHandler{
         return null;
     }
 
+    GsonBuilder gb = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
     /**
      * 通过返回的类型和请求的结果，生产返回值
      * @param returnType
@@ -133,7 +134,7 @@ public class NetInvoHandler implements InvocationHandler{
         if(String.class == returnType){
             return str;
         }
-        return new Gson().fromJson(str, returnType);
+        return gb.create().fromJson(str, returnType);
     }
 
 
