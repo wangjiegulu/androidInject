@@ -163,7 +163,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
             }
             AdapterView adapterView = (AdapterView)obj;
             if(!"".equals(method.getName())){
-//                adapterView.setOnItemClickListener(OnItemClickViewListener.obtainListener(present, method.getName()));
+//                adapterView.setOnItemClickListener(OnItemClickViewListener.obtainListener(activity, method.getName()));
                 adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, method.getName()));
             }
         }

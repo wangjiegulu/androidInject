@@ -1,6 +1,7 @@
 package com.wangjie.androidinject.annotation.core.net;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ import java.util.List;
  */
 public class RetMessage<T>
 {
+
+    Gson gb = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss:SSS").create();
+
     private int resultCode; // 结果码，必须包含
 
     private List<T> list; // 返回的数据
@@ -24,7 +28,7 @@ public class RetMessage<T>
     private String errorMessage; // 返回错误信息
 
     public String toJson(){
-        return new Gson().toJson(this);
+        return gb.toJson(this);
     }
 
     public int getResultCode()
