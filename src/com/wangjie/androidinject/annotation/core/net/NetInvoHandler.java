@@ -127,7 +127,6 @@ public class NetInvoHandler implements InvocationHandler{
         return null;
     }
 
-    GsonBuilder gb = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
     /**
      * 通过返回的类型和请求的结果，生产返回值
      * @param returnType
@@ -142,7 +141,10 @@ public class NetInvoHandler implements InvocationHandler{
             return str;
         }
 
-        return gb.create().fromJson(str, returnType);
+        return new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss:SSS")
+                .create()
+                .fromJson(str, returnType);
     }
 
     /**

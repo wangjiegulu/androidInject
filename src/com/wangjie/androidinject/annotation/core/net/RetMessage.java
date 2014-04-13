@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.core.net;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
@@ -12,10 +11,7 @@ import java.util.List;
  * Date: 14-2-7
  * Time: 下午4:25
  */
-public class RetMessage<T>
-{
-
-    Gson gb = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss:SSS").create();
+public class RetMessage<T> {
 
     private int resultCode; // 结果码，必须包含
 
@@ -27,68 +23,60 @@ public class RetMessage<T>
 
     private String errorMessage; // 返回错误信息
 
-    public String toJson(){
-        return gb.toJson(this);
+    public String toJson() {
+        return new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss:SSS")
+                .create()
+                .toJson(this);
     }
 
-    public int getResultCode()
-    {
+    public int getResultCode() {
         return resultCode;
     }
 
-    public RetMessage<T> setResultCode(int resultCode)
-    {
+    public RetMessage<T> setResultCode(int resultCode) {
         this.resultCode = resultCode;
         return this;
     }
 
-    public List<T> getList()
-    {
+    public List<T> getList() {
         return list;
     }
 
-    public RetMessage<T> setList(List<T> list)
-    {
+    public RetMessage<T> setList(List<T> list) {
         this.list = list;
-        if(null != this.list){
+        if (null != this.list) {
             this.size = this.list.size();
         }
         return this;
     }
 
-    public T getObj()
-    {
+    public T getObj() {
         return obj;
     }
 
-    public RetMessage<T> setObj(T obj)
-    {
+    public RetMessage<T> setObj(T obj) {
         this.obj = obj;
         return this;
     }
 
-    public Integer getSize()
-    {
+    public Integer getSize() {
         return size;
     }
 
-    public RetMessage<T> setSize(Integer size)
-    {
+    public RetMessage<T> setSize(Integer size) {
         this.size = size;
         return this;
     }
 
-    public String getErrorMessage()
-    {
+    public String getErrorMessage() {
         return errorMessage;
     }
 
-    public RetMessage<T> setErrorMessage(String errorMessage)
-    {
+    public RetMessage<T> setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
-
 
 
 }

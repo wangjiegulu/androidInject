@@ -350,6 +350,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-4-13:
+        1. 解决Gson所引发的bug
+
         2014-3-27:
         1. 去除线程池，转移到AndroidBucket项目中，所以需要添加Library[AndroidBucket项目](https://github.com/wangjiegulu/AndroidBucket)的支持（日志、线程、util等）
         2. 修改Gson DateFormat为yyyy-MM-dd HH:mm:ss:SSS
