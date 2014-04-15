@@ -220,26 +220,27 @@ androidInject
         
 
 ###例子2：网络请求注解<br/>
+        @AIMapper("http://192.168.2.198:8080/HelloSpringMVC")
         public interface PersonWorker {
-            @AIGet("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons?aa=#{a3}&bb=#{b3}&cc=#{c3}")
+            @AIGet("/person/findPersons?aa=#{a3}&bb=#{b3}&cc=#{c3}")
             public RetMessage<Person> getPersonsForGet(@AIParam("a3")String a2, @AIParam("b3") String b2, @AIParam("c3") String c2) throws Exception;
         
-            @AIPost("http://192.168.2.198:8080/HelloSpringMVC/person/findPersons")
+            @AIPost("/person/findPersons")
             public RetMessage<Person> getPersonsForPost(@AIParam("aa")String a2, @AIParam("bb") String b2, @AIParam("cc") String c2) throws Exception;
         
-            @AIGet(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 12345, soTimeout = 54321)
+            @AIGet(value = "/person/findPersons", connTimeout = 12345, soTimeout = 54321)
             public RetMessage<Person> getPersonsForGet2(Params params) throws Exception;
         
-            @AIPost(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 30000, soTimeout = 25000)
+            @AIPost(value = "/person/findPersons", connTimeout = 30000, soTimeout = 25000)
             public RetMessage<Person> getPersonsForPost2(Params params) throws Exception;
         
-            @AIUpload("http://192.168.2.198:8080/HelloSpringMVC/upload/uploadFiles")
+            @AIUpload("/upload/uploadFiles")
             public RetMessage<UploadFile> uploadFile(List<File> files) throws Exception;
         
-            @AIUpload("http://192.168.2.198:8080/HelloSpringMVC/upload/uploadFiles")
+            @AIUpload("/upload/uploadFiles")
             public RetMessage<UploadFile> uploadFile2(File file) throws Exception;
         
-            @AIGet(value = "http://192.168.2.198:8080/HelloSpringMVC/person/findPersons", connTimeout = 12345, soTimeout = 54321)
+            @AIGet(value = "/person/findPersons", connTimeout = 12345, soTimeout = 54321)
             public String getPersonsForGetToString(Params params) throws Exception;
         
         }
@@ -316,6 +317,9 @@ androidInject
         @AIScreenSize: 属性注解
             用于注入当前设备的屏幕大小（宽高）
 
+        @AIMapper：类注解，使用在NetWorker接口上面
+            value：value值可以自动拼接在该接口中声明的方法url上面
+
         @AIGet: 方法注解
             value[String, 所要请求的url]：表示以GET来请求url
             connTimeout[int, 连接超时时间]：连接一个url的连接等待时间
@@ -350,6 +354,9 @@ androidInject
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-4-15:
+        1. 新增@AIMapper注解，该注解使用在NetWorker接口上面，value值可以自动拼接在该接口中声明的方法url上面
+
         2014-4-13:
         1. 解决Gson所引发的bug
 
