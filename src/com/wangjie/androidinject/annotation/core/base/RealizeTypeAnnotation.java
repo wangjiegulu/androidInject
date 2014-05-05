@@ -2,13 +2,17 @@ package com.wangjie.androidinject.annotation.core.base;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
+import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.annotations.base.AIFullScreen;
 import com.wangjie.androidinject.annotation.annotations.base.AILayout;
 import com.wangjie.androidinject.annotation.annotations.base.AINoTitle;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,8 +101,9 @@ public class RealizeTypeAnnotation implements RealizeAnnotation{
      * @throws Exception
      */
     private void layoutBind() throws Exception{
-        if(!Activity.class.isAssignableFrom(clazz)){ // 如果不是Activity
-            Log.i(TAG, present.getClass() + " layout bind unsuccessed in " + TAG);
+        // 如果不是Activity和SubLayout
+        if(!Activity.class.isAssignableFrom(clazz) && !SubLayout.class.isAssignableFrom(clazz)){
+            Log.d(TAG, present.getClass() + " layout bind unsuccessed in " + TAG);
             return;
         }
 
@@ -110,7 +115,17 @@ public class RealizeTypeAnnotation implements RealizeAnnotation{
         }
 
         int layoutId = clazz.getAnnotation(AILayout.class).value();
-        Method method = clazz.getMethod(AnnotationManager.SET_LAYOUT_METHOD_NAME, int.class);
+
+        // 如果是SubLayout
+        if(SubLayout.class.isAssignableFrom(clazz)){
+            Field field = clazz.getField(AnnotationManager.FIELD_LAYOUT);
+            field.setAccessible(true);
+            field.set(present, LayoutInflater.from(present.getContext()).inflate(layoutId, null));
+            return;
+        }
+
+        // 如果是Activity
+        Method method = clazz.getMethod(AnnotationManager.METHOD_NAME_SET_LAYOUT, int.class);
         method.invoke(present, layoutId);
     }
 

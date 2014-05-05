@@ -1,38 +1,30 @@
 package com.wangjie.androidinject.annotation.present;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
 /**
- * Created with IntelliJ IDEA.
- * Author: wangjie  email: tiantian.china.2@gmail.com
- * Date: 13-12-4
- * Time: 下午4:21
+ * Created by wangjie on 14-5-4.
  */
-public class AISupportFragmentActivity extends FragmentActivity implements AIPresent, CallbackSample {
-    private static String TAG = AISupportFragmentActivity.class.getSimpleName();
-    public Context context;
-    private Class<?> clazz;
+public class AISubLayout extends SubLayout implements AIPresent, CallbackSample {
+    public static final String TAG = AISubLayout.class.getSimpleName();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public AISubLayout(Context context) {
+        super(context);
         long start = System.currentTimeMillis();
-        super.onCreate(savedInstanceState);
-        context = this;
-        clazz = this.getClass();
         new AnnotationManager(this).initAnnotations();
-        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
+        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]AISubLayout(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState); // 解决Fragment切换时发生重叠现象
+    public void initLayout() {
+        super.initLayout();
+
     }
 
     @Override
@@ -42,8 +34,12 @@ public class AISupportFragmentActivity extends FragmentActivity implements AIPre
 
     @Override
     public Object getFindViewView() {
-        return this;
+        return layout;
     }
+
+
+
+
 
 
     @Override
@@ -54,7 +50,6 @@ public class AISupportFragmentActivity extends FragmentActivity implements AIPre
     public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
     @Override
     public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
-
 
 
 }

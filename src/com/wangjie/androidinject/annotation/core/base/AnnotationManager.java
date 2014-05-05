@@ -15,9 +15,9 @@ import com.wangjie.androidinject.annotation.present.AIPresent;
 public class AnnotationManager {
     public static final String TAG = AnnotationManager.class.getSimpleName();
 
-    public static final String FIND_VIEW_METHOD_NAME = "findViewById";
-    public static final String SET_LAYOUT_METHOD_NAME = "setContentView";
-
+    public static final String METHOD_NAME_FIND_VIEW = "findViewById";
+    public static final String METHOD_NAME_SET_LAYOUT = "setContentView";
+    public static final String FIELD_LAYOUT = "layout";
 
 
     private Context context;

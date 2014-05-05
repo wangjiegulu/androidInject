@@ -4,6 +4,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -100,6 +101,19 @@ public class AINetWork {
         return httpClient;
     }
 
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
+        HttpDelete httpDelete = new HttpDelete(baseUrl);
+        HttpResponse httpResponse;
+        HttpEntity httpEntity;
+        //生成一个http客户端对象
+
+        //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
+        httpResponse = httpClient.execute(httpDelete);
+        //httpEntity中有服务器发回的响应的内容
+        httpEntity = httpResponse.getEntity();
+        return obtainStringFromInputStream(httpEntity.getContent());
+
+    }
 
 
 	/**
