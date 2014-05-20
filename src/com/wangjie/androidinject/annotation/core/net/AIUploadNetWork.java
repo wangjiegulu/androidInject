@@ -29,10 +29,10 @@ public class AIUploadNetWork {
             return null;
         }
         HttpEntity resEntity = null;
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpParams params = httpClient.getParams();
-        HttpConnectionParams.setConnectionTimeout(params, connTimeout);
-        HttpConnectionParams.setSoTimeout(params, soTimeout);
+
+        HttpClient httpClient = baseUrl.startsWith("https") ?
+                AINetWork.getDefaultHttpClient(connTimeout, soTimeout) : AINetWork.getSSLHttpClient(connTimeout, soTimeout);
+
         try{
             //设置通信协议版本
             httpClient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);

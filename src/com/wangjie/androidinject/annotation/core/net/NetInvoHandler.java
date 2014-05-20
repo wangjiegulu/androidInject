@@ -80,9 +80,11 @@ public class NetInvoHandler implements InvocationHandler {
 
                 }
                 Logger.d(TAG, "GET url[" + method.getName() + "]: " + url);
-                StringBuilder sb = AINetWork.getStringFromUrl(
-                        AINetWork.getDefaultHttpClient(aiGet.connTimeout(),
-                                aiGet.soTimeout()), url);
+//                StringBuilder sb = AINetWork.getStringFromUrl(
+//                        AINetWork.getDefaultHttpClient(aiGet.connTimeout(),
+//                                aiGet.soTimeout()), url);
+
+                StringBuilder sb = AINetWork.getStringFromUrl(null, aiGet.connTimeout(), aiGet.soTimeout(), url);
 
                 if (null == sb) {
                     return null;
@@ -112,9 +114,13 @@ public class NetInvoHandler implements InvocationHandler {
 
                 }
                 logUrlInfo(url, map); // 打印log
-                StringBuilder sb = AINetWork.postStringFromUrl(
-                        AINetWork.getDefaultHttpClient(aiPost.connTimeout(),
-                                aiPost.soTimeout()), url, map);
+//                StringBuilder sb = AINetWork.postStringFromUrl(
+//                        AINetWork.getDefaultHttpClient(aiPost.connTimeout(),
+//                                aiPost.soTimeout()), url, map);
+
+                StringBuilder sb = AINetWork.postStringFromUrl(null, aiPost.connTimeout(), aiPost.soTimeout(), url, map);
+
+
                 if (null == sb) {
                     return null;
                 }
