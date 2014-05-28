@@ -12,7 +12,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
  * Created by wangjie on 14-5-4.
  */
 public class AISubLayout extends SubLayout implements AIPresent, CallbackSample {
-    public static final String TAG = AISubLayout.class.getSimpleName();
+    private static final String TAG = AISubLayout.class.getSimpleName();
 
     public AISubLayout(Context context) {
         super(context);

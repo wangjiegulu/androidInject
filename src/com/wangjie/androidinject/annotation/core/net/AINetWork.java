@@ -164,6 +164,13 @@ public class AINetWork {
     }
 
     public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
+        return deleteStringFromUrl(httpClient, 20000, 20000, baseUrl);
+    }
+
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws Exception{
+        if(null == httpClient){
+            httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
+        }
         HttpDelete httpDelete = new HttpDelete(baseUrl);
         HttpResponse httpResponse;
         HttpEntity httpEntity;
