@@ -24,9 +24,10 @@ public class AIActivity extends Activity implements AIPresent, CallbackSample {
         long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = this;
-        clazz = this.getClass();
+        clazz = ((Object)this).getClass();
+//        clazz = AIActivity.class;
         new AnnotationManager(this).initAnnotations();
-        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
+        Log.d(TAG, "[" + clazz.getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
 
