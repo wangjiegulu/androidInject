@@ -32,7 +32,7 @@ public class AISupportFragment extends Fragment implements AIPresent, CallbackSa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getActivity();
-        clazz = this.getClass();
+        clazz = ((Object)this).getClass();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AISupportFragment extends Fragment implements AIPresent, CallbackSa
         long start = System.currentTimeMillis();
         super.onActivityCreated(savedInstanceState);
         new AnnotationManager(this).initAnnotations();
-        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onActivityCreated supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
+        Log.d(TAG, "[" + clazz.getSimpleName() + "]onActivityCreated supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
 //    @Override
