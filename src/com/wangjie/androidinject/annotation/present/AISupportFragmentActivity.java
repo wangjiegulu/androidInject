@@ -2,10 +2,10 @@ package com.wangjie.androidinject.annotation.present;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.present.ABSupportFragmentActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
@@ -15,7 +15,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
  * Date: 13-12-4
  * Time: 下午4:21
  */
-public class AISupportFragmentActivity extends FragmentActivity implements AIPresent, CallbackSample {
+public class AISupportFragmentActivity extends ABSupportFragmentActivity implements AIPresent, CallbackSample {
     private static String TAG = AISupportFragmentActivity.class.getSimpleName();
     public Context context;
     private Class<?> clazz;
@@ -25,9 +25,9 @@ public class AISupportFragmentActivity extends FragmentActivity implements AIPre
         long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = this;
-        clazz = this.getClass();
+        clazz = ((Object)this).getClass();
         new AnnotationManager(this).initAnnotations();
-        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
+        Log.d(TAG, "[" + clazz.getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.wangjie.androidinject.annotation.core.net;
 
 import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidbucket.utils.ABIOUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -23,6 +24,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @author wangjie
@@ -61,6 +64,7 @@ public class AINetWork {
         }
 
         HttpPost httpPost = new HttpPost(baseUrl);
+        httpPost.addHeader("Accept-Encoding", "gzip");
         // 保持同一session
 //		if(!"".equals(Variables.appCookie)){
 //			httpPost.setHeader("Cookie", "JSESSIONID=" + Variables.appCookie);
@@ -90,8 +94,8 @@ public class AINetWork {
 //				break;
 //			}
 //		}
-
-        return obtainStringFromInputStream(resp.getEntity().getContent());
+        return obtainJsonStringFromGZIP(resp);
+//        return obtainStringFromInputStream(resp.getEntity().getContent());
     }
 
     /**
@@ -110,15 +114,41 @@ public class AINetWork {
         }
 
         HttpGet httpGet = new HttpGet(baseUrl);
+        httpGet.addHeader("Accept-Encoding", "gzip");
         HttpResponse httpResponse;
         HttpEntity httpEntity;
         //生成一个http客户端对象
 
         //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
         httpResponse = httpClient.execute(httpGet);
-        //httpEntity中有服务器发回的响应的内容
-        httpEntity = httpResponse.getEntity();
-        return obtainStringFromInputStream(httpEntity.getContent());
+//        //httpEntity中有服务器发回的响应的内容
+//        httpEntity = httpResponse.getEntity();
+//        return obtainStringFromInputStream(httpEntity.getContent());
+        return obtainJsonStringFromGZIP(httpResponse);
+
+    }
+
+
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
+        return deleteStringFromUrl(httpClient, 20000, 20000, baseUrl);
+    }
+
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws Exception{
+        if(null == httpClient){
+            httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
+        }
+        HttpDelete httpDelete = new HttpDelete(baseUrl);
+        httpDelete.addHeader("Accept-Encoding", "gzip");
+        HttpResponse httpResponse;
+        HttpEntity httpEntity;
+        //生成一个http客户端对象
+
+        //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
+        httpResponse = httpClient.execute(httpDelete);
+//        //httpEntity中有服务器发回的响应的内容
+//        httpEntity = httpResponse.getEntity();
+//        return obtainStringFromInputStream(httpEntity.getContent());
+        return obtainJsonStringFromGZIP(httpResponse);
 
     }
 
@@ -163,25 +193,44 @@ public class AINetWork {
         }
     }
 
-    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
-        return deleteStringFromUrl(httpClient, 20000, 20000, baseUrl);
-    }
-
-    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws Exception{
-        if(null == httpClient){
-            httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
+    private static StringBuilder obtainJsonStringFromGZIP(HttpResponse response) {
+        StringBuilder resultSb = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        InputStreamReader reader = null;
+        try {
+            is = response.getEntity().getContent();
+            bis = new BufferedInputStream(is);
+            bis.mark(2);
+            // 取前两个字节
+            byte[] header = new byte[2];
+            int result = bis.read(header);
+            // reset输入流到开始位置
+            bis.reset();
+            // 判断是否是GZIP格式
+            int headerData = getShort(header);
+            // Gzip 流 的前两个字节是 0x1f8b
+            if (result != -1 && headerData == 0x1f8b) {
+                is = new GZIPInputStream(bis);
+            } else {
+                is = bis;
+            }
+            reader = new InputStreamReader(is, "utf-8");
+            char[] data = new char[100];
+            int readSize;
+            resultSb = new StringBuilder();
+            while ((readSize = reader.read(data)) > 0) {
+                resultSb.append(data, 0, readSize);
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e);
+        } finally {
+            ABIOUtil.closeIO(is, bis, reader);
         }
-        HttpDelete httpDelete = new HttpDelete(baseUrl);
-        HttpResponse httpResponse;
-        HttpEntity httpEntity;
-        //生成一个http客户端对象
-
-        //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
-        httpResponse = httpClient.execute(httpDelete);
-        //httpEntity中有服务器发回的响应的内容
-        httpEntity = httpResponse.getEntity();
-        return obtainStringFromInputStream(httpEntity.getContent());
-
+        return resultSb;
+    }
+    private static int getShort(byte[] data) {
+        return (int) ((data[0] << 8) | data[1] & 0xFF);
     }
 
 

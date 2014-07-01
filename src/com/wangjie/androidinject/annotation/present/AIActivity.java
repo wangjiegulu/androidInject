@@ -1,11 +1,11 @@
 package com.wangjie.androidinject.annotation.present;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.present.ABActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
@@ -15,7 +15,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
  * Date: 13-11-29
  * Time: 下午2:02
  */
-public class AIActivity extends Activity implements AIPresent, CallbackSample {
+public class AIActivity extends ABActivity implements AIPresent, CallbackSample {
     private static final String TAG = AIActivity.class.getSimpleName();
     public Context context;
     private Class<?> clazz;

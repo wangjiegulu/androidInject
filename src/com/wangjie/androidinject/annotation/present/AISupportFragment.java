@@ -3,12 +3,12 @@ package com.wangjie.androidinject.annotation.present;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.present.ABSupportFragment;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.ParticularAnnotation;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -19,7 +19,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
  * Date: 13-12-4
  * Time: 下午4:37
  */
-public class AISupportFragment extends Fragment implements AIPresent, CallbackSample{
+public class AISupportFragment extends ABSupportFragment implements AIPresent, CallbackSample{
     private static String TAG = AISupportFragment.class.getSimpleName();
     public Context context;
     private Class<?> clazz;
