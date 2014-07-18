@@ -6,10 +6,13 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.mvp.ABInteractor;
+import com.wangjie.androidbucket.mvp.ABasePresenter;
 import com.wangjie.androidinject.annotation.annotations.base.AIBean;
 import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
 import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
+import com.wangjie.androidinject.annotation.annotations.mvp.AIPresenter;
 import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
 import com.wangjie.androidinject.annotation.core.net.NetInvoHandler;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
@@ -89,6 +92,10 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
             if(field.isAnnotationPresent(AINetWorker.class)){ // 如果需要注入NetWorker
                 netWorkerBind(field);
+            }
+
+            if(field.isAnnotationPresent(AIPresenter.class)){ // MVP注入
+                bindMvpPresenter(field);
             }
 
         }
@@ -239,6 +246,48 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
         field.setAccessible(true);
         field.set(present, NetInvoHandler.getWorker(field.getType()));
     }
+
+
+    /**
+     *  MVP注入
+     * @param field
+     * @throws Exception
+     */
+    private void bindMvpPresenter(Field field) throws Exception{
+        field.setAccessible(true);
+
+        AIPresenter aiPresenter = field.getAnnotation(AIPresenter.class);
+        String presenterClazzName = aiPresenter.presenter().getName();
+        String interactorClazzName = aiPresenter.interactor().getName();
+
+        // Viewer层（Activity）中注入presenter
+        ABasePresenter presenter = (ABasePresenter) Class.forName(presenterClazzName).newInstance();
+        field.set(present, presenter);
+
+        Class<?> superPresenterClazz = presenter.getClass();
+        while(ABasePresenter.class != superPresenterClazz){
+            superPresenterClazz = superPresenterClazz.getSuperclass();
+        }
+
+
+        /**
+         * 在presenter中注入viewer和interactor（presenter中需要有viewer和interactor的引用）
+         */
+        // 把viewer注入到presenter中
+        Field viewerField = superPresenterClazz.getDeclaredField("viewer");
+        viewerField.setAccessible(true);
+        viewerField.set(presenter, present);
+
+        // 把interactor注入到presenter中
+        ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
+        Field interactorField = superPresenterClazz.getDeclaredField("interactor");
+        interactorField.setAccessible(true);
+        interactorField.set(presenter, interactor);
+
+
+    }
+
+
 
 
 

@@ -351,9 +351,15 @@ androidInject
         @AITable: 类注解，用于映射类到表
             value[String]: 表示要映射到的表的名称，不填写或未增加该注解则默认以类名小写为表名
 
+        @AIPresenter：属性注解，使用MVP时使用，该注解用于在Activity上注入Presenter，自动在Presenter中注入Viewer和Interactor对象
+
+
 
 ###提交日志(Commit Logs): <br/>
 ###
+        2014-7-18:
+        1. 新增@AIPresenter注解，使用MVP时使用，该注解用于在Activity上注入Presenter，自动在Presenter中注入Viewer和Interactor对象
+
         2014-4-15:
         1. 新增@AIMapper注解，该注解使用在NetWorker接口上面，value值可以自动拼接在该接口中声明的方法url上面
 
@@ -427,12 +433,6 @@ androidInject
         1. RENAME @InitLayout, @InitView TO @AILayout, @AIView
         2. ADD method annotations: @AIClick, @AILongClick, @AIItemClick
         3. refactor source
-
-
-
-
-
-
 
 
 
