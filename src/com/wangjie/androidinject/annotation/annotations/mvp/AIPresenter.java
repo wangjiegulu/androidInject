@@ -1,5 +1,8 @@
 package com.wangjie.androidinject.annotation.annotations.mvp;
 
+import com.wangjie.androidbucket.mvp.ABInteractor;
+import com.wangjie.androidbucket.mvp.ABasePresenter;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,6 +17,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface AIPresenter {
-    Class<?> presenter();
-    Class<?> interactor();
+    Class<? extends ABasePresenter> presenter();
+    Class<? extends ABInteractor> interactor();
 }
