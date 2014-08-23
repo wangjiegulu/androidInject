@@ -22,7 +22,7 @@ import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 public class AISupportFragment extends ABSupportFragment implements AIPresent, CallbackSample{
     private static String TAG = AISupportFragment.class.getSimpleName();
     public Context context;
-    private Class<?> clazz;
+    public Class<?> clazz;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

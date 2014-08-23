@@ -15,6 +15,7 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,10 +25,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +51,12 @@ public class AINetWork {
 	 */
 
     public static StringBuilder postStringFromUrl(HttpClient httpClient, String baseUrl,
-                                                  Map<String, String> map) throws Exception {
+                                                  Map<String, String> map) throws IOException {
         return postStringFromUrl(httpClient, 20000, 20000, baseUrl, map);
     }
 
     public static StringBuilder postStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl,
-                               Map<String, String> map) throws Exception {
+                               Map<String, String> map) throws IOException {
         if(null == httpClient){
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }
@@ -98,6 +96,7 @@ public class AINetWork {
 //        return obtainStringFromInputStream(resp.getEntity().getContent());
     }
 
+
     /**
      * 使用get来请求url并返回StringBuilder对象
      * @param baseUrl
@@ -105,10 +104,10 @@ public class AINetWork {
      * @throws Exception
      */
 
-    public static StringBuilder getStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
+    public static StringBuilder getStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException{
         return getStringFromUrl(httpClient, 20000, 20000, baseUrl);
     }
-    public static StringBuilder getStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws Exception{
+    public static StringBuilder getStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws IOException {
         if(null == httpClient){
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }
@@ -129,11 +128,11 @@ public class AINetWork {
     }
 
 
-    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws Exception{
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException{
         return deleteStringFromUrl(httpClient, 20000, 20000, baseUrl);
     }
 
-    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws Exception{
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws IOException {
         if(null == httpClient){
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }

@@ -125,7 +125,14 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
         field.setAccessible(true);
         Method method = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
-        field.set(present, method.invoke(present.getFindViewView(), viewId));
+        try{
+            field.set(present, method.invoke(present.getFindViewView(), viewId));
+        }catch(Exception ex){
+            Exception injectEx = new Exception("Field[" + field.getName() + "] inject error!");
+            injectEx.setStackTrace(ex.getStackTrace());
+            throw injectEx;
+        }
+
     }
 
     /**
