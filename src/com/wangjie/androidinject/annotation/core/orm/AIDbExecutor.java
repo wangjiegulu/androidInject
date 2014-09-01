@@ -3,7 +3,7 @@ package com.wangjie.androidinject.annotation.core.orm;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.annotations.orm.AIColumn;
 import com.wangjie.androidinject.annotation.annotations.orm.AIPrimaryKey;
 import com.wangjie.androidinject.annotation.annotations.orm.AITable;
@@ -52,8 +52,8 @@ public abstract class AIDbExecutor<T> {
             db = dbHelper.getReadableDatabase();
             cursor = db.rawQuery(sql, selectionArgs);
 
-            Log.d(TAG, "[executeQuery]sql ==> " + sql);
-            Log.d(TAG, "[executeQuery]params ==> " + AITextUtil.joinArray(selectionArgs, ", "));
+            Logger.d(TAG, "[executeQuery]sql ==> " + sql);
+            Logger.d(TAG, "[executeQuery]params ==> " + AITextUtil.joinArray(selectionArgs, ", "));
             List<T> list = null;
             while(cursor.moveToNext()){
                 @SuppressWarnings("unchecked")
@@ -96,7 +96,7 @@ public abstract class AIDbExecutor<T> {
                 list.add(obj);
 
             }
-            Log.d(TAG, "[executeQuery]result: " + list);
+            Logger.d(TAG, "[executeQuery]result: " + list);
             return list;
         }catch(Exception ex){
             throw ex;
@@ -114,7 +114,7 @@ public abstract class AIDbExecutor<T> {
      * @return
      * @throws Exception
      */
-    public int executeSave(final T obj) throws Exception{
+    public synchronized int executeSave(final T obj) throws Exception{
         SQLiteDatabase db = null;
         try{
             final Map<String, Object> map = new HashMap<String, Object>();
@@ -140,10 +140,10 @@ public abstract class AIDbExecutor<T> {
             String sql = "insert into " + tablename + "(" + AITextUtil.joinStrings(map.keySet(), ",") + ")" + " values(" + AITextUtil.generatePlaceholders(map.size()) + ")";
 
             db = dbHelper.getWritableDatabase();
-            Log.d(TAG, "[executeSave]sql ==> " + sql);
+            Logger.d(TAG, "[executeSave]sql ==> " + sql);
             db.execSQL(sql, map.values().toArray());
             int result = 0;
-            Log.d(TAG, "[executeSave]result ==> " + result);
+            Logger.d(TAG, "[executeSave]result ==> " + result);
             return result;
         }catch(Exception ex){
             throw ex;
@@ -156,13 +156,15 @@ public abstract class AIDbExecutor<T> {
 
     /**
      * 根据主键更新数据
+     * 如果包括是null，则范围是不在排除中的
+     * 如果包括不是null，则范围是在包括并且不再排除中的
      * @param obj
      * @param includeParams 包含哪些字段需要更新数据（类的属性）
      * @param excludeParams 排除哪些字段不更新数据（类的属性）
      * @return
      * @throws Exception
      */
-    public int executeUpdate(final T obj, final String[] includeParams, final String[] excludeParams) throws Exception{
+    public synchronized int executeUpdate(final T obj, final String[] includeParams, final String[] excludeParams) throws Exception{
         SQLiteDatabase db = null;
         try{
             final List<String> includeParamsList = null == includeParams ? null : Arrays.asList(includeParams);
@@ -194,16 +196,17 @@ public abstract class AIDbExecutor<T> {
             });
 
             if(updateMap.size() <= 0 || pkMap.size() <= 0){
-                Log.w(TAG, "[executeUpdate]更新数据失败，无需更新任何字段或未指定主键而无法更新数据");
+                Logger.w(TAG, "[executeUpdate]更新数据失败，无需更新任何字段或未指定主键而无法更新数据");
                 return -1;
             }
 
             String tablename = getTableValue(obj.getClass()); // 获取表名
 
             String updateStr = AITextUtil.joinStrings(updateMap.keySet(), ",", "=?");
-            String pkStr = AITextUtil.joinStrings(pkMap.keySet(), ",", "=?");
-            String sql = "update " + tablename + " set " + updateStr + " where " + pkStr;
-            Log.d(TAG, "==> [executeUpdate]sql: " + sql);
+//            String pkStr = AITextUtil.joinStrings(pkMap.keySet(), ",", "=?");
+            String pkStr = AITextUtil.joinStrings(pkMap.keySet(), " and ", "=?");
+            String sql = "update " + tablename + " set " + updateStr + " where (" + pkStr + ")";
+            Logger.d(TAG, "==> [executeUpdate]sql: " + sql);
 
             db = dbHelper.getWritableDatabase();
 
@@ -211,7 +214,7 @@ public abstract class AIDbExecutor<T> {
             args.addAll(updateMap.values());
             args.addAll(pkMap.values());
             db.execSQL(sql, args.toArray());
-            Log.d(TAG, "[executeUpdate]result success ");
+            Logger.d(TAG, "[executeUpdate]result success ");
             return 0;
         }catch(Exception ex){
             throw ex;
@@ -228,7 +231,7 @@ public abstract class AIDbExecutor<T> {
      * @return
      * @throws Exception
      */
-    public int executeDelete(final T obj) throws Exception{
+    public synchronized int executeDelete(final T obj) throws Exception{
         SQLiteDatabase db = null;
         try{
             final Map<String, Object> pkMap = new HashMap<String, Object>(); // 存储主键的属性和值（类中使用Primay Key注解的）
@@ -255,19 +258,102 @@ public abstract class AIDbExecutor<T> {
 
             String pkStr = AITextUtil.joinStrings(pkMap.keySet(), ",", "=?");
             String sql = "delete from " + tablename + " where " + pkStr;
-            Log.d(TAG, "==> [executeDelete]sql: " + sql);
+            Logger.d(TAG, "==> [executeDelete]sql: " + sql);
 
             db = dbHelper.getWritableDatabase();
 
             db.execSQL(sql, pkMap.values().toArray());
 
-            Log.d(TAG, "[executeDelete]result ==> ");
+            Logger.d(TAG, "[executeDelete]result ==> ");
             return 0;
         }catch(Exception ex){
             throw ex;
         }finally{
             closeDatabase(db);
         }
+    }
+
+    /**
+     * 如果不存在，则保存；如果存在，则更新
+     * @param obj
+     */
+    public synchronized void executeSaveOrUpdate(T obj) throws Exception{
+        if(isExist(obj)){
+            executeUpdate(obj, null, null);
+        }else{
+            executeSave(obj);
+        }
+    }
+
+    /**
+     * 如果不存在，则保存；如果存在，则不处理
+     * @param obj
+     * @throws Exception
+     */
+    public synchronized void executeSaveIfNotExist(T obj) throws Exception{
+        if(!isExist(obj)){
+            executeSave(obj);
+        }
+    }
+
+    /**
+     * 查询是否存在
+     * @param obj
+     * @return
+     */
+    public boolean isExist(final T obj){
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try{
+            String tablename = getTableValue(obj.getClass()); // 获取表名
+
+            Map<String, Object> pkMap = getPkWhereCase(obj);
+            String pkStr = AITextUtil.joinStrings(pkMap.keySet(), " and ", "=?");
+
+            String sql = "select count(*) from " + tablename + " where (" + pkStr + ")";
+            Logger.d(TAG, "==> [isExist]sql: " + sql);
+
+            db = dbHelper.getWritableDatabase();
+
+            String[] strings = new String[pkMap.values().size()];
+            cursor = db.rawQuery(sql, pkMap.values().toArray(strings));
+
+            if(null != cursor && cursor.moveToFirst()){
+                int count = cursor.getInt(0);
+                return count > 0;
+            }
+
+        }catch(Exception ex){
+            Logger.e(TAG, ex);
+        }finally {
+            closeCursor(cursor);
+            closeDatabase(db);
+        }
+        return false;
+    }
+
+    private Map<String, Object> getPkWhereCase(final T obj){
+        final Map<String, Object> pkMap = new HashMap<String, Object>(); // 存储主键的属性和值（类中使用Primay Key注解的）
+        ReflectionUtils.doWithFields(obj.getClass(), new ReflectionUtils.FieldCallback() {
+
+            public void doWith(Field field) throws Exception
+            {
+                String columnValue = getColumnValue(field);
+                if(null == columnValue){ // 如果该属性没有加column注解，则不插入数据库
+                    return;
+                }
+                AIPrimaryKey primaryKey = field.getAnnotation(AIPrimaryKey.class);
+                if(null == primaryKey){ // 如果不是主键
+                    return;
+                }
+                //如果是主键
+                field.setAccessible(true);
+                pkMap.put(columnValue, field.get(obj));
+
+            }
+        });
+
+        return pkMap;
     }
 
 
@@ -297,7 +383,7 @@ public abstract class AIDbExecutor<T> {
      * @return
      * @throws Exception
      */
-    public int executeDelete(Class<?> clazz, String whereClause, String[] whereArgs) throws Exception{
+    public synchronized int executeDelete(Class<?> clazz, String whereClause, String[] whereArgs) throws Exception{
         SQLiteDatabase db = null;
         try{
             db = dbHelper.getWritableDatabase();
@@ -354,6 +440,8 @@ public abstract class AIDbExecutor<T> {
 
     /**
      * 判断更新数据时是否需要修改某个字段
+     * 如果包括是null，则范围是不在排除中的
+     * 如果包括不是null，则范围是在包括并且不再排除中的
      * @param field
      * @param includeParamsList
      * @param excludeParamsList

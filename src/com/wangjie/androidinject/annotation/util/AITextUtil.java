@@ -34,7 +34,7 @@ public class AITextUtil {
         for(Iterator<String> iter = set.iterator(); iter.hasNext();){
             sb.append(separator).append(iter.next()).append(append);
         }
-        return sb.toString().trim().substring(separator.length());
+        return sb.toString().substring(separator.length());
     }
 
     public static String joinStrings(Collection<String> set, String separator){

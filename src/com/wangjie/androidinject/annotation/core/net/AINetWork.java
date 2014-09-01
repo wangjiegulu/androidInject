@@ -39,6 +39,16 @@ import java.util.zip.GZIPInputStream;
  */
 public class AINetWork {
     private static final String TAG = AINetWork.class.getSimpleName();
+
+    public static final String REQUEST_CONTENT_TYPE_JSON = "application/json";
+
+
+
+
+
+
+
+
 	/**
 	 * 使用post来请求url并返回StringBuilder对象
 	 * 
@@ -72,13 +82,11 @@ public class AINetWork {
         if(null != map){
             Set<Map.Entry<String, String>> entries = map.entrySet();
             for (Map.Entry<String, String> entry : entries) {
-                postData.add(new BasicNameValuePair(entry.getKey(), entry
-                        .getValue()));
+                postData.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
             }
         }
 
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postData,
-                HTTP.UTF_8);
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postData, HTTP.UTF_8);
         httpPost.setEntity(entity);
         HttpResponse resp = httpClient.execute(httpPost);
 
@@ -160,6 +168,17 @@ public class AINetWork {
         return httpClient;
     }
 
+    public static interface OnSSLHttpClientSchemeRegister{
+        public Scheme getConfigScheme();
+    }
+    private static OnSSLHttpClientSchemeRegister onSSLHttpClientSchemeRegister;
+    public static OnSSLHttpClientSchemeRegister getOnSSLHttpClientSchemeRegister() {
+        return onSSLHttpClientSchemeRegister;
+    }
+    public static void setOnSSLHttpClientSchemeRegister(OnSSLHttpClientSchemeRegister onSSLHttpClientSchemeRegister) {
+        AINetWork.onSSLHttpClientSchemeRegister = onSSLHttpClientSchemeRegister;
+    }
+
     public static HttpClient getSSLHttpClient(int connTimeout, int soTimeout) {
         try {
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -182,6 +201,12 @@ public class AINetWork {
             registry.register(new Scheme("https", sf, 443));
             registry.register(new Scheme("https", sf, 9094));
             registry.register(new Scheme("https", sf, 9000));
+//            registry.register(new Scheme("https", PlainSocketFactory.getSocketFactory(), 80));
+            Scheme scheme;
+            if(null != onSSLHttpClientSchemeRegister
+                    && null != (scheme = onSSLHttpClientSchemeRegister.getConfigScheme())){
+                registry.register(scheme);
+            }
 
             ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
 
