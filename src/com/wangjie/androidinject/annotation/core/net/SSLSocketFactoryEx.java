@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import java.security.*;
 
 /**
- * Created by wangjie on 14-5-7.
+ *
  */
 public class SSLSocketFactoryEx extends SSLSocketFactory {
 
@@ -48,7 +48,7 @@ public class SSLSocketFactoryEx extends SSLSocketFactory {
 
     @Override
     public Socket createSocket(Socket socket, String host, int port,
-                               boolean autoClose) throws IOException, UnknownHostException {
+                               boolean autoClose) throws IOException {
         return sslContext.getSocketFactory().createSocket(socket, host, port,
                 autoClose);
     }

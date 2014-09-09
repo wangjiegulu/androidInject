@@ -11,8 +11,9 @@ import java.util.Map;
  * User: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-11-30
  * Time: 下午8:03
- * To change this template use File | Settings | File Templates.
+ * Please use AIRaw instead
  */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AIUpload {
@@ -20,12 +21,14 @@ public @interface AIUpload {
 
     /**
      * connectionTimeout, 连接一个url的连接等待时间（默认20秒）
+     *
      * @return
      */
     int connTimeout() default 20000;
 
     /**
      * SocketTimeout, 连接上一个url，获取response的返回等待时间（默认5分钟）
+     *
      * @return
      */
     int soTimeout() default 1000 * 60 * 5;

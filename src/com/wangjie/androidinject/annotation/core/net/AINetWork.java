@@ -42,23 +42,14 @@ public class AINetWork {
 
     public static final String REQUEST_CONTENT_TYPE_JSON = "application/json";
 
-
-
-
-
-
-
-
-	/**
-	 * 使用post来请求url并返回StringBuilder对象
-	 * 
-	 * @author wangjie
-	 * @param map
-	 *            post携带的参数
-	 * @return 返回请求结果StringBuilder对象
-	 * @throws Exception
-	 *             如果请求出错
-	 */
+    /**
+     * 使用post来请求url并返回StringBuilder对象
+     *
+     * @param map post携带的参数
+     * @return 返回请求结果StringBuilder对象
+     * @throws Exception 如果请求出错
+     * @author wangjie
+     */
 
     public static StringBuilder postStringFromUrl(HttpClient httpClient, String baseUrl,
                                                   Map<String, String> map) throws IOException {
@@ -66,8 +57,8 @@ public class AINetWork {
     }
 
     public static StringBuilder postStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl,
-                               Map<String, String> map) throws IOException {
-        if(null == httpClient){
+                                                  Map<String, String> map) throws IOException {
+        if (null == httpClient) {
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }
 
@@ -79,7 +70,7 @@ public class AINetWork {
 //		}
 
         List<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>();
-        if(null != map){
+        if (null != map) {
             Set<Map.Entry<String, String>> entries = map.entrySet();
             for (Map.Entry<String, String> entry : entries) {
                 postData.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
@@ -101,22 +92,23 @@ public class AINetWork {
 //			}
 //		}
         return obtainJsonStringFromGZIP(resp);
-//        return obtainStringFromInputStream(resp.getEntity().getContent());
+//        return obtainStringFromInputStream(resp.getRawEntity().getContent());
     }
 
 
     /**
      * 使用get来请求url并返回StringBuilder对象
+     *
      * @param baseUrl
      * @return
      * @throws Exception
      */
-
-    public static StringBuilder getStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException{
+    public static StringBuilder getStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException {
         return getStringFromUrl(httpClient, 20000, 20000, baseUrl);
     }
+
     public static StringBuilder getStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws IOException {
-        if(null == httpClient){
+        if (null == httpClient) {
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }
 
@@ -129,19 +121,19 @@ public class AINetWork {
         //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
         httpResponse = httpClient.execute(httpGet);
 //        //httpEntity中有服务器发回的响应的内容
-//        httpEntity = httpResponse.getEntity();
+//        httpEntity = httpResponse.getRawEntity();
 //        return obtainStringFromInputStream(httpEntity.getContent());
         return obtainJsonStringFromGZIP(httpResponse);
 
     }
 
 
-    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException{
+    public static StringBuilder deleteStringFromUrl(HttpClient httpClient, String baseUrl) throws IOException {
         return deleteStringFromUrl(httpClient, 20000, 20000, baseUrl);
     }
 
     public static StringBuilder deleteStringFromUrl(HttpClient httpClient, int connTimeout, int soTimeout, String baseUrl) throws IOException {
-        if(null == httpClient){
+        if (null == httpClient) {
             httpClient = baseUrl.startsWith("https") ? getSSLHttpClient(connTimeout, soTimeout) : getDefaultHttpClient(connTimeout, soTimeout);
         }
         HttpDelete httpDelete = new HttpDelete(baseUrl);
@@ -153,14 +145,14 @@ public class AINetWork {
         //使用Http客户端发送请求对象，得到服务器发回的响应httpResponse
         httpResponse = httpClient.execute(httpDelete);
 //        //httpEntity中有服务器发回的响应的内容
-//        httpEntity = httpResponse.getEntity();
+//        httpEntity = httpResponse.getRawEntity();
 //        return obtainStringFromInputStream(httpEntity.getContent());
         return obtainJsonStringFromGZIP(httpResponse);
 
     }
 
 
-    public static HttpClient getDefaultHttpClient(int connTimeout, int soTimeout){
+    public static HttpClient getDefaultHttpClient(int connTimeout, int soTimeout) {
         HttpClient httpClient = new DefaultHttpClient();
         HttpParams params = httpClient.getParams();
         HttpConnectionParams.setConnectionTimeout(params, connTimeout);
@@ -168,13 +160,16 @@ public class AINetWork {
         return httpClient;
     }
 
-    public static interface OnSSLHttpClientSchemeRegister{
+    public static interface OnSSLHttpClientSchemeRegister {
         public Scheme getConfigScheme();
     }
+
     private static OnSSLHttpClientSchemeRegister onSSLHttpClientSchemeRegister;
+
     public static OnSSLHttpClientSchemeRegister getOnSSLHttpClientSchemeRegister() {
         return onSSLHttpClientSchemeRegister;
     }
+
     public static void setOnSSLHttpClientSchemeRegister(OnSSLHttpClientSchemeRegister onSSLHttpClientSchemeRegister) {
         AINetWork.onSSLHttpClientSchemeRegister = onSSLHttpClientSchemeRegister;
     }
@@ -203,8 +198,8 @@ public class AINetWork {
             registry.register(new Scheme("https", sf, 9000));
 //            registry.register(new Scheme("https", PlainSocketFactory.getSocketFactory(), 80));
             Scheme scheme;
-            if(null != onSSLHttpClientSchemeRegister
-                    && null != (scheme = onSSLHttpClientSchemeRegister.getConfigScheme())){
+            if (null != onSSLHttpClientSchemeRegister
+                    && null != (scheme = onSSLHttpClientSchemeRegister.getConfigScheme())) {
                 registry.register(scheme);
             }
 
@@ -253,41 +248,39 @@ public class AINetWork {
         }
         return resultSb;
     }
+
     private static int getShort(byte[] data) {
         return (int) ((data[0] << 8) | data[1] & 0xFF);
     }
 
 
-	/**
-	 * 通过InputStream获得字符串。
-	 * 
-	 * @author wangjie
-	 * @param is
-	 *            需要进行读取的InputStream对象
-	 * @return 返回读取后的字符串信息
-	 */
-	public static StringBuilder obtainStringFromInputStream(InputStream is) {
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = null;
-		br = new BufferedReader(new InputStreamReader(is));
-		String line = null;
-		try {
-			while (null != (line = br.readLine())) {
-				sb.append(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				br.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return sb;
-	}
-
-
+    /**
+     * 通过InputStream获得字符串。
+     *
+     * @param is 需要进行读取的InputStream对象
+     * @return 返回读取后的字符串信息
+     * @author wangjie
+     */
+    public static StringBuilder obtainStringFromInputStream(InputStream is) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = null;
+        br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        try {
+            while (null != (line = br.readLine())) {
+                sb.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return sb;
+    }
 
 
 }

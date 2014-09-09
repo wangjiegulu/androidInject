@@ -1,20 +1,24 @@
 package com.wangjie.androidinject.annotation.annotations.net;
 
+import com.wangjie.androidbucket.services.http.HttpAccessParameter;
+import org.apache.http.HttpEntity;
+import org.apache.http.protocol.HttpContext;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created with IntelliJ IDEA.
- * User: wangjie  email: tiantian.china.2@gmail.com
- * Date: 13-11-30
- * Time: 下午8:03
- * To change this template use File | Settings | File Templates.
+ * @author Hubert He
+ * @version V1.0
+ * @Description
+ * @Createdate 14-9-5 10:34
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AIPost {
+public @interface AIRaw {
+
     String value() default "";
 
     /**
@@ -30,4 +34,14 @@ public @interface AIPost {
      * @return 默认返回-1，时间由全局变量实现, Bucket包中HttpConfig配置
      */
     int soTimeout() default -1;
+
+    String contentType() default "application/json";
+
+    /**
+     * 是否session连接
+     *
+     * @return 默认返回true
+     */
+    HttpAccessParameter.SessionEnableMethod sessionEnable() default HttpAccessParameter.SessionEnableMethod.AUTO;
+
 }

@@ -6,8 +6,8 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.mvp.ABBasePresenter;
 import com.wangjie.androidbucket.mvp.ABInteractor;
-import com.wangjie.androidbucket.mvp.ABasePresenter;
 import com.wangjie.androidinject.annotation.annotations.base.AIBean;
 import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
@@ -34,14 +34,14 @@ import java.util.Map;
  * Time: 下午7:23
  * To change this template use File | Settings | File Templates.
  */
-public class RealizeFieldAnnotation implements RealizeAnnotation{
+public class RealizeFieldAnnotation implements RealizeAnnotation {
     private static final String TAG = RealizeFieldAnnotation.class.getSimpleName();
     private static Map<Class<?>, RealizeFieldAnnotation> map = new HashMap<Class<?>, RealizeFieldAnnotation>();
 
-    public synchronized static RealizeFieldAnnotation getInstance(AIPresent present){
+    public synchronized static RealizeFieldAnnotation getInstance(AIPresent present) {
         Class clazz = present.getClass();
         RealizeFieldAnnotation realize = map.get(clazz);
-        if(null == realize){
+        if (null == realize) {
             realize = new RealizeFieldAnnotation();
             map.put(clazz, realize);
         }
@@ -56,18 +56,19 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 实现present控件注解功能
+     *
      * @throws Exception
      */
     @Override
     public void processAnnotation() throws Exception {
         Field[] fields = clazz.getDeclaredFields();
-        for(Field field : fields){
-            if(field.isAnnotationPresent(AIView.class)){ // 如果设置了控件注解
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(AIView.class)) { // 如果设置了控件注解
                 AIView aiView = field.getAnnotation(AIView.class);
 
                 viewFindAnnontation(aiView, field); // 绑定控件注解
 
-                View view = (View)field.get(present);
+                View view = (View) field.get(present);
 
                 viewBindClick(aiView, view); // 绑定控件点击事件注解
 
@@ -78,23 +79,23 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
                 viewBindItemLongClick(aiView, view);
             }
 
-            if(field.isAnnotationPresent(AIBean.class)){ // 如果设置了bean注解
+            if (field.isAnnotationPresent(AIBean.class)) { // 如果设置了bean注解
                 beanNewInstance(field);
             }
 
-            if(field.isAnnotationPresent(AISystemService.class)){ // 如果设置了SystemService注解
+            if (field.isAnnotationPresent(AISystemService.class)) { // 如果设置了SystemService注解
                 systemServiceBind(field);
             }
 
-            if(field.isAnnotationPresent(AIScreenSize.class)){ // 如果需要注入屏幕大小
+            if (field.isAnnotationPresent(AIScreenSize.class)) { // 如果需要注入屏幕大小
                 sSizeBind(field);
             }
 
-            if(field.isAnnotationPresent(AINetWorker.class)){ // 如果需要注入NetWorker
+            if (field.isAnnotationPresent(AINetWorker.class)) { // 如果需要注入NetWorker
                 netWorkerBind(field);
             }
 
-            if(field.isAnnotationPresent(AIPresenter.class)){ // MVP注入
+            if (field.isAnnotationPresent(AIPresenter.class)) { // MVP注入
                 bindMvpPresenter(field);
             }
 
@@ -104,30 +105,31 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 绑定控件注解
+     *
      * @param aiView
      * @param field
      * @throws Exception
      */
-    private void viewFindAnnontation(AIView aiView, Field field) throws Exception{
+    private void viewFindAnnontation(AIView aiView, Field field) throws Exception {
         int viewId = aiView.value(); // 绑定控件注解
         // @AIView注解的value和id值均代表控件redId，如果之前的value是-1，则使用id值
-        if(-1 == viewId){
+        if (-1 == viewId) {
             viewId = aiView.id();
         }
 
-        if(-1 == viewId){ // 如果resId没有设置，则默认查找id名跟属性名相同的id
+        if (-1 == viewId) { // 如果resId没有设置，则默认查找id名跟属性名相同的id
             Resources res = present.getContext().getResources();
             viewId = res.getIdentifier(field.getName(), "id", present.getContext().getPackageName());
-            if(0 == viewId){ // 属性同名的id没有找到
+            if (0 == viewId) { // 属性同名的id没有找到
                 throw new Exception("no such identifier[R.id." + field.getName() + "] ! ");
             }
         }
 
         field.setAccessible(true);
         Method method = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
-        try{
+        try {
             field.set(present, method.invoke(present.getFindViewView(), viewId));
-        }catch(Exception ex){
+        } catch (Exception ex) {
             Exception injectEx = new Exception("Field[" + field.getName() + "] inject error!");
             injectEx.setStackTrace(ex.getStackTrace());
             throw injectEx;
@@ -137,44 +139,47 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 绑定控件点击事件注解
+     *
      * @param aiView
      * @param view
      */
-    private void viewBindClick(AIView aiView, View view){
+    private void viewBindClick(AIView aiView, View view) {
         String clickMethodName = aiView.clickMethod();
-        if(!"".equals(clickMethodName)){
+        if (!"".equals(clickMethodName)) {
             view.setOnClickListener(OnClickViewListener.obtainListener(present, clickMethodName));
         }
     }
 
     /**
      * 绑定控件点击事件注解
+     *
      * @param aiView
      * @param view
      */
-    private void viewBindLongClick(AIView aiView, View view){
+    private void viewBindLongClick(AIView aiView, View view) {
         String longClickMethodName = aiView.longClickMethod();
-        if(!"".equals(longClickMethodName)){
+        if (!"".equals(longClickMethodName)) {
             view.setOnLongClickListener(OnLongClickViewListener.obtainListener(present, longClickMethodName));
         }
     }
 
     /**
      * 绑定控件item点击事件注解
+     *
      * @param aiView
      * @param view
      */
-    private void viewBindItemClick(AIView aiView, View view) throws Exception{
+    private void viewBindItemClick(AIView aiView, View view) throws Exception {
         // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
         String itemClickMethodName = aiView.itemClickMethod();
-        if("".equals(itemClickMethodName)){
+        if ("".equals(itemClickMethodName)) {
             return;
         }
 
-        if(AdapterView.class.isAssignableFrom(view.getClass())){
-            AdapterView adapterView = (AdapterView)view;
+        if (AdapterView.class.isAssignableFrom(view.getClass())) {
+            AdapterView adapterView = (AdapterView) view;
             adapterView.setOnItemClickListener(OnItemClickViewListener.obtainListener(present, itemClickMethodName));
-        }else{
+        } else {
             throw new Exception("view[" + view + "] is not AdapterView's subclass");
         }
 
@@ -182,21 +187,22 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 绑定控件item长按事件注解
+     *
      * @param aiView
      * @param view
      */
-    private void viewBindItemLongClick(AIView aiView, View view) throws Exception{
+    private void viewBindItemLongClick(AIView aiView, View view) throws Exception {
         // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
         String itemClickMethodName = aiView.itemLongClickMethod();
-        if("".equals(itemClickMethodName)){
+        if ("".equals(itemClickMethodName)) {
             return;
         }
 
-        if(AdapterView.class.isAssignableFrom(view.getClass())){
-            AdapterView adapterView = (AdapterView)view;
+        if (AdapterView.class.isAssignableFrom(view.getClass())) {
+            AdapterView adapterView = (AdapterView) view;
             adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, itemClickMethodName));
 
-        }else{
+        } else {
             throw new Exception("view[" + view + "] is not AdapterView's subclass");
         }
 
@@ -204,10 +210,11 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 生成一个bean对象
+     *
      * @param field
      * @throws Exception
      */
-    private void beanNewInstance(Field field) throws Exception{
+    private void beanNewInstance(Field field) throws Exception {
         try {
             field.getType().getConstructor();
         } catch (NoSuchMethodException e) {
@@ -220,47 +227,51 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
 
     /**
      * 获得相应SystemService的对象，并初始化属性
+     *
      * @param field
      * @throws Exception
      */
-    private void systemServiceBind(Field field) throws Exception{
+    private void systemServiceBind(Field field) throws Exception {
         field.setAccessible(true);
         field.set(present, SystemServiceUtil.getSystemServiceByClazz(present.getContext(), field.getType()));
     }
 
     /**
      * 设置当前设备屏幕宽和高
+     *
      * @param field
      * @throws Exception
      */
-    private void sSizeBind(Field field) throws Exception{
+    private void sSizeBind(Field field) throws Exception {
         field.setAccessible(true);
-        if(!Point.class.isAssignableFrom(field.getType())){
+        if (!Point.class.isAssignableFrom(field.getType())) {
             throw new Exception("field [" + field.getName() + "] must be a Point or its subclasses");
         }
-        Display display = ((Activity)present.getContext()).getWindowManager().getDefaultDisplay();
-        Point point = (Point)field.getType().newInstance();
+        Display display = ((Activity) present.getContext()).getWindowManager().getDefaultDisplay();
+        Point point = (Point) field.getType().newInstance();
         display.getSize(point);
         field.set(present, point);
     }
 
     /**
      * 注入NetWorker
+     *
      * @param field
      * @throws Exception
      */
-    private void netWorkerBind(Field field) throws Exception{
+    private void netWorkerBind(Field field) throws Exception {
         field.setAccessible(true);
         field.set(present, NetInvoHandler.getWorker(field.getType()));
     }
 
 
     /**
-     *  MVP注入
+     * MVP注入
+     *
      * @param field
      * @throws Exception
      */
-    private void bindMvpPresenter(Field field) throws Exception{
+    private void bindMvpPresenter(Field field) throws Exception {
         field.setAccessible(true);
 
         AIPresenter aiPresenter = field.getAnnotation(AIPresenter.class);
@@ -268,11 +279,11 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
         String interactorClazzName = aiPresenter.interactor().getName();
 
         // Viewer层（Activity）中注入presenter
-        ABasePresenter presenter = (ABasePresenter) Class.forName(presenterClazzName).newInstance();
+        ABBasePresenter presenter = (ABBasePresenter) Class.forName(presenterClazzName).newInstance();
         field.set(present, presenter);
 
         Class<?> superPresenterClazz = presenter.getClass();
-        while(ABasePresenter.class != superPresenterClazz){
+        while (ABBasePresenter.class != superPresenterClazz) {
             superPresenterClazz = superPresenterClazz.getSuperclass();
         }
 
@@ -295,11 +306,6 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
     }
 
 
-
-
-
-
-
     public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
     }
@@ -308,5 +314,5 @@ public class RealizeFieldAnnotation implements RealizeAnnotation{
         this.present = present;
     }
 
-    
+
 }
