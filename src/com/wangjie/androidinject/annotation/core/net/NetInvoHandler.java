@@ -241,6 +241,7 @@ public class NetInvoHandler implements InvocationHandler {
                 new HttpAccessParameter()
                         .setMethod(ABHttpMethod.POST)
                         .setWebApi(url)
+                        .setSessionEnableMethod(aiPost.sessionEnable())
         );
         if (null == result) {
             return null;
@@ -279,6 +280,7 @@ public class NetInvoHandler implements InvocationHandler {
                 new HttpAccessParameter()
                         .setMethod(ABHttpMethod.GET)
                         .setWebApi(url)
+                        .setSessionEnableMethod(aiGet.sessionEnable())
         );
         if (null == result) {
             return null;

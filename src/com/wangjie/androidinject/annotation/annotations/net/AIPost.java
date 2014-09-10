@@ -1,5 +1,7 @@
 package com.wangjie.androidinject.annotation.annotations.net;
 
+import com.wangjie.androidbucket.services.http.HttpAccessParameter;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,4 +32,11 @@ public @interface AIPost {
      * @return 默认返回-1，时间由全局变量实现, Bucket包中HttpConfig配置
      */
     int soTimeout() default -1;
+
+    /**
+     * 是否session连接
+     *
+     * @return 默认返回true
+     */
+    HttpAccessParameter.SessionEnableMethod sessionEnable() default HttpAccessParameter.SessionEnableMethod.AUTO;
 }

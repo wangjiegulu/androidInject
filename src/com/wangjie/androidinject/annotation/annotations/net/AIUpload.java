@@ -1,5 +1,7 @@
 package com.wangjie.androidinject.annotation.annotations.net;
 
+import com.wangjie.androidbucket.services.http.HttpAccessParameter;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,5 +35,11 @@ public @interface AIUpload {
      */
     int soTimeout() default 1000 * 60 * 5;
 
+    /**
+     * 是否session连接
+     *
+     * @return 默认返回true
+     */
+    HttpAccessParameter.SessionEnableMethod sessionEnable() default HttpAccessParameter.SessionEnableMethod.AUTO;
 
 }
