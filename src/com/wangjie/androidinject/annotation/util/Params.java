@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Params extends HashMap<String, Object>{
 
 
-    public Params add(String key, String value){
+    public Params add(String key, Object value){
         put(key, value);
         return this;
     }
