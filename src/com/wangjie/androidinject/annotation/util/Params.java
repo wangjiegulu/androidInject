@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Date: 14-2-8
  * Time: 上午10:41
  */
-public class Params extends HashMap<String, String>{
+public class Params extends HashMap<String, Object>{
 
 
     public Params add(String key, String value){

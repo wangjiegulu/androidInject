@@ -223,7 +223,7 @@ public class NetInvoHandler implements InvocationHandler {
                     + "]@AIPost value()[url] is empty!!");
         }
         Annotation[][] annotations = method.getParameterAnnotations();
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         for (int i = 0; i < args.length; i++) {
             if (Params.class.isAssignableFrom(args[i].getClass())) { // 如果属性为Params，则追加在后面
                 map.putAll((Params) args[i]);
@@ -314,7 +314,7 @@ public class NetInvoHandler implements InvocationHandler {
      * @param url
      * @param params
      */
-    private void logUrlInfo(String url, Map<String, String> params) {
+    private void logUrlInfo(String url, Map<String, Object> params) {
         if (!Logger.debug && !Logger.logFile) {
             return;
         }
