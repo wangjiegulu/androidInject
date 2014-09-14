@@ -229,7 +229,12 @@ public class NetInvoHandler implements InvocationHandler {
                 map.putAll((Params) args[i]);
             } else {
                 String repName = ((AIParam) annotations[i][0]).value();
-                map.put(repName, args[i] + "");
+                if(url.contains("#{" + repName + "}")){
+                    url = url.replace("#{" + repName + "}", args[i] + "");
+                }else{
+                    map.put(repName, args[i] + "");
+                }
+
             }
 
         }
@@ -241,6 +246,7 @@ public class NetInvoHandler implements InvocationHandler {
                 new HttpAccessParameter()
                         .setMethod(ABHttpMethod.POST)
                         .setWebApi(url)
+                        .setParamNameValuePairs(ABHttpUtil.convert2NameValuePairs(map))
                         .setSessionEnableMethod(aiPost.sessionEnable())
         );
         if (null == result) {
@@ -323,7 +329,7 @@ public class NetInvoHandler implements InvocationHandler {
         for (Object s : set) {
             sb.append(", ").append(s).append("=").append(params.get(s));
         }
-        Logger.d(TAG, url + "?" + sb.toString().substring(1));
+        Logger.d(TAG, url + "?" + (ABTextUtil.isEmpty(sb) ? "" : sb.toString().substring(1)));
     }
 
     public Object getProxy() {
