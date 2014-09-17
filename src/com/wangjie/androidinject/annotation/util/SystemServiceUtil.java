@@ -3,6 +3,7 @@ package com.wangjie.androidinject.annotation.util;
 import android.app.*;
 import android.content.Context;
 import android.location.LocationManager;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
@@ -52,6 +53,8 @@ public class SystemServiceUtil {
             serviceName = Context.UI_MODE_SERVICE;
         }else if(clazz == DownloadManager.class){
             serviceName = Context.DOWNLOAD_SERVICE;
+        }else if(clazz == AudioManager.class){
+            serviceName = Context.AUDIO_SERVICE;
         }
 
         if(null == serviceName){
