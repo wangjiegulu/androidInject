@@ -17,9 +17,9 @@ import android.text.TextUtils;
 
 import com.google.gson.GsonBuilder;
 import com.wangjie.androidbucket.log.Logger;
-import com.wangjie.androidbucket.services.http.ABHttpMethod;
-import com.wangjie.androidbucket.services.http.ABHttpUtil;
-import com.wangjie.androidbucket.services.http.HttpAccessParameter;
+import com.wangjie.androidbucket.services.network.http.ABHttpMethod;
+import com.wangjie.androidbucket.services.network.http.ABHttpUtil;
+import com.wangjie.androidbucket.services.network.http.HttpAccessParameter;
 import com.wangjie.androidbucket.utils.ABTextUtil;
 import com.wangjie.androidinject.annotation.annotations.net.*;
 import com.wangjie.androidinject.annotation.util.AITextUtil;

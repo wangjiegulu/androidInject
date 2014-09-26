@@ -1,8 +1,6 @@
 package com.wangjie.androidinject.annotation.annotations.net;
 
-import com.wangjie.androidbucket.services.http.HttpAccessParameter;
-import org.apache.http.HttpEntity;
-import org.apache.http.protocol.HttpContext;
+import com.wangjie.androidbucket.services.network.http.HttpAccessParameter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

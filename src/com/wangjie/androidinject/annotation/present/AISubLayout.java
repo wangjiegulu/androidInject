@@ -18,7 +18,7 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
         super(context);
         long start = System.currentTimeMillis();
         new AnnotationManager(this).initAnnotations();
-        Log.d(TAG, "[" + this.getClass().getSimpleName() + "]AISubLayout(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
+        Log.d(TAG, "[" + ((Object) this).getClass().getSimpleName() + "]AISubLayout(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override
@@ -38,18 +38,21 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     }
 
 
-
-
-
+    @Override
+    public void onClickCallbackSample(View view) {
+    }
 
     @Override
-    public void onClickCallbackSample(View view) {}
+    public void onLongClickCallbackSample(View view) {
+    }
+
     @Override
-    public void onLongClickCallbackSample(View view) {}
+    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {
+    }
+
     @Override
-    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
-    @Override
-    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
+    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {
+    }
 
 
 }
