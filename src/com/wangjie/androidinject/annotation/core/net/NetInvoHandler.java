@@ -76,10 +76,15 @@ public class NetInvoHandler implements InvocationHandler {
                 return getHttpGetResponse(method, args, domain);
             }
 
+            // delete请求（非上传文件）
+            if (method.isAnnotationPresent(AIDelete.class)) {
+                return getHttpDeleteResponse(method, args, domain);
+            }
+
+
             // post请求（非上传文件）
             if (method.isAnnotationPresent(AIPost.class)) {
                 return getHttpPostResponse(method, args, domain);
-
             }
 
             if (method.isAnnotationPresent(AIRaw.class)) {
@@ -91,6 +96,36 @@ public class NetInvoHandler implements InvocationHandler {
             throw ex;
         }
         return null;
+    }
+
+    private Object getHttpDeleteResponse(Method method, Object[] args, String domain) throws Exception {
+        AIDelete aiDelete = method.getAnnotation(AIDelete.class);
+        String url = domain + aiDelete.value();
+        if (TextUtils.isEmpty(url)) {
+            throw new Exception("net work [" + method.getName()
+                    + "]@AIDelete value()[url] is empty!!");
+        }
+        Annotation[][] annotations = method.getParameterAnnotations();
+        for (int i = 0; i < args.length; i++) {
+            url = generateUrl(args, url, annotations, i, args[i]);
+
+        }
+
+        Logger.d(TAG, "Delete url[" + method.getName() + "]: " + url);
+
+        aiDelete.sessionEnable();
+
+        String result = ABHttpUtil.getHttpResponse(
+                new HttpAccessParameter()
+                        .setMethod(ABHttpMethod.DELETE)
+                        .setWebApi(url)
+                        .setSessionEnableMethod(aiDelete.sessionEnable())
+        );
+        if (null == result) {
+            return null;
+        }
+        Type returnType = method.getGenericReturnType();
+        return generateReturnValue(returnType, result);
     }
 
     /**
@@ -229,9 +264,9 @@ public class NetInvoHandler implements InvocationHandler {
                 map.putAll((Params) args[i]);
             } else {
                 String repName = ((AIParam) annotations[i][0]).value();
-                if(url.contains("#{" + repName + "}")){
+                if (url.contains("#{" + repName + "}")) {
                     url = url.replace("#{" + repName + "}", args[i] + "");
-                }else{
+                } else {
                     map.put(repName, args[i] + "");
                 }
 
