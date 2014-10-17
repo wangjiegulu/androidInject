@@ -8,7 +8,7 @@ import com.wangjie.androidinject.annotation.annotations.orm.AIColumn;
 import com.wangjie.androidinject.annotation.annotations.orm.AIPrimaryKey;
 import com.wangjie.androidinject.annotation.annotations.orm.AITable;
 import com.wangjie.androidinject.annotation.util.AITextUtil;
-import com.wangjie.androidinject.annotation.util.ReflectionUtils;
+import com.wangjie.androidbucket.utils.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.sql.Blob;
