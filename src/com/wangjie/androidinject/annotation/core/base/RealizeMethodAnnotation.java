@@ -2,14 +2,10 @@ package com.wangjie.androidinject.annotation.core.base;
 
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidinject.annotation.annotations.base.AIClick;
-import com.wangjie.androidinject.annotation.annotations.base.AIItemClick;
-import com.wangjie.androidinject.annotation.annotations.base.AIItemLongClick;
-import com.wangjie.androidinject.annotation.annotations.base.AILongClick;
-import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
-import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
-import com.wangjie.androidinject.annotation.listener.OnItemLongClickViewListener;
-import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import com.wangjie.androidinject.annotation.annotations.base.*;
+import com.wangjie.androidinject.annotation.listener.*;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 import java.lang.reflect.Method;
@@ -60,7 +56,9 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
             if(method.isAnnotationPresent(AIItemLongClick.class)){ // 如果设置了item长按的注解
                 methodBindItemLongClick(method); // 绑定某方法设置的所有控件的item长按事件
             }
-
+            if(method.isAnnotationPresent(AIChecked.class)){ // 如果设置了选中改变的注解（用于CompoundButton，如CheckBox）
+                methodBindCheckedChange(method);
+            }
 
 
         }
@@ -68,6 +66,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
 
 
     }
+
 
     /**
      * 绑定某方法设置的所有控件的点击事件
@@ -163,12 +162,31 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
             }
             AdapterView adapterView = (AdapterView)obj;
             if(!"".equals(method.getName())){
-//                adapterView.setOnItemClickListener(OnItemClickViewListener.obtainListener(activity, method.getName()));
                 adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, method.getName()));
             }
         }
     }
 
+    /**
+     * 绑定某方法设置所有控件的CheckedChange事件
+     * @param method
+     * @throws Exception
+     */
+    private void methodBindCheckedChange(Method method) throws Exception{
+        AIChecked aiClick = method.getAnnotation(AIChecked.class);
+        int[] ids = aiClick.value();
+        if(null == ids || ids.length <=0){
+            return;
+        }
+        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
+        for(int id : ids){
+            Object obj = m.invoke(present.getFindViewView(), id);
+            if(null == obj || !CompoundButton.class.isAssignableFrom(obj.getClass())){
+                continue;
+            }
+            ((CompoundButton)obj).setOnCheckedChangeListener(OnCheckChangedViewListener.obtainListener(present, method.getName()));
+        }
+    }
 
 
 

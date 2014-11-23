@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import com.wangjie.androidbucket.present.ABActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -51,8 +52,8 @@ public class AIActivity extends ABActivity implements AIPresent, CallbackSample 
     public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
     @Override
     public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
-
-
+    @Override
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}
 
 
 }

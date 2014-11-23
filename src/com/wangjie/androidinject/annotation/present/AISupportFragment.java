@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import com.wangjie.androidbucket.present.ABSupportFragment;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.ParticularAnnotation;
@@ -102,6 +103,9 @@ public class AISupportFragment extends ABSupportFragment implements AIPresent, C
     public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
     @Override
     public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
+
+    @Override
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}
 
 
 }

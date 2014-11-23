@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -53,6 +54,9 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     @Override
     public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {
     }
+
+    @Override
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}
 
 
 }

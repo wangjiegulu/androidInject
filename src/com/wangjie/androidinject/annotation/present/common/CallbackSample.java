@@ -2,6 +2,7 @@ package com.wangjie.androidinject.annotation.present.common;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,5 +15,6 @@ public interface CallbackSample {
     public void onLongClickCallbackSample(View view);
     public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l);
     public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l);
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked);
 
 }

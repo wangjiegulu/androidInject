@@ -92,5 +92,11 @@ public class AIDbUtil {
         return result ;
     }
 
+    public static void closeCursor(Cursor cursor){
+        if(null != cursor){
+            cursor.close();
+        }
+    }
+
 
 }
