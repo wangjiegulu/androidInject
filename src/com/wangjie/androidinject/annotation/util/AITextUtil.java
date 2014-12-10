@@ -46,7 +46,7 @@ public class AITextUtil {
             return url;
         }
         StringBuilder sb = new StringBuilder(url);
-        sb = url.endsWith("?") ? sb : sb.append("?");
+        sb = url.contains("?") ? sb.append("&") : sb.append("?");
         Set<Map.Entry> set = map.entrySet();
         for(Map.Entry entry : set){
             sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
