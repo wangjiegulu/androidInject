@@ -60,7 +60,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation{
                 methodBindCheckedChange(method);
             }
 
-
+            present.parserMethodAnnotations(method);
         }
 
 

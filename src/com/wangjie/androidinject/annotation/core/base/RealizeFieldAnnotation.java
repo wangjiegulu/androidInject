@@ -99,6 +99,8 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
                 bindMvpPresenter(field);
             }
 
+            present.parserFieldAnnotations(field);
+
         }
     }
 

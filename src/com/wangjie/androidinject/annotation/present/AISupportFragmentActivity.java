@@ -10,6 +10,9 @@ import com.wangjie.androidbucket.present.ABSupportFragmentActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Created with IntelliJ IDEA.
  * Author: wangjie  email: tiantian.china.2@gmail.com
@@ -45,7 +48,12 @@ public class AISupportFragmentActivity extends ABSupportFragmentActivity impleme
     public Object getFindViewView() {
         return this;
     }
-
+    @Override
+    public void parserTypeAnnotations(Class clazz) throws Exception {}
+    @Override
+    public void parserMethodAnnotations(Method method) throws Exception {}
+    @Override
+    public void parserFieldAnnotations(Field field) throws Exception {}
 
     @Override
     public void onClickCallbackSample(View view) {}

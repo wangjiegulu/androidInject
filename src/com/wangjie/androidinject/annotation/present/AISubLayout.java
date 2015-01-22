@@ -9,6 +9,9 @@ import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Created by wangjie on 14-5-4.
  */
@@ -16,7 +19,11 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     private static final String TAG = AISubLayout.class.getSimpleName();
 
     public AISubLayout(Context context) {
-        super(context);
+        this(context, false);
+    }
+
+    public AISubLayout(Context context, boolean autoBindActivityLifeCycle) {
+        super(context, autoBindActivityLifeCycle);
         long start = System.currentTimeMillis();
         new AnnotationManager(this).initAnnotations();
         Log.d(TAG, "[" + ((Object) this).getClass().getSimpleName() + "]AISubLayout(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
@@ -38,6 +45,17 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
         return layout;
     }
 
+    @Override
+    public void parserTypeAnnotations(Class clazz) throws Exception {
+    }
+
+    @Override
+    public void parserMethodAnnotations(Method method) throws Exception {
+    }
+
+    @Override
+    public void parserFieldAnnotations(Field field) throws Exception {
+    }
 
     @Override
     public void onClickCallbackSample(View view) {
@@ -56,7 +74,8 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     }
 
     @Override
-    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {
+    }
 
 
 }

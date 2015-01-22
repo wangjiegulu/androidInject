@@ -10,6 +10,9 @@ import com.wangjie.androidbucket.present.ABActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Created with IntelliJ IDEA.
  * Author: wangjie  email: tiantian.china.2@gmail.com
@@ -43,6 +46,12 @@ public class AIActivity extends ABActivity implements AIPresent, CallbackSample 
         return this;
     }
 
+    @Override
+    public void parserTypeAnnotations(Class clazz) throws Exception {}
+    @Override
+    public void parserMethodAnnotations(Method method) throws Exception {}
+    @Override
+    public void parserFieldAnnotations(Field field) throws Exception {}
 
     @Override
     public void onClickCallbackSample(View view) {}
