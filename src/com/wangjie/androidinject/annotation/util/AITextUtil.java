@@ -1,5 +1,8 @@
 package com.wangjie.androidinject.annotation.util;
 
+import org.apache.http.client.utils.URLEncodedUtils;
+
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;

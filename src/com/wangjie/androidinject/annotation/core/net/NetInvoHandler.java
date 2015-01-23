@@ -1,5 +1,20 @@
 package com.wangjie.androidinject.annotation.core.net;
 
+import android.text.TextUtils;
+import com.google.gson.GsonBuilder;
+import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidbucket.services.network.http.ABHttpMethod;
+import com.wangjie.androidbucket.services.network.http.ABHttpUtil;
+import com.wangjie.androidbucket.services.network.http.HttpAccessParameter;
+import com.wangjie.androidbucket.utils.ABTextUtil;
+import com.wangjie.androidinject.annotation.annotations.net.*;
+import com.wangjie.androidinject.annotation.util.Params;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -10,23 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import android.text.TextUtils;
-
-import com.google.gson.GsonBuilder;
-import com.wangjie.androidbucket.log.Logger;
-import com.wangjie.androidbucket.services.network.http.ABHttpMethod;
-import com.wangjie.androidbucket.services.network.http.ABHttpUtil;
-import com.wangjie.androidbucket.services.network.http.HttpAccessParameter;
-import com.wangjie.androidbucket.utils.ABTextUtil;
-import com.wangjie.androidinject.annotation.annotations.net.*;
-import com.wangjie.androidinject.annotation.util.AITextUtil;
-import com.wangjie.androidinject.annotation.util.Params;
-import org.apache.http.HttpEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 /**
  * Created with IntelliJ IDEA. Author: wangjie email:tiantian.china.2@gmail.com
@@ -202,8 +200,7 @@ public class NetInvoHandler implements InvocationHandler {
      */
     private String generateUrl(Object[] args, String url, Annotation[][] annotations, int i, Object arg) {
         if (Params.class.isAssignableFrom(arg.getClass())) { // 如果属性为Params，则追加在后面
-            url = AITextUtil
-                    .appendParamsAfterUrl(url, (Params) arg);
+            url = appendParamsAfterUrl(url, (Params) arg);
         } else { // 如果属性添加了@AIParam注解，则替换链接中#{xxx}
             String repName = ((AIParam) annotations[i][0]).value();
             url = url.replace("#{" + repName + "}", args[i] + "");
@@ -258,7 +255,7 @@ public class NetInvoHandler implements InvocationHandler {
                     + "]@AIPost value()[url] is empty!!");
         }
         Annotation[][] annotations = method.getParameterAnnotations();
-        Map<String, Object> map = new HashMap<>();
+        Params map = new Params();
         for (int i = 0; i < args.length; i++) {
             if (Params.class.isAssignableFrom(args[i].getClass())) { // 如果属性为Params，则追加在后面
                 map.putAll((Params) args[i]);
@@ -267,7 +264,7 @@ public class NetInvoHandler implements InvocationHandler {
                 if (url.contains("#{" + repName + "}")) {
                     url = url.replace("#{" + repName + "}", args[i] + "");
                 } else {
-                    map.put(repName, args[i] + "");
+                    map.add(repName, args[i] + "");
                 }
 
             }
@@ -281,7 +278,7 @@ public class NetInvoHandler implements InvocationHandler {
                 new HttpAccessParameter()
                         .setMethod(ABHttpMethod.POST)
                         .setWebApi(url)
-                        .setParamNameValuePairs(ABHttpUtil.convert2NameValuePairs(map))
+                        .setParamNameValuePairs(map.getNameValuePairs())
                         .setSessionEnableMethod(aiPost.sessionEnable())
         );
         if (null == result) {
@@ -355,14 +352,13 @@ public class NetInvoHandler implements InvocationHandler {
      * @param url
      * @param params
      */
-    private void logUrlInfo(String url, Map<String, Object> params) {
+    private void logUrlInfo(String url, Params params) {
         if (!Logger.debug && !Logger.logFile) {
             return;
         }
-        Set set = params.keySet();
         StringBuilder sb = new StringBuilder();
-        for (Object s : set) {
-            sb.append(", ").append(s).append("=").append(params.get(s));
+        for (NameValuePair pair : params.getNameValuePairs()) {
+            sb.append(", ").append(pair.getName()).append("=").append(pair.getValue());
         }
         Logger.d(TAG, url + "?" + (ABTextUtil.isEmpty(sb) ? "" : sb.toString().substring(1)));
     }
@@ -373,6 +369,14 @@ public class NetInvoHandler implements InvocationHandler {
 
     public void setProxy(Object proxy) {
         this.proxy = proxy;
+    }
+
+    private String appendParamsAfterUrl(String url, Params params) {
+        if (null == params || ABTextUtil.isEmpty(params.getNameValuePairs())) {
+            return url;
+        }
+        url = url.endsWith("?") ? url : url + "?";
+        return url + URLEncodedUtils.format(params.getNameValuePairs(), "utf-8");
     }
 
 }
