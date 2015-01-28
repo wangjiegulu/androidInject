@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import com.wangjie.androidbucket.mvp.ABBasePresenter;
 import com.wangjie.androidbucket.mvp.ABInteractor;
+import com.wangjie.androidbucket.mvp.TaskController;
 import com.wangjie.androidinject.annotation.annotations.base.AIBean;
 import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
@@ -304,7 +305,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
         interactorField.setAccessible(true);
         interactorField.set(presenter, interactor);
 
-
+        ((TaskController) present).registerController(presenter);
     }
 
 
