@@ -306,7 +306,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
         interactorField.setAccessible(true);
         interactorField.set(presenter, interactor);
 
-
+        ((TaskController) present).registerController(presenter);
     }
 
 
