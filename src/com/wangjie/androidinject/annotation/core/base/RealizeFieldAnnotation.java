@@ -6,10 +6,9 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
-import com.wangjie.androidbucket.mvp.ABActivityViewer;
 import com.wangjie.androidbucket.mvp.ABBasePresenter;
+import com.wangjie.androidbucket.mvp.ABNoneInteractorImpl;
 import com.wangjie.androidbucket.mvp.ABInteractor;
-import com.wangjie.androidbucket.mvp.TaskController;
 import com.wangjie.androidinject.annotation.annotations.base.AIBean;
 import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
@@ -291,7 +290,6 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
             superPresenterClazz = superPresenterClazz.getSuperclass();
         }
 
-
         /**
          * 在presenter中注入viewer和interactor（presenter中需要有viewer和interactor的引用）
          */
@@ -300,13 +298,15 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
         viewerField.setAccessible(true);
         viewerField.set(presenter, present);
 
-        // 把interactor注入到presenter中
-        ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
-        Field interactorField = superPresenterClazz.getDeclaredField("interactor");
-        interactorField.setAccessible(true);
-        interactorField.set(presenter, interactor);
+        if (ABNoneInteractorImpl.class != aiPresenter.interactor()) {
+            // 把interactor注入到presenter中
+            ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
+            Field interactorField = superPresenterClazz.getDeclaredField("interactor");
+            interactorField.setAccessible(true);
+            interactorField.set(presenter, interactor);
+        }
 
-        ((TaskController) present).registerController(presenter);
+        present.registerPresenter(presenter);
     }
 
 

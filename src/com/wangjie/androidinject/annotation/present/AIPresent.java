@@ -1,6 +1,7 @@
 package com.wangjie.androidinject.annotation.present;
 
 import android.content.Context;
+import com.wangjie.androidbucket.mvp.TaskController;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,7 +13,7 @@ import java.lang.reflect.Method;
  * Time: 下午7:40
  * To change this template use File | Settings | File Templates.
  */
-public interface AIPresent {
+public interface AIPresent extends TaskController {
 
     public Context getContext();
 
