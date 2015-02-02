@@ -2,6 +2,7 @@ package com.wangjie.androidinject.annotation.annotations.mvp;
 
 import com.wangjie.androidbucket.mvp.ABBasePresenter;
 import com.wangjie.androidbucket.mvp.ABInteractor;
+import com.wangjie.androidbucket.mvp.ABNoneInteractorImpl;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,5 +20,5 @@ import java.lang.annotation.Target;
 public @interface AIPresenter {
     Class<? extends ABBasePresenter> presenter();
 
-    Class<? extends ABInteractor> interactor();
+    Class<? extends ABInteractor> interactor() default ABNoneInteractorImpl.class;
 }

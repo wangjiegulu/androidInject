@@ -194,8 +194,8 @@ public class AINetWork {
             SchemeRegistry registry = new SchemeRegistry();
             registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
             registry.register(new Scheme("https", sf, 443));
-            registry.register(new Scheme("https", sf, 9094));
-            registry.register(new Scheme("https", sf, 9000));
+//            registry.register(new Scheme("https", sf, 9094));
+//            registry.register(new Scheme("https", sf, 9000));
 //            registry.register(new Scheme("https", PlainSocketFactory.getSocketFactory(), 80));
             Scheme scheme;
             if (null != onSSLHttpClientSchemeRegister
