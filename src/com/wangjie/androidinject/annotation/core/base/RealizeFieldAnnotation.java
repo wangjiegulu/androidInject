@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import com.wangjie.androidbucket.mvp.ABBasePresenter;
 import com.wangjie.androidbucket.mvp.ABNoneInteractorImpl;
 import com.wangjie.androidbucket.mvp.ABInteractor;
+import com.wangjie.androidbucket.mvp.ABNonePresenterImpl;
 import com.wangjie.androidinject.annotation.annotations.base.AIBean;
 import com.wangjie.androidinject.annotation.annotations.base.AISystemService;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
@@ -278,11 +279,21 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
         field.setAccessible(true);
 
         AIPresenter aiPresenter = field.getAnnotation(AIPresenter.class);
-        String presenterClazzName = aiPresenter.presenter().getName();
-        String interactorClazzName = aiPresenter.interactor().getName();
-
+        Class prClass = aiPresenter.presenter();
         // Viewer层（Activity）中注入presenter
-        ABBasePresenter presenter = (ABBasePresenter) Class.forName(presenterClazzName).newInstance();
+        ABBasePresenter presenter;
+        if (ABNonePresenterImpl.class.equals(prClass)) {
+            Class fieldType = field.getType();
+            if (ABBasePresenter.class.isAssignableFrom(fieldType)) {
+                presenter = (ABBasePresenter) fieldType.newInstance();
+            } else {
+                throw new Exception("presenter inject error!");
+            }
+        } else {
+            String presenterClazzName = prClass.getName();
+            presenter = (ABBasePresenter) Class.forName(presenterClazzName).newInstance();
+        }
+
         field.set(present, presenter);
 
         Class<?> superPresenterClazz = presenter.getClass();
@@ -298,6 +309,8 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
         viewerField.setAccessible(true);
         viewerField.set(presenter, present);
 
+
+        String interactorClazzName = aiPresenter.interactor().getName();
         if (ABNoneInteractorImpl.class != aiPresenter.interactor()) {
             // 把interactor注入到presenter中
             ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
