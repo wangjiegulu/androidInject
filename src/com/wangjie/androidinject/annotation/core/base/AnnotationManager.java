@@ -6,7 +6,7 @@ import com.wangjie.androidinject.annotation.present.AIPresent;
 
 /**
  * 注解core，用于实现AIPresent中的注解
- *
+ * <p/>
  * Created with IntelliJ IDEA.
  * Author: wangjie  email: tiantian.china.2@gmail.com
  * Date: 13-11-29
@@ -34,47 +34,19 @@ public class AnnotationManager {
      * 反射实现注解功能
      */
     public void initAnnotations() {
-//        Resources res = context.getResources();
-        try{
+        try {
 
-//            initLayoutAnnotation(); // 实现present布局注解功能
+            RealizeTypeAnnotation.getInstance(present).processAnnotation();
 
-            RealizeTypeAnnotation.getInstance(present).processAnnotation(); // 实现present布局注解功能
-
-//            initViewAnnotation(); // 实现present控件注解功能
             RealizeFieldAnnotation.getInstance(present).processAnnotation();
 
-//            initMethodAnnotation(); // 实现present方法注解功能
             RealizeMethodAnnotation.getInstance(present).processAnnotation();
 
-
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(TAG, "annotations init error: ", ex);
         }
 
 
     }
-
-    /**************************************布局注解实现 BEGIN*********************************************/
-
-
-
-    /**************************************布局注解实现 END*********************************************/
-
-    /**************************************控件注解实现 BEGIN*********************************************/
-
-
-
-    /**************************************控件注解实现 END*********************************************/
-
-    /**************************************方法注解实现 BEGIN*********************************************/
-
-
-
-
-
-
-
-    /**************************************方法注解实现 END*********************************************/
 
 }

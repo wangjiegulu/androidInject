@@ -1,19 +1,11 @@
 package com.wangjie.androidinject.annotation.core.base;
 
-import android.app.Activity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Window;
-import android.view.WindowManager;
-import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
 import com.wangjie.androidbucket.log.Logger;
-import com.wangjie.androidinject.annotation.annotations.base.AIFullScreen;
-import com.wangjie.androidinject.annotation.annotations.base.AILayout;
-import com.wangjie.androidinject.annotation.annotations.base.AINoTitle;
+import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
+import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,86 +43,17 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
      */
     @Override
     public void processAnnotation() throws Exception {
-
-        if (clazz.isAnnotationPresent(AIFullScreen.class)) { // 全屏注解
-            fullScreenBind();
-        }
-
-        if (clazz.isAnnotationPresent(AINoTitle.class)) { // 不显示Title注解
-            noTitleBind();
-        }
-
-        if (clazz.isAnnotationPresent(AILayout.class)) { // 布局注解
-            layoutBind();
+        Annotation[] annotations = clazz.getAnnotations();
+        for (Annotation annotation : annotations) {
+            Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
+            if (null == processorClass) {
+                continue;
+            }
+            AIAnnotationProcessor processor = processorClass.newInstance();
+            processor.process(present, clazz);
         }
         present.parserTypeAnnotations(clazz);
 
-    }
-
-    /**
-     * 实现全屏注解
-     *
-     * @throws Exception
-     */
-    private void fullScreenBind() throws Exception {
-        if (!Activity.class.isAssignableFrom(clazz)) { // 如果不是Activity
-            throw new Exception(clazz.getName() + " is not Activity ! can not use @AIFullScreen Annotation. ");
-        }
-
-        // 设置Activity全屏
-        ((Activity) present.getContext()).getWindow()
-                .setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-    }
-
-    /**
-     * 实现不显示title注解
-     *
-     * @throws Exception
-     */
-    private void noTitleBind() throws Exception {
-        if (!Activity.class.isAssignableFrom(clazz)) { // 如果不是Activity
-            throw new Exception(clazz.getName() + " is not Activity ! can not use @AINoTitle Annotation. ");
-        }
-
-        // 设置不显示Title
-        ((Activity) present.getContext()).requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-    }
-
-    /**
-     * 实现布局注解
-     *
-     * @throws Exception
-     */
-    private void layoutBind() throws Exception {
-        // 如果不是Activity和SubLayout
-        if (!Activity.class.isAssignableFrom(clazz) && !SubLayout.class.isAssignableFrom(clazz)) {
-            Log.d(TAG, present.getClass() + " layout bind unsuccessed in " + TAG);
-            return;
-        }
-
-        // 布局类注解setContentView
-        AILayout cv = clazz.getAnnotation(AILayout.class);
-        if (null == cv) {
-            Log.w(TAG, "Present[" + present + "]had not added @AILayout annotation!");
-            return;
-        }
-
-        int layoutId = clazz.getAnnotation(AILayout.class).value();
-
-        // 如果是SubLayout
-        if (SubLayout.class.isAssignableFrom(clazz)) {
-            Field field = clazz.getField(AnnotationManager.FIELD_LAYOUT);
-            field.setAccessible(true);
-            field.set(present, LayoutInflater.from(present.getContext()).inflate(layoutId, null));
-            return;
-        }
-
-        // 如果是Activity
-        Method method = clazz.getMethod(AnnotationManager.METHOD_NAME_SET_LAYOUT, int.class);
-        method.invoke(present, layoutId);
     }
 
 
