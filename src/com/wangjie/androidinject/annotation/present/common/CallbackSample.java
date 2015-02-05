@@ -11,10 +11,10 @@ import android.widget.CompoundButton;
  * Time: 下午3:36
  */
 public interface CallbackSample {
-    public void onClickCallbackSample(View view);
-    public void onLongClickCallbackSample(View view);
-    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l);
-    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l);
-    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked);
+    void onClickCallbackSample(View view);
+    void onLongClickCallbackSample(View view);
+    void onItemClickCallbackSample(AdapterView<?> parent, View view, int position, long id);
+    void onItemLongClickCallbackSample(AdapterView<?> parent, View view, int position, long id);
+    void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked);
 
 }

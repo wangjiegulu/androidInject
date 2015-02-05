@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.core.base;
 
-import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
@@ -18,7 +17,7 @@ import java.util.Map;
  */
 public class RealizeTypeAnnotation implements RealizeAnnotation {
     private static final String TAG = RealizeTypeAnnotation.class.getSimpleName();
-    private static Map<Class<?>, RealizeTypeAnnotation> map = new HashMap<Class<?>, RealizeTypeAnnotation>();
+    private static Map<Class<?>, RealizeTypeAnnotation> map = new HashMap<>();
 
     public synchronized static RealizeTypeAnnotation getInstance(AIPresent present) {
         Class clazz = present.getClass();

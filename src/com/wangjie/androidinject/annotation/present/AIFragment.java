@@ -108,9 +108,9 @@ public class AIFragment extends ABFragment implements AIPresent, CallbackSample{
     @Override
     public void onLongClickCallbackSample(View view) {}
     @Override
-    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
+    public void onItemClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {}
     @Override
-    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {}
+    public void onItemLongClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
     public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}

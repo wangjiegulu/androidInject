@@ -25,15 +25,15 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
     public void process(AIPresent present, Field field) throws Exception {
         AIView aiView = field.getAnnotation(AIView.class);
 
-        viewFindAnnontation(present, aiView, field); // 绑定控件注解
+        viewFindAnnotation(present, aiView, field);
 
         View view = (View) field.get(present);
 
-        viewBindClick(present, aiView, view); // 绑定控件点击事件注解
+        viewBindClick(present, aiView, view);
 
-        viewBindLongClick(present, aiView, view); // 绑定控件点击事件注解
+        viewBindLongClick(present, aiView, view);
 
-        viewBindItemClick(present, aiView, view); // 绑定控件item点击事件注解
+        viewBindItemClick(present, aiView, view);
 
         viewBindItemLongClick(present, aiView, view);
     }
@@ -45,7 +45,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      * @param field
      * @throws Exception
      */
-    private void viewFindAnnontation(AIPresent present, AIView aiView, Field field) throws Exception {
+    private void viewFindAnnotation(AIPresent present, AIView aiView, Field field) throws Exception {
         int viewId = aiView.value(); // 绑定控件注解
         // @AIView注解的value和id值均代表控件redId，如果之前的value是-1，则使用id值
         if (-1 == viewId) {

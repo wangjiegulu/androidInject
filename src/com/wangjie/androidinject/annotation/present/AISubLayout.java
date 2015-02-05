@@ -66,11 +66,11 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     }
 
     @Override
-    public void onItemClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {
     }
 
     @Override
-    public void onItemLongClickCallbackSample(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemLongClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {
     }
 
     @Override
