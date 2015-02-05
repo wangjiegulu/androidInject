@@ -20,72 +20,84 @@ import java.lang.annotation.Annotation;
  */
 public enum AnnoProcessorAlias {
     /**
-     * ************************ Field Annotations *****************************
+     * ************************ Field Annotations BEGIN *****************************
      */
     /**
      * 控件注解
      */
-    AIVIEW(AIView.class, AIViewFieldProcessor.class),
+    AI_VIEW(AIView.class, AIViewFieldProcessor.class),
     /**
      * MVP注解
      */
-    AIPresenter(AIPresenter.class, AIPresenterFieldProcessor.class),
+    AI_PRESENTER(AIPresenter.class, AIPresenterFieldProcessor.class),
     /**
      * 网络请求注解
      */
-    AINetWorker(AINetWorker.class, AINetWorkerFieldProcessor.class),
+    AI_NET_WORKER(AINetWorker.class, AINetWorkerFieldProcessor.class),
     /**
      * java bean注解
      */
-    AIBean(AIBean.class, AIBeanFieldProcessor.class),
+    AI_BEAN(AIBean.class, AIBeanFieldProcessor.class),
     /**
      * 屏幕尺寸注解
      */
-    AIScreenSize(AIScreenSize.class, AIScreenSizeFieldProcessor.class),
+    AI_SCREEN_SIZE(AIScreenSize.class, AIScreenSizeFieldProcessor.class),
     /**
      * 系统服务注解
      */
-    AISystemService(AISystemService.class, AISystemServiceFieldProcessor.class),
+    AI_SYSTEM_SERVICE(AISystemService.class, AISystemServiceFieldProcessor.class),
+    /**
+     * ************************ Field Annotations END *****************************
+     */
+
 
     /**
-     * ************************ Method Annotations *****************************
+     * ************************ Method Annotations BEGIN *****************************
      */
     /**
      * 点击事件注解
      */
-    AIClick(AIClick.class, AIClickMethodProcessor.class),
+    AI_CLICK(AIClick.class, AIClickMethodProcessor.class),
     /**
      * 长按事件注解
      */
-    AILongClick(AILongClick.class, AILongClickMethodProcessor.class),
+    AI_LONG_CLICK(AILongClick.class, AILongClickMethodProcessor.class),
     /**
      * item点击事件注解
      */
-    AIItemClick(AIItemClick.class, AIItemClickMethodProcessor.class),
+    AI_ITEM_CLICK(AIItemClick.class, AIItemClickMethodProcessor.class),
     /**
      * item长按事件注解
      */
-    AIItemLongClick(AIItemLongClick.class, AIItemLongClickMethodProcessor.class),
+    AI_ITEM_LONG_CLICK(AIItemLongClick.class, AIItemLongClickMethodProcessor.class),
     /**
      * 选中事件注解
      */
-    AIChecked(AIChecked.class, AICheckedMethodProcessor.class),
+    AI_CHECKED(AIChecked.class, AICheckedMethodProcessor.class),
+    /**
+     * ************************ Method Annotations END *****************************
+     */
+
 
     /**
-     * ************************ Type Annotations *****************************
+     * ************************ Type Annotations BEGIN *****************************
      */
     /**
      * 布局注解
      */
-    AILayout(AILayout.class, AILayoutTypeProcessor.class),
+    AI_LAYOUT(AILayout.class, AILayoutTypeProcessor.class),
     /**
      * 全部注解
      */
-    AIFullScreen(AIFullScreen.class, AIFullScreenTypeProcessor.class),
+    AI_FULL_SCREEN(AIFullScreen.class, AIFullScreenTypeProcessor.class),
     /**
      * 隐藏Title注解
      */
-    AINoTitle(AINoTitle.class, AINoTitleTypeProcessor.class);
+    AI_NO_TITLE(AINoTitle.class, AINoTitleTypeProcessor.class);
+    /**
+     * ************************ Type Annotations END *****************************
+     */
+
 
     /**
      * 注解类型
