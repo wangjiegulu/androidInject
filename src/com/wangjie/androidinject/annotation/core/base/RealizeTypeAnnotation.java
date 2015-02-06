@@ -1,12 +1,11 @@
 package com.wangjie.androidinject.annotation.core.base;
 
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,9 +16,9 @@ import java.util.Map;
  */
 public class RealizeTypeAnnotation implements RealizeAnnotation {
     private static final String TAG = RealizeTypeAnnotation.class.getSimpleName();
-    private static Map<Class<?>, RealizeTypeAnnotation> map = new HashMap<>();
+//    private static Map<Class<?>, RealizeTypeAnnotation> map = new HashMap<>();
 
-    public synchronized static RealizeTypeAnnotation getInstance(AIPresent present) {
+    public static RealizeTypeAnnotation getInstance(AIPresent present) {
 //        Class clazz = present.getClass();
 //        RealizeTypeAnnotation realize = map.get(clazz);
 //        if (null == realize) {
@@ -52,7 +51,14 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
                 continue;
             }
             AIAnnotationProcessor processor = processorClass.newInstance();
-            processor.process(present, clazz);
+            if (null == processor) {
+                continue;
+            }
+            try {
+                processor.process(present, clazz);
+            } catch (Exception ex) {
+                Logger.e(TAG, ex);
+            }
         }
         present.parserTypeAnnotations(clazz);
 
