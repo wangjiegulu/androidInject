@@ -20,14 +20,17 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
     private static Map<Class<?>, RealizeTypeAnnotation> map = new HashMap<>();
 
     public synchronized static RealizeTypeAnnotation getInstance(AIPresent present) {
-        Class clazz = present.getClass();
-        RealizeTypeAnnotation realize = map.get(clazz);
-        if (null == realize) {
-            realize = new RealizeTypeAnnotation();
-            map.put(clazz, realize);
-        }
+//        Class clazz = present.getClass();
+//        RealizeTypeAnnotation realize = map.get(clazz);
+//        if (null == realize) {
+//            realize = new RealizeTypeAnnotation();
+//            map.put(clazz, realize);
+//        }
+//        realize.setPresent(present);
+//        realize.setClazz(clazz);
+        RealizeTypeAnnotation realize = new RealizeTypeAnnotation();
         realize.setPresent(present);
-        realize.setClazz(clazz);
+        realize.setClazz(present.getClass());
         return realize;
     }
 

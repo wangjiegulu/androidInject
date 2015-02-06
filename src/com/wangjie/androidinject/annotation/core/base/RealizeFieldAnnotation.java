@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.core.base;
 
-import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
@@ -22,14 +21,15 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
     private static Map<Class<?>, RealizeFieldAnnotation> map = new HashMap<Class<?>, RealizeFieldAnnotation>();
 
     public synchronized static RealizeFieldAnnotation getInstance(AIPresent present) {
-        Class clazz = present.getClass();
-        RealizeFieldAnnotation realize = map.get(clazz);
-        if (null == realize) {
-            realize = new RealizeFieldAnnotation();
-            map.put(clazz, realize);
-        }
+//        Class clazz = present.getClass();
+//        RealizeFieldAnnotation realize = map.get(clazz);
+//        if (null == realize) {
+//            realize = new RealizeFieldAnnotation();
+//            map.put(clazz, realize);
+//        }
+        RealizeFieldAnnotation realize = new RealizeFieldAnnotation();
         realize.setPresent(present);
-        realize.setClazz(clazz);
+        realize.setClazz(present.getClass());
         return realize;
     }
 
