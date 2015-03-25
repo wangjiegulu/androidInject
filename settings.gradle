@@ -1,0 +1,3 @@
+include ':AndroidBucket'
+
+project(":AndroidBucket").projectDir = new File(settingsDir, "../AndroidBucket");

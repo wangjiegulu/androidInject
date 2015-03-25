@@ -1,9 +1,10 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidinject.annotation.cache.ProcessorCache;
+import com.wangjie.androidinject.annotation.cache.TypeCache;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
-import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
 
@@ -34,7 +35,7 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
     }
 
     private AIPresent present;
-    private Class<?> clazz;
+    private Class<? extends AIPresent> clazz;
 
 
     /**
@@ -44,13 +45,10 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
      */
     @Override
     public void processAnnotation() throws Exception {
-        Annotation[] annotations = clazz.getAnnotations();
+        TypeCache.CachedType cachedType = TypeCache.getInstance().getCache(clazz);
+        Annotation[] annotations = cachedType.getAnnotations();
         for (Annotation annotation : annotations) {
-            Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
-            if (null == processorClass) {
-                continue;
-            }
-            AIAnnotationProcessor processor = processorClass.newInstance();
+            AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
             if (null == processor) {
                 continue;
             }
@@ -65,7 +63,7 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
     }
 
 
-    public void setClazz(Class<?> clazz) {
+    public void setClazz(Class<? extends AIPresent> clazz) {
         this.clazz = clazz;
     }
 

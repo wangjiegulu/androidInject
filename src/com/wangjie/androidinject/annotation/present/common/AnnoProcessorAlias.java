@@ -12,6 +12,7 @@ import com.wangjie.androidinject.annotation.core.base.process.type.AILayoutTypeP
 import com.wangjie.androidinject.annotation.core.base.process.type.AINoTitleTypeProcessor;
 
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
 
 /**
  * Author: wangjie
@@ -94,10 +95,23 @@ public enum AnnoProcessorAlias {
      * 隐藏Title注解
      */
     AI_NO_TITLE(AINoTitle.class, AINoTitleTypeProcessor.class);
+
     /**
      * ************************ Type Annotations END *****************************
      */
 
+
+    /**
+     * 缓存annotation类型和对应的解析器
+     */
+    private static HashMap<Class<? extends Annotation>, AnnoProcessorAlias> annotationMapper;
+
+    static {
+        annotationMapper = new HashMap<>();
+        for (AnnoProcessorAlias alias : AnnoProcessorAlias.values()) {
+            annotationMapper.put(alias.annotationClazz, alias);
+        }
+    }
 
     /**
      * 注解类型
@@ -127,13 +141,8 @@ public enum AnnoProcessorAlias {
      * @param annotationClazz
      * @return
      */
-    public static Class<? extends AIAnnotationProcessor> getAnnotationProcessor(Class<? extends Annotation> annotationClazz) {
-        AnnoProcessorAlias[] aliases = AnnoProcessorAlias.values();
-        for (AnnoProcessorAlias alias : aliases) {
-            if (alias.annotationClazz.equals(annotationClazz)) {
-                return alias.processorClazz;
-            }
-        }
-        return null;
+    public static AnnoProcessorAlias getAnnotationProcessorAlias(Class<? extends Annotation> annotationClazz) {
+        return annotationMapper.get(annotationClazz);
     }
+
 }

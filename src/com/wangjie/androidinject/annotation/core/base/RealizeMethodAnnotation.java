@@ -1,14 +1,14 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidinject.annotation.cache.MethodCache;
+import com.wangjie.androidinject.annotation.cache.ProcessorCache;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
-import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,20 +36,17 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
 
 
     private AIPresent present;
-    private Class<?> clazz;
+    private Class<? extends AIPresent> clazz;
 
     @Override
     public void processAnnotation() throws Exception {
-        Method[] methods = clazz.getDeclaredMethods();
+        List<MethodCache.CachedMethod> cachedMethods = MethodCache.getInstance().getCache(clazz);
 
-        for (Method method : methods) {
-            Annotation[] annotations = method.getAnnotations();
+        for (MethodCache.CachedMethod cachedMethod : cachedMethods) {
+            Annotation[] annotations = cachedMethod.getAnnotations();
+            Method method = cachedMethod.getMethod();
             for (Annotation annotation : annotations) {
-                Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
-                if (null == processorClass) {
-                    continue;
-                }
-                AIAnnotationProcessor processor = processorClass.newInstance();
+                AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
                 if (null == processor) {
                     continue;
                 }
@@ -67,7 +64,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
     }
 
 
-    public void setClazz(Class<?> clazz) {
+    public void setClazz(Class<? extends AIPresent> clazz) {
         this.clazz = clazz;
     }
 
