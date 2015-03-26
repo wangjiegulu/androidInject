@@ -45,9 +45,15 @@ public class AISupportFragmentActivity extends ABSupportFragmentActivity impleme
     }
 
     @Override
-    public Object getFindViewView() {
-        return this;
+    public void setContentView_(int layoutResID) {
+        setContentView(layoutResID);
     }
+
+    @Override
+    public View findViewById_(int resId) {
+        return findViewById(resId);
+    }
+
     @Override
     public void parserTypeAnnotations(Class clazz) throws Exception {}
     @Override

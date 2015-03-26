@@ -1,9 +1,6 @@
 package com.wangjie.androidinject.annotation.core.base.process.field;
 
-import com.wangjie.androidbucket.mvp.ABBasePresenter;
-import com.wangjie.androidbucket.mvp.ABInteractor;
-import com.wangjie.androidbucket.mvp.ABNoneInteractorImpl;
-import com.wangjie.androidbucket.mvp.ABNonePresenterImpl;
+import com.wangjie.androidbucket.mvp.*;
 import com.wangjie.androidinject.annotation.annotations.mvp.AIPresenter;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -47,18 +44,22 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
          * 在presenter中注入viewer和interactor（presenter中需要有viewer和interactor的引用）
          */
         // 把viewer注入到presenter中
-        Field viewerField = superPresenterClazz.getDeclaredField("viewer");
-        viewerField.setAccessible(true);
-        viewerField.set(presenter, present);
-
+        if (present instanceof ABActivityViewer) {
+            presenter.setViewer((ABActivityViewer) present);
+        } else {
+            Field viewerField = superPresenterClazz.getDeclaredField("viewer");
+            viewerField.setAccessible(true);
+            viewerField.set(presenter, present);
+        }
 
         String interactorClazzName = aiPresenter.interactor().getName();
         if (!ABNoneInteractorImpl.class.equals(aiPresenter.interactor())) {
             // 把interactor注入到presenter中
             ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
-            Field interactorField = superPresenterClazz.getDeclaredField("interactor");
-            interactorField.setAccessible(true);
-            interactorField.set(presenter, interactor);
+//            Field interactorField = superPresenterClazz.getDeclaredField("interactor");
+//            interactorField.setAccessible(true);
+//            interactorField.set(presenter, interactor);
+            presenter.setInteractor(interactor);
         }
 
         present.registerPresenter(presenter);

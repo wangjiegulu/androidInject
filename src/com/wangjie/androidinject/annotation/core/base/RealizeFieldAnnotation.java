@@ -67,22 +67,7 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
 //            present.parserFieldAnnotations(field);
 //        }
 
-//        CachedPresentFields cachedPresentFields = CommonCache.getInstance().getCache(CachedPresentFields.class, clazz, new CachedGenerator<CachedPresentFields>() {
-//            @Override
-//            public CachedPresentFields generate() {
-//                CachedPresentFields cs = new CachedPresentFields();
-//                List<CachedField> cachedFields = new ArrayList<>();
-//                Field[] fields = clazz.getDeclaredFields();
-//                for (Field field : fields) {
-//                    CachedField cachedField = new CachedField();
-//                    cachedField.setField(field);
-//                    cachedField.setAnnotations(field.getAnnotations());
-//                    cachedFields.add(cachedField);
-//                }
-//                cs.setCachedFields(cachedFields);
-//                return cs;
-//            }
-//        });
+
         cachedPresentFieldsGenerator.setClazz(clazz);
         CachedPresentFields cachedPresentFields = CommonCache.getInstance().getCache(CachedPresentFields.class, clazz, cachedPresentFieldsGenerator);
 

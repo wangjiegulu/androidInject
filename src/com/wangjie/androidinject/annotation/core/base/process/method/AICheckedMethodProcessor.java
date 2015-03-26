@@ -2,7 +2,6 @@ package com.wangjie.androidinject.annotation.core.base.process.method;
 
 import android.widget.CompoundButton;
 import com.wangjie.androidinject.annotation.annotations.base.AIChecked;
-import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.listener.OnCheckChangedViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -23,9 +22,8 @@ public class AICheckedMethodProcessor implements AIAnnotationProcessor<Method> {
         if (null == ids || ids.length <= 0) {
             return;
         }
-        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
         for (int id : ids) {
-            Object obj = m.invoke(present.getFindViewView(), id);
+            Object obj = present.findViewById_(id);
             if (null == obj || !CompoundButton.class.isAssignableFrom(obj.getClass())) {
                 continue;
             }

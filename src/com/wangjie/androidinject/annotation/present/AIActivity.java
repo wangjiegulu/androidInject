@@ -40,11 +40,16 @@ public class AIActivity extends ABActivity implements AIPresent, CallbackSample 
         return context;
     }
 
+    @Override
+    public void setContentView_(int layoutResID) {
+        setContentView(layoutResID);
+    }
 
     @Override
-    public Object getFindViewView() {
-        return this;
+    public View findViewById_(int resId) {
+        return findViewById(resId);
     }
+
 
     @Override
     public void parserTypeAnnotations(Class clazz) throws Exception {}

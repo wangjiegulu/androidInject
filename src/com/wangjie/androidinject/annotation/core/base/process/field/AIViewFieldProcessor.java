@@ -3,8 +3,8 @@ package com.wangjie.androidinject.annotation.core.base.process.field;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.AdapterView;
+import com.wangjie.androidbucket.utils.ABTextUtil;
 import com.wangjie.androidinject.annotation.annotations.base.AIView;
-import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
@@ -13,7 +13,6 @@ import com.wangjie.androidinject.annotation.listener.OnLongClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * Author: wangjie
@@ -61,9 +60,8 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
         }
 
         field.setAccessible(true);
-        Method method = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
         try {
-            field.set(present, method.invoke(present.getFindViewView(), viewId));
+            field.set(present, present.findViewById_(viewId));
         } catch (Exception ex) {
             Exception injectEx = new Exception("Field[" + field.getName() + "] inject error!");
             injectEx.setStackTrace(ex.getStackTrace());
@@ -80,7 +78,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      */
     private void viewBindClick(AIPresent present, AIView aiView, View view) {
         String clickMethodName = aiView.clickMethod();
-        if (!"".equals(clickMethodName)) {
+        if (!ABTextUtil.isBlank(clickMethodName)) {
             view.setOnClickListener(OnClickViewListener.obtainListener(present, clickMethodName));
         }
     }
@@ -93,7 +91,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      */
     private void viewBindLongClick(AIPresent present, AIView aiView, View view) {
         String longClickMethodName = aiView.longClickMethod();
-        if (!"".equals(longClickMethodName)) {
+        if (!ABTextUtil.isBlank(longClickMethodName)) {
             view.setOnLongClickListener(OnLongClickViewListener.obtainListener(present, longClickMethodName));
         }
     }
@@ -107,7 +105,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
     private void viewBindItemClick(AIPresent present, AIView aiView, View view) throws Exception {
         // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
         String itemClickMethodName = aiView.itemClickMethod();
-        if ("".equals(itemClickMethodName)) {
+        if (ABTextUtil.isBlank(itemClickMethodName)) {
             return;
         }
 
@@ -129,7 +127,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
     private void viewBindItemLongClick(AIPresent present, AIView aiView, View view) throws Exception {
         // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
         String itemClickMethodName = aiView.itemLongClickMethod();
-        if ("".equals(itemClickMethodName)) {
+        if (ABTextUtil.isBlank(itemClickMethodName)) {
             return;
         }
 

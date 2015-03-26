@@ -2,6 +2,7 @@ package com.wangjie.androidinject.annotation.core.base;
 
 import android.content.Context;
 import android.util.Log;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
 /**
@@ -14,11 +15,6 @@ import com.wangjie.androidinject.annotation.present.AIPresent;
  */
 public class AnnotationManager {
     public static final String TAG = AnnotationManager.class.getSimpleName();
-
-    public static final String METHOD_NAME_FIND_VIEW = "findViewById";
-    public static final String METHOD_NAME_SET_LAYOUT = "setContentView";
-    public static final String FIELD_LAYOUT = "layout";
-
 
     private Context context;
     private AIPresent present;
@@ -35,12 +31,19 @@ public class AnnotationManager {
      */
     public void initAnnotations() {
         try {
-
+            Logger.i(TAG, "[=============================================");
+            long start = System.nanoTime();
             RealizeTypeAnnotation.getInstance(present).processAnnotation();
+            Logger.i(TAG, clazz.getSimpleName() + ", realize type takes: " + (System.nanoTime() - start));
 
+            start = System.nanoTime();
             RealizeFieldAnnotation.getInstance(present).processAnnotation();
+            Logger.i(TAG, clazz.getSimpleName() + ", realize field takes: " + (System.nanoTime() - start));
 
+            start = System.nanoTime();
             RealizeMethodAnnotation.getInstance(present).processAnnotation();
+            Logger.i(TAG, clazz.getSimpleName() + ", realize method takes: " + (System.nanoTime() - start));
+            Logger.i(TAG, "=============================================]");
 
         } catch (Exception ex) {
             Log.e(TAG, "annotations init error: ", ex);

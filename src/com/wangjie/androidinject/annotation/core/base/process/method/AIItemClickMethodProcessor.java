@@ -2,7 +2,6 @@ package com.wangjie.androidinject.annotation.core.base.process.method;
 
 import android.widget.AdapterView;
 import com.wangjie.androidinject.annotation.annotations.base.AIItemClick;
-import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.listener.OnItemClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -23,9 +22,8 @@ public class AIItemClickMethodProcessor implements AIAnnotationProcessor<Method>
         if (null == ids || ids.length <= 0) {
             return;
         }
-        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
         for (int id : ids) {
-            Object obj = m.invoke(present.getFindViewView(), id);
+            Object obj = present.findViewById_(id);
             if (null == obj) {
                 throw new Exception("new such resource id[" + id + "]");
             }

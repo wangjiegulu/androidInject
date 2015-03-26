@@ -41,8 +41,13 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     }
 
     @Override
-    public Object getFindViewView() {
-        return layout;
+    public void setContentView_(int layoutResID) {
+        setContentView(layoutResID);
+    }
+
+    @Override
+    public View findViewById_(int resId) {
+        return findViewById(resId);
     }
 
     @Override

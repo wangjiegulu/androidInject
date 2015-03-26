@@ -93,9 +93,16 @@ public class AIFragment extends ABFragment implements AIPresent, CallbackSample{
     }
 
     @Override
-    public Object getFindViewView() {
-        return getView();
+    public final void setContentView_(int layoutResID) {
+        // Fragment不使用次方法进行设置layout，而是在onCreateView中设置，无需实现此方法
     }
+
+    @Override
+    public View findViewById_(int id) {
+        View view = getView();
+        return null == view ? null : view.findViewById(id);
+    }
+
     @Override
     public void parserTypeAnnotations(Class clazz) throws Exception{}
     @Override

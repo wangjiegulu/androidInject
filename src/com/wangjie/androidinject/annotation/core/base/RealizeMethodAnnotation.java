@@ -44,16 +44,11 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
     @Override
     public void processAnnotation() throws Exception {
 //        List<MethodCache.CachedMethod> cachedMethods = MethodCache.getInstance().getCache(clazz);
-//
 //        for (MethodCache.CachedMethod cachedMethod : cachedMethods) {
 //            Annotation[] annotations = cachedMethod.getAnnotations();
 //            Method method = cachedMethod.getMethod();
 //            for (Annotation annotation : annotations) {
-//                Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
-//                if (null == processorClass) {
-//                    continue;
-//                }
-//                AIAnnotationProcessor processor = processorClass.newInstance();
+//                AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
 //                if (null == processor) {
 //                    continue;
 //                }
@@ -66,6 +61,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
 //
 //            present.parserMethodAnnotations(method);
 //        }
+
         cachedPresentFieldsGenerator.setClazz(clazz);
         CachedPresentMethods cachedPresentMethods = CommonCache.getInstance().getCache(CachedPresentMethods.class, clazz, cachedPresentFieldsGenerator);
         for (CachedMethod cachedMethod : cachedPresentMethods.getCachedMethods()) {

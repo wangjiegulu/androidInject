@@ -50,6 +50,7 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
     public void processAnnotation() throws Exception {
         cachedPresentTypeGenerator.setClazz(clazz);
         CachedPresentType cachedPresentType = CommonCache.getInstance().getCache(CachedPresentType.class, clazz, cachedPresentTypeGenerator);
+
         Annotation[] annotations = cachedPresentType.getAnnotations();
         for (Annotation annotation : annotations) {
             AIAnnotationProcessor processor = AnnoProcessorAlias.getCachedAnnotationProcessor(annotation.annotationType());
