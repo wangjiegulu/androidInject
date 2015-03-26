@@ -1,10 +1,12 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import com.wangjie.androidbucket.log.Logger;
-import com.wangjie.androidinject.annotation.cache.ProcessorCache;
-import com.wangjie.androidinject.annotation.cache.TypeCache;
+import com.wangjie.androidinject.annotation.cache.common.CommonCache;
+import com.wangjie.androidinject.annotation.cache.common.cached.CachedPresentType;
+import com.wangjie.androidinject.annotation.cache.common.generator.CachedPresentTypeGenerator;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
+import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
 
@@ -37,6 +39,7 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
     private AIPresent present;
     private Class<? extends AIPresent> clazz;
 
+    private CachedPresentTypeGenerator cachedPresentTypeGenerator = new CachedPresentTypeGenerator();
 
     /**
      * 实现present类注解功能
@@ -45,10 +48,11 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
      */
     @Override
     public void processAnnotation() throws Exception {
-        TypeCache.CachedType cachedType = TypeCache.getInstance().getCache(clazz);
-        Annotation[] annotations = cachedType.getAnnotations();
+        cachedPresentTypeGenerator.setClazz(clazz);
+        CachedPresentType cachedPresentType = CommonCache.getInstance().getCache(CachedPresentType.class, clazz, cachedPresentTypeGenerator);
+        Annotation[] annotations = cachedPresentType.getAnnotations();
         for (Annotation annotation : annotations) {
-            AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
+            AIAnnotationProcessor processor = AnnoProcessorAlias.getCachedAnnotationProcessor(annotation.annotationType());
             if (null == processor) {
                 continue;
             }

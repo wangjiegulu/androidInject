@@ -39,7 +39,7 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
         field.set(present, presenter);
 
         Class<?> superPresenterClazz = presenter.getClass();
-        while (ABBasePresenter.class != superPresenterClazz) {
+        while (!ABBasePresenter.class.equals(superPresenterClazz)) {
             superPresenterClazz = superPresenterClazz.getSuperclass();
         }
 
@@ -53,7 +53,7 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
 
 
         String interactorClazzName = aiPresenter.interactor().getName();
-        if (ABNoneInteractorImpl.class != aiPresenter.interactor()) {
+        if (!ABNoneInteractorImpl.class.equals(aiPresenter.interactor())) {
             // 把interactor注入到presenter中
             ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
             Field interactorField = superPresenterClazz.getDeclaredField("interactor");

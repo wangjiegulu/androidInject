@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/15.
  */
+@Deprecated
 public class ProcessorCache {
     private static final String TAG = ProcessorCache.class.getSimpleName();
 

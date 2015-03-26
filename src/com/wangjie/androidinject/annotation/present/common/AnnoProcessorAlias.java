@@ -4,6 +4,8 @@ import com.wangjie.androidinject.annotation.annotations.base.*;
 import com.wangjie.androidinject.annotation.annotations.dimens.AIScreenSize;
 import com.wangjie.androidinject.annotation.annotations.mvp.AIPresenter;
 import com.wangjie.androidinject.annotation.annotations.net.AINetWorker;
+import com.wangjie.androidinject.annotation.cache.common.CommonCache;
+import com.wangjie.androidinject.annotation.cache.common.generator.CachedAnnotationProcessorGenerator;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.core.base.process.field.*;
 import com.wangjie.androidinject.annotation.core.base.process.method.*;
@@ -100,6 +102,7 @@ public enum AnnoProcessorAlias {
      * ************************ Type Annotations END *****************************
      */
 
+    private static final String TAG = AnnoProcessorAlias.class.getSimpleName();
 
     /**
      * 缓存annotation类型和对应的解析器
@@ -112,6 +115,11 @@ public enum AnnoProcessorAlias {
             annotationMapper.put(alias.annotationClazz, alias);
         }
     }
+
+    /**
+     * 注解处理器的缓存生成器
+     */
+    static CachedAnnotationProcessorGenerator cachedAnnotationProcessorGenerator = new CachedAnnotationProcessorGenerator();
 
     /**
      * 注解类型
@@ -143,6 +151,11 @@ public enum AnnoProcessorAlias {
      */
     public static AnnoProcessorAlias getAnnotationProcessorAlias(Class<? extends Annotation> annotationClazz) {
         return annotationMapper.get(annotationClazz);
+    }
+
+    public static AIAnnotationProcessor getCachedAnnotationProcessor(final Class<? extends Annotation> annotationClazz) {
+        cachedAnnotationProcessorGenerator.setAnnotationClazz(annotationClazz);
+        return CommonCache.getInstance().getCache(AIAnnotationProcessor.class, TAG, annotationClazz, cachedAnnotationProcessorGenerator);
     }
 
 }

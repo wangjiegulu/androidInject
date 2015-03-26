@@ -13,9 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/15.
  */
+@Deprecated
 public class MethodCache {
     private static final String TAG = MethodCache.class.getSimpleName();
-
+    @Deprecated
     public static class CachedMethod {
         private Method method;
         private Annotation[] annotations;

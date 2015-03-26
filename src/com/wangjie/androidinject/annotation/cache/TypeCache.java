@@ -10,9 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/15.
  */
+@Deprecated
 public class TypeCache {
     private static final String TAG = TypeCache.class.getSimpleName();
-
+    @Deprecated
     public static class CachedType {
         private Annotation[] annotations;
 

@@ -13,10 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/15.
  */
+@Deprecated
 public class FieldCache {
     private static final String TAG = FieldCache.class.getSimpleName();
-
-    public static class CachedField {
+    @Deprecated
+    public static class CachedField{
         private Field field;
         private Annotation[] annotations;
 
