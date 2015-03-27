@@ -2,7 +2,6 @@ package com.wangjie.androidinject.annotation.core.base.process.method;
 
 import android.view.View;
 import com.wangjie.androidinject.annotation.annotations.base.AIClick;
-import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.listener.OnClickViewListener;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -23,9 +22,8 @@ public class AIClickMethodProcessor implements AIAnnotationProcessor<Method> {
         if (null == ids || ids.length <= 0) {
             return;
         }
-        Method m = present.getFindViewView().getClass().getMethod(AnnotationManager.METHOD_NAME_FIND_VIEW, int.class);
         for (int id : ids) {
-            Object obj = m.invoke(present.getFindViewView(), id);
+            Object obj = present.findViewById_(id);
             if (null == obj || !View.class.isAssignableFrom(obj.getClass())) {
                 continue;
             }

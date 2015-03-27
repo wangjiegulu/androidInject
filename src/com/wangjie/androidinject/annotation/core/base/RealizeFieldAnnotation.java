@@ -1,14 +1,16 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidinject.annotation.cache.common.CommonCache;
+import com.wangjie.androidinject.annotation.cache.common.cached.CachedField;
+import com.wangjie.androidinject.annotation.cache.common.cached.CachedPresentFields;
+import com.wangjie.androidinject.annotation.cache.common.generator.CachedPresentFieldsGenerator;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,7 +38,9 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
 
 
     private AIPresent present;
-    private Class<?> clazz;
+    private Class<? extends AIPresent> clazz;
+
+    private CachedPresentFieldsGenerator cachedPresentFieldsGenerator = new CachedPresentFieldsGenerator();
 
     /**
      * 实现present控件注解功能
@@ -45,29 +49,49 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
      */
     @Override
     public void processAnnotation() throws Exception {
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            Annotation[] annotations = field.getAnnotations();
+//        List<FieldCache.CachedField> cachedFields = FieldCache.getInstance().getCache(clazz);
+//        for (FieldCache.CachedField cachedField : cachedFields) {
+//            Annotation[] annotations = cachedField.getAnnotations();
+//            Field field = cachedField.getField();
+//            for (Annotation annotation : annotations) {
+//                AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
+//                if (null == processor) {
+//                    continue;
+//                }
+//                try {
+//                    processor.process(present, field);
+//                } catch (Exception ex) {
+//                    Logger.e(TAG, ex);
+//                }
+//            }
+//            present.parserFieldAnnotations(field);
+//        }
+
+
+        cachedPresentFieldsGenerator.setClazz(clazz);
+        CachedPresentFields cachedPresentFields = CommonCache.getInstance().getCache(CachedPresentFields.class, clazz, cachedPresentFieldsGenerator);
+
+        for (CachedField cachedField : cachedPresentFields.getCachedFields()) {
+            Annotation[] annotations = cachedField.getAnnotations();
+            Field field = cachedField.getField();
             for (Annotation annotation : annotations) {
-                Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
-                if (null == processorClass) {
-                    continue;
-                }
-                AIAnnotationProcessor processor = processorClass.newInstance();
+                AIAnnotationProcessor processor = AnnoProcessorAlias.getCachedAnnotationProcessor(annotation.annotationType());
                 if (null == processor) {
                     continue;
                 }
-                try{
+                try {
                     processor.process(present, field);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     Logger.e(TAG, ex);
                 }
             }
             present.parserFieldAnnotations(field);
         }
+
+
     }
 
-    public void setClazz(Class<?> clazz) {
+    public void setClazz(Class<? extends AIPresent> clazz) {
         this.clazz = clazz;
     }
 

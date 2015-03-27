@@ -1,14 +1,16 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import com.wangjie.androidbucket.log.Logger;
+import com.wangjie.androidinject.annotation.cache.common.CommonCache;
+import com.wangjie.androidinject.annotation.cache.common.cached.CachedMethod;
+import com.wangjie.androidinject.annotation.cache.common.cached.CachedPresentMethods;
+import com.wangjie.androidinject.annotation.cache.common.generator.CachedPresentMethodsGenerator;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,20 +38,37 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
 
 
     private AIPresent present;
-    private Class<?> clazz;
+    private Class<? extends AIPresent> clazz;
+    private CachedPresentMethodsGenerator cachedPresentFieldsGenerator = new CachedPresentMethodsGenerator();
 
     @Override
     public void processAnnotation() throws Exception {
-        Method[] methods = clazz.getDeclaredMethods();
+//        List<MethodCache.CachedMethod> cachedMethods = MethodCache.getInstance().getCache(clazz);
+//        for (MethodCache.CachedMethod cachedMethod : cachedMethods) {
+//            Annotation[] annotations = cachedMethod.getAnnotations();
+//            Method method = cachedMethod.getMethod();
+//            for (Annotation annotation : annotations) {
+//                AIAnnotationProcessor processor = ProcessorCache.getInstance().getAnnotationProcessor(annotation.annotationType());
+//                if (null == processor) {
+//                    continue;
+//                }
+//                try {
+//                    processor.process(present, method);
+//                } catch (Exception ex) {
+//                    Logger.e(TAG, ex);
+//                }
+//            }
+//
+//            present.parserMethodAnnotations(method);
+//        }
 
-        for (Method method : methods) {
-            Annotation[] annotations = method.getAnnotations();
+        cachedPresentFieldsGenerator.setClazz(clazz);
+        CachedPresentMethods cachedPresentMethods = CommonCache.getInstance().getCache(CachedPresentMethods.class, clazz, cachedPresentFieldsGenerator);
+        for (CachedMethod cachedMethod : cachedPresentMethods.getCachedMethods()) {
+            Annotation[] annotations = cachedMethod.getAnnotations();
+            Method method = cachedMethod.getMethod();
             for (Annotation annotation : annotations) {
-                Class<? extends AIAnnotationProcessor> processorClass = AnnoProcessorAlias.getAnnotationProcessor(annotation.annotationType());
-                if (null == processorClass) {
-                    continue;
-                }
-                AIAnnotationProcessor processor = processorClass.newInstance();
+                AIAnnotationProcessor processor = AnnoProcessorAlias.getCachedAnnotationProcessor(annotation.annotationType());
                 if (null == processor) {
                     continue;
                 }
@@ -59,7 +78,6 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
                     Logger.e(TAG, ex);
                 }
             }
-
             present.parserMethodAnnotations(method);
         }
 
@@ -67,7 +85,7 @@ public class RealizeMethodAnnotation implements RealizeAnnotation {
     }
 
 
-    public void setClazz(Class<?> clazz) {
+    public void setClazz(Class<? extends AIPresent> clazz) {
         this.clazz = clazz;
     }
 

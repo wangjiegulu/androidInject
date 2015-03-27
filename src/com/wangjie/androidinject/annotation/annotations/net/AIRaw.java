@@ -1,6 +1,7 @@
 package com.wangjie.androidinject.annotation.annotations.net;
 
 import com.wangjie.androidbucket.services.network.http.HttpAccessParameter;
+import com.wangjie.androidbucket.services.network.http.HttpConstants;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,7 +34,7 @@ public @interface AIRaw {
      */
     int soTimeout() default -1;
 
-    String contentType() default "application/json";
+    String contentType() default HttpConstants.CONTENT_TYPE_JSON;
 
     /**
      * 是否session连接
