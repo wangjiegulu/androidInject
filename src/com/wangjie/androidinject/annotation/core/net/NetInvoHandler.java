@@ -15,16 +15,12 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA. Author: wangjie email:tiantian.china.2@gmail.com
@@ -64,11 +60,6 @@ public class NetInvoHandler implements InvocationHandler {
         }
 
         try {
-            // AIUpload（上传文件，默认是post请求）
-            if (method.isAnnotationPresent(AIUpload.class)) {
-                return getHttpUploadResponse(method, args, domain);
-            }
-
             // get请求（非上传文件）
             if (method.isAnnotationPresent(AIGet.class)) {
                 return getHttpGetResponse(method, args, domain);
@@ -206,36 +197,6 @@ public class NetInvoHandler implements InvocationHandler {
             url = url.replace("#{" + repName + "}", args[i] + "");
         }
         return url;
-    }
-
-    /**
-     * 获取HttpUpload返回反射AIUpload注解结果
-     *
-     * @param method Worker声明的方法
-     * @param args   Worker声明方法参数
-     * @param domain Http Domain
-     * @return 返回请求后反射解析结果
-     * @throws Exception
-     */
-    @Deprecated
-    private Object getHttpUploadResponse(Method method, Object[] args, String domain) throws Exception {
-        List<File> files = null;
-        for (Object obj : args) {
-            if (Collection.class.isAssignableFrom(obj.getClass())) {
-                files = null == files ? new ArrayList<File>() : files;
-                files.addAll(((Collection<? extends File>) obj));
-            }
-            if (File.class.isAssignableFrom(obj.getClass())) {
-                files = null == files ? new ArrayList<File>() : files;
-                files.add((File) obj);
-            }
-        }
-        AIUpload aiUpload = method.getAnnotation(AIUpload.class);
-        String url = domain + aiUpload.value();
-        String str = AIUploadNetWork.uploadFiles(url, files,
-                aiUpload.connTimeout(), aiUpload.soTimeout());
-        Type returnType = method.getGenericReturnType();
-        return generateReturnValue(returnType, str);
     }
 
     /**
