@@ -35,11 +35,6 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
 
         field.set(present, presenter);
 
-        Class<?> superPresenterClazz = presenter.getClass();
-        while (!ABBasePresenter.class.equals(superPresenterClazz)) {
-            superPresenterClazz = superPresenterClazz.getSuperclass();
-        }
-
         /**
          * 在presenter中注入viewer和interactor（presenter中需要有viewer和interactor的引用）
          */
@@ -47,7 +42,7 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
         if (present instanceof ABActivityViewer) {
             presenter.setViewer((ABActivityViewer) present);
         } else {
-            Field viewerField = superPresenterClazz.getDeclaredField("viewer");
+            Field viewerField = present.getClass().getField("viewer");
             viewerField.setAccessible(true);
             viewerField.set(presenter, present);
         }
@@ -56,9 +51,6 @@ public class AIPresenterFieldProcessor implements AIAnnotationProcessor<Field> {
         if (!ABNoneInteractorImpl.class.equals(aiPresenter.interactor())) {
             // 把interactor注入到presenter中
             ABInteractor interactor = (ABInteractor) Class.forName(interactorClazzName).newInstance();
-//            Field interactorField = superPresenterClazz.getDeclaredField("interactor");
-//            interactorField.setAccessible(true);
-//            interactorField.set(presenter, interactor);
             presenter.setInteractor(interactor);
         }
 
