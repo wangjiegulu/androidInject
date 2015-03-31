@@ -453,6 +453,5 @@ License
     limitations under the License.
 
 
-
-
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-androidInject-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1581)
 
