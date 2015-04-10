@@ -12,6 +12,15 @@ androidInject
 >
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
+###Gadle
+        compile 'com.github.wangjiegulu:AndroidInject:1.0.1'
+###Maven
+        <dependency>
+                <groupId>com.github.wangjiegulu</groupId>
+                <artifactId>AndroidInject</artifactId>
+                <version>1.0.1</version>
+        </dependency>
+
 ###例子1：Android注解<br/>
         @AIFullScreen
         @AINoTitle
@@ -453,6 +462,5 @@ License
     limitations under the License.
 
 
-
-
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-androidInject-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1581)
 
