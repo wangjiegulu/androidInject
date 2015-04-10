@@ -419,7 +419,7 @@ androidInject
         1. add fragment support(need android-support-v4.jar)
 
         2013-12-4:
-        1. add type annotations: @AINoTitle, @AIFullScreen
+        1. add typeList annotations: @AINoTitle, @AIFullScreen
         2. modify field annotation ---- @AIView: default identifier[R.id.{field name}] if did not set id
 
         2013-12-2:

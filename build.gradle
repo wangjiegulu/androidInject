@@ -44,7 +44,7 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs'] // 配置此处才会打包jni 的.so 文件
-            jni.srcDirs=['jni']
+            jni.srcDirs = ['jni']
             manifest.srcFile 'AndroidManifest.xml'
         }
     }
@@ -62,17 +62,15 @@ android {
         exclude 'META-INF/dependencies.txt'
     }
 
+    lintOptions {
+        abortOnError false
+    }
 }
 
 /**
  * https://gradle.org/docs/current/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html
  */
 dependencies {
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.android.support:support-v4:21.0.0'
-//    compile 'com.google.code.gson:gson:2.3.1'
-//    compile 'org.apache.httpcomponents:httpmime:4.3.6'
     compile project(":AndroidBucket");
-
-
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
