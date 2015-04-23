@@ -12,6 +12,15 @@ androidInject
 >
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
+###Gadle
+        compile 'com.github.wangjiegulu:AndroidInject:1.0.1'
+###Maven
+        <dependency>
+                <groupId>com.github.wangjiegulu</groupId>
+                <artifactId>AndroidInject</artifactId>
+                <version>1.0.1</version>
+        </dependency>
+
 ###例子1：Android注解<br/>
         @AIFullScreen
         @AINoTitle
@@ -419,7 +428,7 @@ androidInject
         1. add fragment support(need android-support-v4.jar)
 
         2013-12-4:
-        1. add type annotations: @AINoTitle, @AIFullScreen
+        1. add typeList annotations: @AINoTitle, @AIFullScreen
         2. modify field annotation ---- @AIView: default identifier[R.id.{field name}] if did not set id
 
         2013-12-2:
@@ -449,7 +458,7 @@ License
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
+    See the License for the specific language governing blacklist and
     limitations under the License.
 
 
