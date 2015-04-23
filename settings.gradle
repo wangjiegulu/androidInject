@@ -1,5 +1,5 @@
 include ':AndroidBucket'
 
-Properties props = new Properties()
-props.load(new FileInputStream("local.properties"))
-project(":AndroidBucket").projectDir = new File(settingsDir, props.getProperty("AndroidBucket"));
+//Properties props = new Properties()
+//props.load(new FileInputStream("local.properties"))
+project(":AndroidBucket").projectDir = new File(settingsDir, "../AndroidBucket");

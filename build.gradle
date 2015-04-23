@@ -21,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 67
-        versionName "2.9.0"
+        versionCode 2
+        versionName "1.0.1"
     }
 
     buildTypes { // 配置打包的版本
@@ -68,10 +68,11 @@ android {
  * https://gradle.org/docs/current/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html
  */
 dependencies {
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile 'com.android.support:support-v4:21.0.0'
 //    compile 'com.google.code.gson:gson:2.3.1'
 //    compile 'org.apache.httpcomponents:httpmime:4.3.6'
+//    compile 'com.github.wangjiegulu:AndroidBucket:1.0.1'
     compile project(":AndroidBucket");
 
 
