@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/shape_corners_white_corner_all" android:state_pressed="false"/>
-    <item android:drawable="@drawable/shape_corners_gray_corner_all" android:state_pressed="true"/>
-
-</selector><!-- From: file:/Users/apple/Projects/Libs/res/drawable/selector_bg_sheet_corner_all.xml --><!-- From: file:/Users/apple/Projects/androidInject/build/intermediates/exploded-aar/androidInject/AndroidBucket/unspecified/res/drawable/selector_bg_sheet_corner_all.xml -->
