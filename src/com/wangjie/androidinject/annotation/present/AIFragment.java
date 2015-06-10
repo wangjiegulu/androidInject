@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
  * Date: 13-12-4
  * Time: 下午4:37
  */
+@Deprecated
 public class AIFragment extends ABFragment implements AIPresent, CallbackSample{
     private static String TAG = AIFragment.class.getSimpleName();
     public Context context;

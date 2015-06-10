@@ -1,8 +1,7 @@
 package com.wangjie.androidinject.annotation.core.base.process.type;
 
-import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
 import com.wangjie.androidinject.annotation.annotations.base.AILayout;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -18,9 +17,9 @@ public class AILayoutTypeProcessor implements AIAnnotationProcessor<Class<?>> {
 
     @Override
     public void process(AIPresent present, Class<?> clazz) throws Exception {
-        // 如果不是Activity和SubLayout
-        if (!Activity.class.isAssignableFrom(clazz) && !SubLayout.class.isAssignableFrom(clazz)) {
-            Log.d(TAG, present.getClass() + " layout bind unsuccessed in " + TAG);
+        // 如果是fragment，忽略这里的layout processor处理
+        if (Fragment.class.isAssignableFrom(clazz) || android.app.Fragment.class.isAssignableFrom(clazz)) {
+            Log.d(TAG, present.getClass() + " layout bind ignore in layout processor.");
             return;
         }
 

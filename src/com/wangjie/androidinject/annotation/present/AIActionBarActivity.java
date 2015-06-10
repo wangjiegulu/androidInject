@@ -19,6 +19,10 @@ import java.lang.reflect.Method;
  * Date: 13-11-29
  * Time: 下午2:02
  */
+/**
+ * @deprecated Use {@link com.wangjie.androidinject.annotation.present.AIAppCompatActivity} instead.
+ */
+@Deprecated
 public class AIActionBarActivity extends ABActionBarActivity implements AIPresent, CallbackSample {
     private static final String TAG = AIActionBarActivity.class.getSimpleName();
     public Context context;

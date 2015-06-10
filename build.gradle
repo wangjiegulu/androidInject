@@ -21,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.5"
     }
 
     buildTypes { // 配置打包的版本
@@ -78,7 +78,7 @@ dependencies {
 //    compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile 'com.github.wangjiegulu:AndroidBucket:1.0.1'
 
-    compile 'com.android.support:support-v4:21.0.3'
+//    compile 'com.android.support:support-v4:21.0.3'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'org.apache.httpcomponents:httpmime:4.3.6'
     compile project(":AndroidBucket");

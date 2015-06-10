@@ -49,6 +49,8 @@ public class NetInvoHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
+        args = null == args ? new Object[0] : args;
+
         String domain = null;
         Class<?>[] inters = proxy.getClass().getInterfaces();
         if (null == inters || inters.length <= 0) {
