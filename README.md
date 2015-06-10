@@ -13,12 +13,12 @@ androidInject
 > 使用文件上传的注解，需要[httpmime.jar](http://hc.apache.org/downloads.cgi)的支持
 
 ###Gadle
-        compile 'com.github.wangjiegulu:AndroidInject:1.0.1'
+        compile 'com.github.wangjiegulu:AndroidInject:1.0.2'
 ###Maven
         <dependency>
                 <groupId>com.github.wangjiegulu</groupId>
                 <artifactId>AndroidInject</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2</version>
         </dependency>
 
 ###例子1：Android注解<br/>
