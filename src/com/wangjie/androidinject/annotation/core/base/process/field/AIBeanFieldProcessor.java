@@ -17,9 +17,13 @@ public class AIBeanFieldProcessor implements AIAnnotationProcessor<Field> {
         try {
             field.getType().getConstructor();
         } catch (NoSuchMethodException e) {
-            throw new Exception(field.getType() + " must has a default constructor (a no-args constructor)! ");
+            throw new Exception(field.getType() + " must has a default constructor (a no-args constructor)! " + e.getMessage());
         }
         field.setAccessible(true);
-        field.set(present, field.getType().newInstance());
+        try {
+            field.set(present, field.getType().newInstance());
+        } catch (Exception e) {
+            throw new Exception("Bean newInstance() failed! " + e.getMessage());
+        }
     }
 }

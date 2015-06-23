@@ -153,7 +153,7 @@ public enum AnnoProcessorAlias {
         return annotationMapper.get(annotationClazz);
     }
 
-    public static AIAnnotationProcessor getCachedAnnotationProcessor(final Class<? extends Annotation> annotationClazz) {
+    public static AIAnnotationProcessor getCachedAnnotationProcessor(final Class<? extends Annotation> annotationClazz) throws Exception{
         cachedAnnotationProcessorGenerator.setAnnotationClazz(annotationClazz);
         return CommonCache.getInstance().getCache(AIAnnotationProcessor.class, TAG, annotationClazz, cachedAnnotationProcessorGenerator);
     }

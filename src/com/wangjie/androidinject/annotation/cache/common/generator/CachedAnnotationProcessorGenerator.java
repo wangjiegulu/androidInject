@@ -1,7 +1,7 @@
 package com.wangjie.androidinject.annotation.cache.common.generator;
 
-import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
+import com.wangjie.androidinject.annotation.exception.AINoSuchAnnotationProcessorException;
 import com.wangjie.androidinject.annotation.present.common.AnnoProcessorAlias;
 
 import java.lang.annotation.Annotation;
@@ -21,19 +21,18 @@ public class CachedAnnotationProcessorGenerator implements CachedGenerator<AIAnn
     }
 
     @Override
-    public AIAnnotationProcessor generate() {
+    public AIAnnotationProcessor generate() throws Exception {
         // 如果没有，则先找出该处理器类型，然后实例化并放入缓存中
         AnnoProcessorAlias annotationProcessorAlias = AnnoProcessorAlias.getAnnotationProcessorAlias(annotationClazz);
         Class<? extends AIAnnotationProcessor> annotationProcessorClazz;
         if (null == annotationProcessorAlias || null == (annotationProcessorClazz = annotationProcessorAlias.getProcessorClazz())) {
-            return null;
+            throw new AINoSuchAnnotationProcessorException("Can not found the processor which parser the annotation [" + annotationClazz + "]");
         }
-        AIAnnotationProcessor annotationProcessor = null;
         try {
-            annotationProcessor = annotationProcessorClazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            Logger.e(TAG, e);
+            AIAnnotationProcessor aiAnnotationProcessor = annotationProcessorClazz.newInstance();
+            return aiAnnotationProcessor;
+        } catch (Exception e) {
+            throw new Exception(annotationProcessorClazz + " instance failed!");
         }
-        return annotationProcessor;
     }
 }

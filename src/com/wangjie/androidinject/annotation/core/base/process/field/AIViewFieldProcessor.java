@@ -55,7 +55,7 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
             Resources res = present.getContext().getResources();
             viewId = res.getIdentifier(field.getName(), "id", present.getContext().getPackageName());
             if (0 == viewId) { // 属性同名的id没有找到
-                throw new Exception("no such identifier[R.id." + field.getName() + "] ! ");
+                throw new Exception("no such identifier[R.id." + field.getName() + "] ! viewId: " + viewId);
             }
         }
 
@@ -78,9 +78,10 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      */
     private void viewBindClick(AIPresent present, AIView aiView, View view) {
         String clickMethodName = aiView.clickMethod();
-        if (!ABTextUtil.isBlank(clickMethodName)) {
-            view.setOnClickListener(OnClickViewListener.obtainListener(present, clickMethodName));
+        if (ABTextUtil.isBlank(clickMethodName)) {
+            return;
         }
+        view.setOnClickListener(OnClickViewListener.obtainListener(present, clickMethodName));
     }
 
     /**
@@ -91,9 +92,10 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      */
     private void viewBindLongClick(AIPresent present, AIView aiView, View view) {
         String longClickMethodName = aiView.longClickMethod();
-        if (!ABTextUtil.isBlank(longClickMethodName)) {
-            view.setOnLongClickListener(OnLongClickViewListener.obtainListener(present, longClickMethodName));
+        if (ABTextUtil.isBlank(longClickMethodName)) {
+            return;
         }
+        view.setOnLongClickListener(OnLongClickViewListener.obtainListener(present, longClickMethodName));
     }
 
     /**
@@ -126,14 +128,14 @@ public class AIViewFieldProcessor implements AIAnnotationProcessor<Field> {
      */
     private void viewBindItemLongClick(AIPresent present, AIView aiView, View view) throws Exception {
         // 如果view是AdapterView的子类(ListView, GridView, ExpandableListView...)
-        String itemClickMethodName = aiView.itemLongClickMethod();
-        if (ABTextUtil.isBlank(itemClickMethodName)) {
+        String methodName = aiView.itemLongClickMethod();
+        if (ABTextUtil.isBlank(methodName)) {
             return;
         }
 
         if (AdapterView.class.isAssignableFrom(view.getClass())) {
             AdapterView adapterView = (AdapterView) view;
-            adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, itemClickMethodName));
+            adapterView.setOnItemLongClickListener(OnItemLongClickViewListener.obtainListener(present, methodName));
 
         } else {
             throw new Exception("view[" + view + "] is not AdapterView's subclass");

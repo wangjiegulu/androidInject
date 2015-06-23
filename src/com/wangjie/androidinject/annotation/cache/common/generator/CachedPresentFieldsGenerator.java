@@ -21,7 +21,7 @@ public class CachedPresentFieldsGenerator implements CachedGenerator<CachedPrese
     }
 
     @Override
-    public CachedPresentFields generate() {
+    public CachedPresentFields generate() throws Exception {
         CachedPresentFields cs = new CachedPresentFields();
         List<CachedField> cachedFields = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();

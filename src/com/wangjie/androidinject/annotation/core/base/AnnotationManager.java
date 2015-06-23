@@ -1,7 +1,6 @@
 package com.wangjie.androidinject.annotation.core.base;
 
 import android.content.Context;
-import android.util.Log;
 import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.present.AIPresent;
 
@@ -29,27 +28,20 @@ public class AnnotationManager {
     /**
      * 反射实现注解功能
      */
-    public void initAnnotations() {
-        try {
-            Logger.i(TAG, "[=============================================");
-            long start = System.nanoTime();
-            RealizeTypeAnnotation.getInstance(present).processAnnotation();
-            Logger.i(TAG, clazz.getSimpleName() + ", realize type takes: " + (System.nanoTime() - start));
+    public void initAnnotations() throws Exception {
+        Logger.i(TAG, "[=============================================");
+        long start = System.nanoTime();
+        RealizeTypeAnnotation.getInstance(present).processAnnotation();
+        Logger.i(TAG, clazz.getSimpleName() + ", realize type takes: " + (System.nanoTime() - start));
 
-            start = System.nanoTime();
-            RealizeFieldAnnotation.getInstance(present).processAnnotation();
-            Logger.i(TAG, clazz.getSimpleName() + ", realize field takes: " + (System.nanoTime() - start));
+        start = System.nanoTime();
+        RealizeFieldAnnotation.getInstance(present).processAnnotation();
+        Logger.i(TAG, clazz.getSimpleName() + ", realize field takes: " + (System.nanoTime() - start));
 
-            start = System.nanoTime();
-            RealizeMethodAnnotation.getInstance(present).processAnnotation();
-            Logger.i(TAG, clazz.getSimpleName() + ", realize method takes: " + (System.nanoTime() - start));
-            Logger.i(TAG, "=============================================]");
-
-        } catch (Exception ex) {
-            Log.e(TAG, "annotations init error: ", ex);
-        }
-
-
+        start = System.nanoTime();
+        RealizeMethodAnnotation.getInstance(present).processAnnotation();
+        Logger.i(TAG, clazz.getSimpleName() + ", realize method takes: " + (System.nanoTime() - start));
+        Logger.i(TAG, "=============================================]");
     }
 
 }

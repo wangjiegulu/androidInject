@@ -20,7 +20,7 @@ public class AIItemLongClickMethodProcessor implements AIAnnotationProcessor<Met
         AIItemLongClick aiItemLongClick = method.getAnnotation(AIItemLongClick.class);
         int[] ids = aiItemLongClick.value();
         if (null == ids || ids.length <= 0) {
-            return;
+            throw new Exception("@AIItemLongClick[" + method.getName() + "] value(ids) can not be empty!");
         }
         for (int id : ids) {
             Object obj = present.findViewById_(id);

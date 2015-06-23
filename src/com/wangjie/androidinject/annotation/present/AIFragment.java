@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.present.ABFragment;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.core.base.ParticularAnnotation;
@@ -49,7 +50,11 @@ public class AIFragment extends ABFragment implements AIPresent, CallbackSample{
     public void onActivityCreated(Bundle savedInstanceState) {
         long start = System.currentTimeMillis();
         super.onActivityCreated(savedInstanceState);
-        new AnnotationManager(this).initAnnotations();
+        try {
+            new AnnotationManager(this).initAnnotations();
+        } catch (Exception e) {
+            onInjectFailed(e);
+        }
         Log.d(TAG, "[" + clazz.getSimpleName() + "]onActivityCreated supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
@@ -87,6 +92,11 @@ public class AIFragment extends ABFragment implements AIPresent, CallbackSample{
 //    public void onDetach() {
 //        super.onDetach();
 //    }
+
+    @Override
+    public void onInjectFailed(Exception exception) {
+        Logger.e(TAG, "inject failed!!: ", exception);
+    }
 
     @Override
     public Context getContext() {

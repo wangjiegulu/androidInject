@@ -6,5 +6,5 @@ package com.wangjie.androidinject.annotation.cache.common.generator;
  * Date: 3/25/15.
  */
 public interface CachedGenerator<T> {
-    T generate();
+    T generate() throws Exception;
 }

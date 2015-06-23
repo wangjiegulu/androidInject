@@ -16,10 +16,7 @@ public class CachedPresentTypeGenerator implements CachedGenerator<CachedPresent
     }
 
     @Override
-    public CachedPresentType generate() {
-        if (null == clazz) {
-            return null;
-        }
+    public CachedPresentType generate() throws Exception {
         CachedPresentType cachedPresentType = new CachedPresentType();
         cachedPresentType.setAnnotations(clazz.getAnnotations());
         return cachedPresentType;

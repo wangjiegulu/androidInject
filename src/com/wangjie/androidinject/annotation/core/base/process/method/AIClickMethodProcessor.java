@@ -20,12 +20,15 @@ public class AIClickMethodProcessor implements AIAnnotationProcessor<Method> {
         AIClick aiClick = method.getAnnotation(AIClick.class);
         int[] ids = aiClick.value();
         if (null == ids || ids.length <= 0) {
-            return;
+            throw new Exception("@AIClick[" + method.getName() + "] value(ids) can not be empty!");
         }
         for (int id : ids) {
             Object obj = present.findViewById_(id);
-            if (null == obj || !View.class.isAssignableFrom(obj.getClass())) {
-                continue;
+            if (null == obj) {
+                throw new Exception("new such resource id[" + id + "]");
+            }
+            if(!View.class.isAssignableFrom(obj.getClass())){
+                throw new Exception("view[" + obj + "] is not View's subclass");
             }
             ((View) obj).setOnClickListener(OnClickViewListener.obtainListener(present, method.getName()));
 

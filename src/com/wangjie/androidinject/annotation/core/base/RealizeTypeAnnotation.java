@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.core.base;
 
-import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.cache.common.CommonCache;
 import com.wangjie.androidinject.annotation.cache.common.cached.CachedPresentType;
 import com.wangjie.androidinject.annotation.cache.common.generator.CachedPresentTypeGenerator;
@@ -57,11 +56,11 @@ public class RealizeTypeAnnotation implements RealizeAnnotation {
             if (null == processor) {
                 continue;
             }
-            try {
-                processor.process(present, clazz);
-            } catch (Exception ex) {
-                Logger.e(TAG, ex);
-            }
+//            try {
+            processor.process(present, clazz);
+//            } catch (Exception ex) {
+//                Logger.e(TAG, ex);
+//            }
         }
         present.parserTypeAnnotations(clazz);
 

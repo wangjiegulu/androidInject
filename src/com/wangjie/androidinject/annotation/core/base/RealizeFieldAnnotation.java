@@ -1,6 +1,5 @@
 package com.wangjie.androidinject.annotation.core.base;
 
-import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.cache.common.CommonCache;
 import com.wangjie.androidinject.annotation.cache.common.cached.CachedField;
 import com.wangjie.androidinject.annotation.cache.common.cached.CachedPresentFields;
@@ -79,11 +78,11 @@ public class RealizeFieldAnnotation implements RealizeAnnotation {
                 if (null == processor) {
                     continue;
                 }
-                try {
+//                try {
                     processor.process(present, field);
-                } catch (Exception ex) {
-                    Logger.e(TAG, ex);
-                }
+//                } catch (Exception ex) {
+//                    Logger.e(TAG, ex);
+//                }
             }
             present.parserFieldAnnotations(field);
         }

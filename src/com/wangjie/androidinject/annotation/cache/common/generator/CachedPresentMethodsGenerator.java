@@ -21,7 +21,7 @@ public class CachedPresentMethodsGenerator implements CachedGenerator<CachedPres
     }
 
     @Override
-    public CachedPresentMethods generate() {
+    public CachedPresentMethods generate() throws Exception {
         CachedPresentMethods cs = new CachedPresentMethods();
         List<CachedMethod> cachedMethods = new ArrayList<>();
         Method[] methods = clazz.getDeclaredMethods();

@@ -2,6 +2,7 @@ package com.wangjie.androidinject.annotation.cache.common;
 
 import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.cache.common.generator.CachedGenerator;
+import com.wangjie.androidinject.annotation.exception.AINoSuchAnnotationProcessorException;
 
 import java.util.HashMap;
 
@@ -35,11 +36,11 @@ public class CommonCache {
             >
             cacheMapper = new HashMap<>();
 
-    public <T extends Cacheable> T getCache(Class<T> cacheableClazz, Object key, CachedGenerator<T> cachedGenerator) {
+    public <T extends Cacheable> T getCache(Class<T> cacheableClazz, Object key, CachedGenerator<T> cachedGenerator) throws Exception {
         return getCache(cacheableClazz, cacheableClazz.getName(), key, cachedGenerator);
     }
 
-    public <T extends Cacheable> T getCache(Class<T> cacheableClazz, String tag, Object key, CachedGenerator<T> cachedGenerator) {
+    public <T extends Cacheable> T getCache(Class<T> cacheableClazz, String tag, Object key, CachedGenerator<T> cachedGenerator) throws Exception{
         HashMap<Object, Cacheable> cachedableMapper = cacheMapper.get(tag);
         if (null == cachedableMapper) {
             cachedableMapper = new HashMap<>();
@@ -47,13 +48,15 @@ public class CommonCache {
         }
         T cacheable = (T) cachedableMapper.get(key);
         if (null == cacheable) {
-            cacheable = cachedGenerator.generate();
-            if (null != cacheable) {
+            try {
+                cacheable = cachedGenerator.generate();
                 cachedableMapper.put(key, cacheable);
                 Logger.i(TAG, "CommonCache generate instance to cache, tag: " + tag + ", key: " + key + ", cacheable: " + cacheable);
-            } else {
+            } catch (AINoSuchAnnotationProcessorException e) {
                 Logger.i(TAG, "[WARN Cacheable generate null]CommonCache generate instance to cache, tag: " + tag + ", key: " + key);
-            }
+            }/* catch (AIInjectFailedException e){
+                throw e;
+            }*/
         }
         return cacheable;
     }

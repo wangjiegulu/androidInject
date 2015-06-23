@@ -2,6 +2,7 @@ package com.wangjie.androidinject.annotation.core.base.process.field;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.os.Build;
 import android.view.Display;
 import com.wangjie.androidinject.annotation.core.base.process.AIAnnotationProcessor;
 import com.wangjie.androidinject.annotation.present.AIPresent;
@@ -22,7 +23,11 @@ public class AIScreenSizeFieldProcessor implements AIAnnotationProcessor<Field> 
         }
         Display display = ((Activity) present.getContext()).getWindowManager().getDefaultDisplay();
         Point point = (Point) field.getType().newInstance();
-        display.getSize(point);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(point);
+        } else {
+            point.set(display.getWidth(), display.getHeight());
+        }
         field.set(present, point);
     }
 }

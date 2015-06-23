@@ -20,7 +20,7 @@ public class AIItemClickMethodProcessor implements AIAnnotationProcessor<Method>
         AIItemClick aiItemClick = method.getAnnotation(AIItemClick.class);
         int[] ids = aiItemClick.value();
         if (null == ids || ids.length <= 0) {
-            return;
+            throw new Exception("@AIItemClick[" + method.getName() + "] value(ids) can not be empty!");
         }
         for (int id : ids) {
             Object obj = present.findViewById_(id);

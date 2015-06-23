@@ -26,13 +26,12 @@ public class AILayoutTypeProcessor implements AIAnnotationProcessor<Class<?>> {
         // 布局类注解setContentView
         AILayout cv = clazz.getAnnotation(AILayout.class);
         if (null == cv) {
-            Log.w(TAG, "Present[" + present + "]had not added @AILayout annotation!");
-            return;
+            throw new Exception("Present[" + present + "]had not added @AILayout annotation!");
         }
 
         int layoutId = cv.value();
         if (layoutId < 0) {
-            return;
+            throw new Exception("Present[" + present + "] @AILayout value layoutId is invalidate!");
         }
         present.setContentView_(layoutId);
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.present.ABSupportFragmentActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -34,13 +35,22 @@ public class AISupportFragmentActivity extends ABSupportFragmentActivity impleme
         super.onCreate(savedInstanceState);
         context = this;
         clazz = ((Object)this).getClass();
-        new AnnotationManager(this).initAnnotations();
+        try {
+            new AnnotationManager(this).initAnnotations();
+        } catch (Exception e) {
+            onInjectFailed(e);
+        }
         Log.d(TAG, "[" + clazz.getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState); // 解决Fragment切换时发生重叠现象
+    }
+
+    @Override
+    public void onInjectFailed(Exception exception) {
+        Logger.e(TAG, "inject failed!!: ", exception);
     }
 
     @Override

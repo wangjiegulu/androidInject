@@ -20,12 +20,15 @@ public class AICheckedMethodProcessor implements AIAnnotationProcessor<Method> {
         AIChecked aiClick = method.getAnnotation(AIChecked.class);
         int[] ids = aiClick.value();
         if (null == ids || ids.length <= 0) {
-            return;
+            throw new Exception("@AIChecked[" + method.getName() + "] value(ids) can not be empty!");
         }
         for (int id : ids) {
             Object obj = present.findViewById_(id);
-            if (null == obj || !CompoundButton.class.isAssignableFrom(obj.getClass())) {
-                continue;
+            if (null == obj) {
+                throw new Exception("new such resource id[" + id + "]");
+            }
+            if(!CompoundButton.class.isAssignableFrom(obj.getClass())){
+                throw new Exception("view[" + obj + "] is not CompoundButton's subclass");
             }
             ((CompoundButton) obj).setOnCheckedChangeListener(OnCheckChangedViewListener.obtainListener(present, method.getName()));
         }

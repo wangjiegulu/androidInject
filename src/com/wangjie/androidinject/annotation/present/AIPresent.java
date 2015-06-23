@@ -16,11 +16,19 @@ import java.lang.reflect.Method;
  */
 public interface AIPresent extends TaskController {
 
+    /**
+     * Invoke this method when inject failed
+     * @param exception
+     * @return
+     */
+    void onInjectFailed(Exception exception);
+
     Context getContext();
 
     void setContentView_(int layoutResID);
 
     View findViewById_(int resId);
+
 
     /**
      * 类型注解额外的解析操作，这个可以交给子类去实现

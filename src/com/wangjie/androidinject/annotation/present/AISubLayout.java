@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import com.wangjie.androidbucket.customviews.sublayout.SubLayout;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
 
@@ -25,7 +26,11 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     public AISubLayout(Context context, boolean autoBindActivityLifeCycle) {
         super(context, autoBindActivityLifeCycle);
         long start = System.currentTimeMillis();
-        new AnnotationManager(this).initAnnotations();
+        try {
+            new AnnotationManager(this).initAnnotations();
+        } catch (Exception e) {
+            onInjectFailed(e);
+        }
         Log.d(TAG, "[" + ((Object) this).getClass().getSimpleName() + "]AISubLayout(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
@@ -33,6 +38,11 @@ public class AISubLayout extends SubLayout implements AIPresent, CallbackSample 
     public void initLayout() {
         super.initLayout();
 
+    }
+
+    @Override
+    public void onInjectFailed(Exception exception) {
+        Logger.e(TAG, "inject failed!!: ", exception);
     }
 
     @Override

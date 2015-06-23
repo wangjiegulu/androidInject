@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.present.ABAppCompatActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -22,17 +23,27 @@ public class AIAppCompatActivity extends ABAppCompatActivity implements AIPresen
     private static final String TAG = AIAppCompatActivity.class.getSimpleName();
     public Context context;
     public Class<?> clazz;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         long start = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = this;
-        clazz = ((Object)this).getClass();
+        clazz = ((Object) this).getClass();
 //        clazz = AIActivity.class;
-        new AnnotationManager(this).initAnnotations();
+        try {
+            new AnnotationManager(this).initAnnotations();
+        } catch (Exception e) {
+            onInjectFailed(e);
+        }
         Log.d(TAG, "[" + clazz.getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
+
+    @Override
+    public void onInjectFailed(Exception exception) {
+        Logger.e(TAG, "inject failed!!: ", exception);
+    }
 
     @Override
     public Context getContext() {
@@ -51,22 +62,36 @@ public class AIAppCompatActivity extends ABAppCompatActivity implements AIPresen
 
 
     @Override
-    public void parserTypeAnnotations(Class clazz) throws Exception {}
-    @Override
-    public void parserMethodAnnotations(Method method) throws Exception {}
-    @Override
-    public void parserFieldAnnotations(Field field) throws Exception {}
+    public void parserTypeAnnotations(Class clazz) throws Exception {
+    }
 
     @Override
-    public void onClickCallbackSample(View view) {}
+    public void parserMethodAnnotations(Method method) throws Exception {
+    }
+
     @Override
-    public void onLongClickCallbackSample(View view) {}
+    public void parserFieldAnnotations(Field field) throws Exception {
+    }
+
     @Override
-    public void onItemClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {}
+    public void onClickCallbackSample(View view) {
+    }
+
     @Override
-    public void onItemLongClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {}
+    public void onLongClickCallbackSample(View view) {
+    }
+
     @Override
-    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {}
+    public void onItemClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {
+    }
+
+    @Override
+    public void onItemLongClickCallbackSample(AdapterView<?> parent, View view, int position, long id) {
+    }
+
+    @Override
+    public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {
+    }
 
 
 }

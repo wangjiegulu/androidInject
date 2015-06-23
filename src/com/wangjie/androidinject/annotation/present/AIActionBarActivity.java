@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.present.ABActionBarActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
 import com.wangjie.androidinject.annotation.present.common.CallbackSample;
@@ -34,10 +35,19 @@ public class AIActionBarActivity extends ABActionBarActivity implements AIPresen
         context = this;
         clazz = ((Object)this).getClass();
 //        clazz = AIActivity.class;
-        new AnnotationManager(this).initAnnotations();
+        try {
+            new AnnotationManager(this).initAnnotations();
+        } catch (Exception e) {
+            onInjectFailed(e);
+        }
         Log.d(TAG, "[" + clazz.getSimpleName() + "]onCreate supper(parser annotations) takes: " + (System.currentTimeMillis() - start) + "ms");
     }
 
+
+    @Override
+    public void onInjectFailed(Exception exception) {
+        Logger.e(TAG, "inject failed!!: ", exception);
+    }
 
     @Override
     public Context getContext() {
