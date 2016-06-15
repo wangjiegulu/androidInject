@@ -55,9 +55,9 @@ public class OnLongClickViewListener implements View.OnLongClickListener{
 
     public static void removeListener(AIPresent present) {
         String keyName = present.toString();
-        Iterator<Map.Entry<String, OnClickViewListener>> iterator = listenerMap.entrySet().iterator();
+        Iterator<Map.Entry<String, OnLongClickViewListener>> iterator = listenerMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, OnClickViewListener> next = iterator.next();
+            Map.Entry<String, OnLongClickViewListener> next = iterator.next();
             if (next.getKey().contains(keyName)) {
                 listenerMap.remove(next.getKey());
             }
