@@ -55,5 +55,16 @@ public class OnItemLongClickViewListener implements AdapterView.OnItemLongClickL
         return result;
     }
 
+    public static void removeListener(AIPresent present) {
+        String keyName = present.toString();
+        Iterator<Map.Entry<String, OnItemLongClickViewListener>> iterator = listenerMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, OnItemLongClickViewListener> next = iterator.next();
+            if (next.getKey().contains(keyName)) {
+                listenerMap.remove(next.getKey());
+            }
+        }
+    }
+
 
 }

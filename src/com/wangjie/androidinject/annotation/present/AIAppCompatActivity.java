@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+
 import com.wangjie.androidbucket.log.Logger;
 import com.wangjie.androidbucket.present.ABAppCompatActivity;
 import com.wangjie.androidinject.annotation.core.base.AnnotationManager;
@@ -91,6 +92,17 @@ public class AIAppCompatActivity extends ABAppCompatActivity implements AIPresen
 
     @Override
     public void onCheckedChangedCallbackSample(CompoundButton buttonView, boolean isChecked) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解决内存泄露bug
+        OnClickViewListener.removeListener(this);
+        OnCheckChangedViewListener.removeListener(this);
+        OnItemClickViewListener.removeListener(this);
+        OnItemLongClickViewListener.removeListener(this);
+        OnLongClickViewListener.removeListener(this);
     }
 
 

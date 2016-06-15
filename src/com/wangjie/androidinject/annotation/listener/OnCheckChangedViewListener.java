@@ -47,4 +47,15 @@ public class OnCheckChangedViewListener implements CompoundButton.OnCheckedChang
             Log.e(TAG, "e: ", e);
         }
     }
+
+    public static void removeListener(AIPresent present) {
+        String keyName = present.toString();
+        Iterator<Map.Entry<String, OnCheckChangedViewListener>> iterator = listenerMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, OnCheckChangedViewListener> next = iterator.next();
+            if (next.getKey().contains(keyName)) {
+                listenerMap.remove(next.getKey());
+            }
+        }
+    }
 }
